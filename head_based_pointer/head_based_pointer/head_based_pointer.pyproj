@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>dd75a739-9a32-4c94-9024-a915cd224892</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>head_based_pointer.py</StartupFile>
+    <StartupFile>runPointer.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,8 +21,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="head_based_pointer.py" />
-    <Compile Include="video_test_shape.py" />
+    <Compile Include="runPointer.py" />
+    <Compile Include="HeadPoseEstimator.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
