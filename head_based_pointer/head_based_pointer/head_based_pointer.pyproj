@@ -21,8 +21,48 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CursorController\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DemoHandler.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HeadCursorMapping\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\InputEstimatorABC.py" />
+    <Compile Include="InputEstimators\FaceDetectors\DLIBFrontalFaceDetector.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\FaceDetectors\FaceDetectorABC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\FaceDetectors\__init__.py" />
+    <Compile Include="InputEstimators\FacialLandmarkDetectors\DLIBFacialLandmarkDetector.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\FacialLandmarkDetectors\FacialLandmarkDetectorABC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\FacialLandmarkDetectors\__init__.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\CV2_PnP_PoseCalculator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\HeadPoseEstimators\RegTreesHeadPoseEstimator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\__init__.py" />
+    <Compile Include="InputEstimators\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="runPointer.py" />
-    <Compile Include="HeadPoseEstimator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InputEstimators\" />
+    <Folder Include="HeadCursorMapping\" />
+    <Folder Include="CursorController\" />
+    <Folder Include="InputEstimators\FaceDetectors\" />
+    <Folder Include="InputEstimators\FacialLandmarkDetectors\" />
+    <Folder Include="InputEstimators\HeadPoseEstimators\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

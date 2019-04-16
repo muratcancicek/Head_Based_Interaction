@@ -7,7 +7,7 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "head_based_pointer", "head_
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Note_Files", "Note_Files", "{A0DAE23D-632C-47A5-98DE-2F872E08092C}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\deep_rl_for_head_pose_est\DeepRL_For_HPE\Note_Files\commands.txt = ..\..\deep_rl_for_head_pose_est\DeepRL_For_HPE\Note_Files\commands.txt
+		Note_Files\commands.txt = Note_Files\commands.txt
 	EndProjectSection
 EndProject
 Global
