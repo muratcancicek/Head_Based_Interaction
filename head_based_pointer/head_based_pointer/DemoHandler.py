@@ -74,7 +74,7 @@ class DemoHandler(object):
             cv2.imshow("demo", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+                break;
 
     def play(self, estimator, printing = True, displaying = False, recording = False):
         cap = cv2.VideoCapture(0)
