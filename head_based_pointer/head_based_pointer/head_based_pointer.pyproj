@@ -30,6 +30,7 @@
     <Compile Include="HeadCursorMapping\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InputEstimators\FaceDetectors\CV2Res10SSDFaceDetector.py" />
     <Compile Include="InputEstimators\InputEstimatorABC.py" />
     <Compile Include="InputEstimators\FaceDetectors\DLIBFrontalFaceDetector.py">
       <SubType>Code</SubType>

@@ -21,11 +21,12 @@ class DLIBFacialLandmarkDetector(FacialLandmarkDetectorABC):
         self.__predictor = dlib.shape_predictor(self.__face_landmark_path)
         
     def detectFacialLandmarks(self, frame):
-        face_rects = self._faceDetector.detectFaceBox(frame)        
-        if len(face_rects) <= 0:
+        faceBox = self._faceDetector.detectFaceBox(frame)        
+        if faceBox == None:
             return self.facialLandmarks
         else:
-            shape = self.__predictor(frame, face_rects[0])
+            faceBox = dlib.rectangle(faceBox.left, faceBox.top, faceBox.right, faceBox.bottom)
+            shape = self.__predictor(frame, faceBox)
             shape = face_utils.shape_to_np(shape)
             self._facialLandmarks = shape
             return self.facialLandmarks
