@@ -5,19 +5,34 @@ import numpy as np
 class FaceDetectorABC(InputEstimatorABC):
 
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, squaringFaceBox = False, *args, **kwargs):
         self._faceBox = None
+        self._squaringFaceBox = squaringFaceBox
         self._faceLocation = np.zeros((3,))
         super().__init__(*args, **kwargs)
         
+    @staticmethod
     @abstractmethod
     def _decodeFaceBox(self, detection):
         return NotImplemented
         
     @abstractmethod
-    def detectFaceBox(self, frame):
+    def _detectFaceBox(self, frame):
         return NotImplemented
-        
+
+    def detectFaceBox(self, frame):
+        self._faceBox = self._detectFaceBox(frame)
+        if self._faceBox != None and self._squaringFaceBox:
+            self._faceBox = self._faceBox.getSquareFaceBoxOnFrame(frame)
+        return self._faceBox
+
+    def detectFaceImage(self, frame):
+        self._faceBox = self.detectFaceBox(frame)
+        if self._faceBox == None:
+            return self._faceBox
+        else:
+            return self._faceBox.getFaceImageFromFrame(frame)
+
     def findFaceLocation(self, frame):
         self._faceBox = self.detectFaceBox(frame)
         if self._faceBox == None:
@@ -48,20 +63,3 @@ class FaceDetectorABC(InputEstimatorABC):
     @property
     def inputValues(self):
         return self._faceLocation
-               
-    class FaceBox(object):
-        def __init__(self, left, top, right, bottom, *args, **kwargs):
-            self.left = left
-            self.top = top
-            self.right = right
-            self.bottom = bottom
-            self._tl_corner = (left, top)
-            self._tr_corner = (right, top)
-            self._bl_corner = (left, bottom)
-            self._br_corner = (right, bottom)
-            self.location = (left + abs(right - left)/2, top + abs(bottom - top)/2)
-            super().__init__(*args, **kwargs)
-    
-        def getProjectionPoints(self):
-            corners = [self._tl_corner, self._tr_corner, self._br_corner, self._bl_corner]
-            return [(corners[0], corners[1]), (corners[1], corners[2]), (corners[2], corners[3]), (corners[3], corners[0])]

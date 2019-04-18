@@ -1,7 +1,6 @@
 from InputEstimators.FaceDetectors.FaceDetectorABC import FaceDetectorABC
-import cv2, numpy as np
-import tensorflow as tf
-import dlib 
+from InputEstimators.FaceDetectors.FaceBox import FaceBox
+import cv2
 
 class CV2Res10SSDFaceDetector(FaceDetectorABC):
     def __init__(self, confidence_threshold = 0.90, dnn_proto_text_path = None, dnn_model_path = None, *args, **kwargs):
@@ -12,16 +11,17 @@ class CV2Res10SSDFaceDetector(FaceDetectorABC):
         self.__detector = cv2.dnn.readNetFromCaffe(dnn_proto_text_path, dnn_model_path)
         self.__confidence_threshold = confidence_threshold  
         super().__init__(*args, **kwargs)
-
-    def _decodeFaceBox(self, detection):
+        
+    @staticmethod
+    def _decodeFaceBox(detection):
         (rows, cols, _), detection = detection
         x_left_bottom = int(detection[3] * cols)
         y_left_bottom = int(detection[4] * rows)
         x_right_top = int(detection[5] * cols)
         y_right_top = int(detection[6] * rows)
-        return FaceDetectorABC.FaceBox(x_left_bottom, y_right_top, x_right_top, y_left_bottom)
+        return FaceBox(x_left_bottom, y_right_top, x_right_top, y_left_bottom)
 
-    def detectFaceBox(self, frame):
+    def _detectFaceBox(self, frame):
         confidences = []
         faceBoxDetections = []
 

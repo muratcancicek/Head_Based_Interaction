@@ -21,7 +21,7 @@ class DLIBFacialLandmarkDetector(FacialLandmarkDetectorABC):
         self.__predictor = dlib.shape_predictor(self.__face_landmark_path)
         
     def detectFacialLandmarks(self, frame):
-        faceBox = self._faceDetector.detectFaceBox(frame)        
+        faceBox = self._faceDetector.detectFaceBox(frame)       
         if faceBox == None:
             return self.facialLandmarks
         else:
@@ -30,10 +30,3 @@ class DLIBFacialLandmarkDetector(FacialLandmarkDetectorABC):
             shape = face_utils.shape_to_np(shape)
             self._facialLandmarks = shape
             return self.facialLandmarks
-
-    def _findInputLandmark(self, frame):
-        self._inputLandmark[:2] = self.detectFacialLandmarks(frame)[30]
-        return self._inputLandmark
-    
-    def _findInputLandmarkWithAnnotations(self, frame):
-        return self._findInputLandmark(frame), self._faceDetector.getProjectionPoints(), self._facialLandmarks

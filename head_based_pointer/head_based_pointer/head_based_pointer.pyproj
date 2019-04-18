@@ -31,6 +31,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\FaceDetectors\CV2Res10SSDFaceDetector.py" />
+    <Compile Include="InputEstimators\FaceDetectors\FaceBox.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\FacialLandmarkDetectors\TF_FrozenCNNBasedFacialLandmarkDetector.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="InputEstimators\InputEstimatorABC.py" />
     <Compile Include="InputEstimators\FaceDetectors\DLIBFrontalFaceDetector.py">
       <SubType>Code</SubType>
