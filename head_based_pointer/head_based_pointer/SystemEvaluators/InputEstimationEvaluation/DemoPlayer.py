@@ -6,6 +6,7 @@ from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemoHandler impor
 from InputEstimators.FacialLandmarkDetectors.DLIBFacialLandmarkDetector import DLIBFacialLandmarkDetector
 from InputEstimators.HeadPoseEstimators.DLIBHeadPoseEstimator import DLIBHeadPoseEstimator
 from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFaceDetector
+from InputEstimators.FaceDetectors.HaarCascadeFaceDetector import HaarCascadeFaceDetector
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
 from paths import InputEstimatorsDemo_Folder
 
@@ -20,9 +21,10 @@ def getDemoHandlerForReplayingSource(videoSource = None):
        videoSource = InputEstimatorsDemo_Folder + 'SourceVideo.avi' # Darkest
     return InputEstimationDemoHandler(videoSource = videoSource, showValues = True, showBoxes = True, showLandmarks = True)
 
-def getSixDefaultEstimators():
+def getSevenDefaultEstimators():
     return {'DLIBFaceDetector': DLIBFrontalFaceDetector(), 
             'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
+            'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
             'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
             'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
             'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
@@ -39,14 +41,20 @@ def recordGivenEstimators(handler, estimators):
         #handler.silentRecord(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo)
         #handler.silentRecordWithoutPrinting(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo) 
 
-def play():
+def play2():
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
     #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
     handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = getSixDefaultEstimators()
+    estimators = getSevenDefaultEstimators()
     
     #displayGivenEstimators(handler, estimators)
     recordGivenEstimators(handler, estimators)
+    
+
+def play():
+    handler = getDemoHandlerForReplayingSource()
+    estimator = HaarCascadeFaceDetector()
+    handler.display(estimator)
     
