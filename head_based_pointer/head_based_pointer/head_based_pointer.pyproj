@@ -37,7 +37,7 @@
     <Compile Include="InputEstimators\FaceDetectors\FaceBox.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputEstimators\FacialLandmarkDetectors\TF_FrozenCNNBasedFacialLandmarkDetector.py">
+    <Compile Include="InputEstimators\FacialLandmarkDetectors\YinsCNNBasedFacialLandmarkDetector.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\HeadPoseEstimators\CV2Res10SSCNNHeadPoseEstimator.py" />

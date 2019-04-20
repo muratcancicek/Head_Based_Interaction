@@ -1,6 +1,6 @@
 from InputEstimators.HeadPoseEstimators.PoseCalculators.YinsKalmanFilteredHeadPoseCalculator import YinsKalmanFilteredHeadPoseCalculator
-from InputEstimators.FacialLandmarkDetectors.TF_FrozenCNNBasedFacialLandmarkDetector import TF_FrozenCNNBasedFacialLandmarkDetector
 from InputEstimators.HeadPoseEstimators.PoseCalculators.AnthropometricHeadPoseCalculator import AnthropometricHeadPoseCalculator
+from InputEstimators.FacialLandmarkDetectors.YinsCNNBasedFacialLandmarkDetector import YinsCNNBasedFacialLandmarkDetector
 from InputEstimators.HeadPoseEstimators.CV2Res10SSCNNHeadPoseEstimator import CV2Res10SSCNNHeadPoseEstimator
 from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemoHandler import InputEstimationDemoHandler
 from InputEstimators.FacialLandmarkDetectors.DLIBFacialLandmarkDetector import DLIBFacialLandmarkDetector
@@ -20,23 +20,33 @@ def getDemoHandlerForReplayingSource(videoSource = None):
        videoSource = InputEstimatorsDemo_Folder + 'SourceVideo.avi' # Darkest
     return InputEstimationDemoHandler(videoSource = videoSource, showValues = True, showBoxes = True, showLandmarks = True)
 
-def play():
-    faceDetector = DLIBFrontalFaceDetector()
-    #faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True) 
-    
-    landmarkDetector = DLIBFacialLandmarkDetector(faceDetector) 
-    #landmarkDetector = TF_FrozenCNNBasedFacialLandmarkDetector(faceDetector) #
+def getSixDefaultEstimators():
+    return {'DLIBFaceDetector': DLIBFrontalFaceDetector(), 
+            'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
+            'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
+            'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
+            'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
+            'YinsHeadPoseEstimator ': CV2Res10SSCNNHeadPoseEstimator()}
 
-    poseCalculator = AnthropometricHeadPoseCalculator()
-    #poseCalculator = CV2_PnP_with_KF_HeadPoseCalculator()
-    
-    estimator = DLIBHeadPoseEstimator(faceDetector, landmarkDetector, poseCalculator)
-    #estimator = CV2Res10SSCNNHeadPoseEstimator(faceDetector, landmarkDetector, poseCalculator)
-    
-    #estimator = faceDetector
-    #estimator = landmarkDetector
+def displayGivenEstimators(handler, estimators):
+    for estimatorName, estimator in estimators.items():
+        handler.display(estimator, windowTitle = estimatorName) 
+
+def recordGivenEstimators(handler, estimators):
+    for estimatorName, estimator in estimators.items():
+        outputVideo = InputEstimatorsDemo_Folder + estimatorName + '.avi'
+        handler.record(estimator, windowTitle = estimatorName, outputVideo = outputVideo) 
+        #handler.silentRecord(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo)
+        #handler.silentRecordWithoutPrinting(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo) 
+
+def play():
+    #anthPoseCalculator = AnthropometricHeadPoseCalculator()
+    #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
-    handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # 
+    handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    handler.record(estimator) #display(estimator) 
+    estimators = getSixDefaultEstimators()
+    
+    #displayGivenEstimators(handler, estimators)
+    recordGivenEstimators(handler, estimators)
     

@@ -1,8 +1,8 @@
 # The code is derived from the following repository:
 # https://github.com/yinguobing/head-pose-estimation
 
-from InputEstimators.FacialLandmarkDetectors.TF_FrozenCNNBasedFacialLandmarkDetector import TF_FrozenCNNBasedFacialLandmarkDetector
 from InputEstimators.HeadPoseEstimators.PoseCalculators.YinsKalmanFilteredHeadPoseCalculator import YinsKalmanFilteredHeadPoseCalculator
+from InputEstimators.FacialLandmarkDetectors.YinsCNNBasedFacialLandmarkDetector import YinsCNNBasedFacialLandmarkDetector
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
 from InputEstimators.HeadPoseEstimators.HeadPoseEstimatorABC import HeadPoseEstimatorABC
 from imutils import face_utils
@@ -15,7 +15,7 @@ class CV2Res10SSCNNHeadPoseEstimator(HeadPoseEstimatorABC):
         if landmarkDetector == None:
             if faceDetector == None:
                 faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True)
-            landmarkDetector = TF_FrozenCNNBasedFacialLandmarkDetector(faceDetector)
+            landmarkDetector = YinsCNNBasedFacialLandmarkDetector(faceDetector)
         if poseCalculator == None:
             poseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         self._headPose3D = np.zeros((3,))

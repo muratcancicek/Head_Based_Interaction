@@ -6,7 +6,7 @@ from InputEstimators.FacialLandmarkDetectors.FacialLandmarkDetectorABC import Fa
 import cv2, numpy as np, tensorflow as tf
 from paths import CV2Res10SSD_frozen_tf_model_path
 
-class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
+class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
 
     @staticmethod
     def loadTFGraph(tf_model_path):
