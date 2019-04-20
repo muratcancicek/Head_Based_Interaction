@@ -1,9 +1,12 @@
-from InputEstimators.InputEstimatorABC import InputEstimatorABC
+# The code is derived from the following repository:
+# https://github.com/lincolnhard/head-pose-estimation
+
 from InputEstimators.HeadPoseEstimators.PoseCalculators.PoseCalculatorABC import PoseCalculatorABC
+from InputEstimators.InputEstimatorABC import InputEstimatorABC
 from abc import abstractmethod
 import cv2, numpy as np
 
-class CV2_PnP_HeadPoseCalculator(PoseCalculatorABC):
+class AnthropometricHeadPoseCalculator(PoseCalculatorABC):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,3 +1,6 @@
+# The code is derived from the following repository:
+# https://github.com/yinguobing/head-pose-estimation
+
 from InputEstimators.FaceDetectors.FaceDetectorABC import FaceDetectorABC
 from InputEstimators.FaceDetectors.FaceBox import FaceBox
 import cv2

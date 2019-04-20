@@ -1,9 +1,13 @@
-from InputEstimators.InputEstimatorABC import InputEstimatorABC
+# The code is derived from the following repository:
+# https://github.com/yinguobing/head-pose-estimation
+
 from InputEstimators.HeadPoseEstimators.PoseCalculators.PoseCalculatorABC import PoseCalculatorABC
+from InputEstimators.InputEstimatorABC import InputEstimatorABC
+from paths import CV2Res10SSD_frozen_face_model_path
 from abc import abstractmethod
 import cv2, numpy as np
 
-class CV2_PnP_with_KF_HeadPoseCalculator(PoseCalculatorABC):
+class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
     @staticmethod
     def __getCameraMatrix(size):
         focal_length = size[1]
@@ -16,7 +20,7 @@ class CV2_PnP_with_KF_HeadPoseCalculator(PoseCalculatorABC):
 
     @staticmethod
     def __get_pose_stabilizers():
-        Stabilizer = CV2_PnP_with_KF_HeadPoseCalculator.Stabilizer
+        Stabilizer = YinsKalmanFilteredHeadPoseCalculator.Stabilizer
         stabilizers = []
         for _ in range(6):
             stabilizers.append(Stabilizer(state_num=2, measure_num=1, cov_process=0.1, cov_measure=0.1) )
@@ -38,7 +42,7 @@ class CV2_PnP_with_KF_HeadPoseCalculator(PoseCalculatorABC):
     def __init__(self, face_model_path = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if face_model_path == None:
-            face_model_path = 'C:/cStorage/Datasets/CV2Nets/CV2Res10SSD/face68_model.txt'
+            face_model_path = CV2Res10SSD_frozen_face_model_path
         self._faceModelPoints = self.__get_full_model_points(face_model_path)
         self._rectCorners3D = self._get_3d_points(rear_size = 75, rear_depth = 0, front_size = 100, front_depth = 100)
 

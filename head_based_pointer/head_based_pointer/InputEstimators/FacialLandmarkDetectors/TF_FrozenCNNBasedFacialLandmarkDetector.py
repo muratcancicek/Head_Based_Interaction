@@ -1,6 +1,10 @@
+# The code is derived from the following repository:
+# https://github.com/yinguobing/head-pose-estimation
+
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
 from InputEstimators.FacialLandmarkDetectors.FacialLandmarkDetectorABC import FacialLandmarkDetectorABC
 import cv2, numpy as np, tensorflow as tf
+from paths import CV2Res10SSD_frozen_tf_model_path
 
 class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
 
@@ -20,7 +24,7 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
             faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True)
         super().__init__(faceDetector, inputLandmarkIndex, *args, **kwargs)
         if tf_model_path == None:
-            tf_model_path = 'C:/cStorage/Datasets/CV2Nets/CV2Res10SSD/frozen_inference_graph.pb'
+            tf_model_path = CV2Res10SSD_frozen_tf_model_path
 
         self.graph = self.loadTFGraph(tf_model_path)
         self.sess = tf.Session(graph = self.graph)
@@ -30,6 +34,7 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
         faceBox = self._faceDetector.detectFaceBox(frame)
         if faceBox == None:
             squaredFaceImage = frame
+
         else:
             squaredFaceImage = faceBox.getSquaredFaceImageFromFrame(frame)
         squaredFaceImage = cv2.resize(squaredFaceImage, (self._cnn_input_size, self._cnn_input_size))
@@ -45,9 +50,10 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
         marks = np.reshape(marks, (-1, 2))
         #marks = marks * frame.shape[:2]
         #print(marks.shape)
-        marks[:, 0] *= self._faceDetector.faceBox.width
-        marks[:, 1] *= self._faceDetector.faceBox.height
-        marks[:, 0] += self._faceDetector.faceBox.left
-        marks[:, 1] += self._faceDetector.faceBox.top
+        if self._faceDetector.faceBox != None:
+            marks[:, 0] *= self._faceDetector.faceBox.width
+            marks[:, 1] *= self._faceDetector.faceBox.height
+            marks[:, 0] += self._faceDetector.faceBox.left
+            marks[:, 1] += self._faceDetector.faceBox.top
         self._facialLandmarks = marks.astype(int)
         return self._facialLandmarks

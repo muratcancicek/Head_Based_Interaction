@@ -24,7 +24,10 @@
     <Compile Include="CursorController\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DemoHandler.py">
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\DemoPlayer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstimationDemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HeadCursorMapping\__init__.py">
@@ -38,7 +41,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\HeadPoseEstimators\CV2Res10SSCNNHeadPoseEstimator.py" />
-    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\CV2_PnP_with_KF_HeadPoseCalculator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\YinsKalmanFilteredHeadPoseCalculator.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\PoseCalculatorABC.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,7 +61,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\FacialLandmarkDetectors\__init__.py" />
-    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\CV2_PnP_HeadPoseCalculator.py">
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\AnthropometricHeadPoseCalculator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\HeadPoseEstimators\DLIBHeadPoseEstimator.py" />
@@ -66,8 +69,12 @@
     <Compile Include="InputEstimators\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="paths.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="runPointer.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
+    <Compile Include="SystemEvaluators\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="InputEstimators\" />
@@ -77,6 +84,8 @@
     <Folder Include="InputEstimators\FacialLandmarkDetectors\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\PoseCalculators\" />
+    <Folder Include="SystemEvaluators\" />
+    <Folder Include="SystemEvaluators\InputEstimationEvaluation\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

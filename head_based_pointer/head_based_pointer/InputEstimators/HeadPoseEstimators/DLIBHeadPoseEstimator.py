@@ -1,5 +1,8 @@
+# The code is derived from the following repository:
+# https://github.com/lincolnhard/head-pose-estimation
+
 from InputEstimators.FacialLandmarkDetectors.DLIBFacialLandmarkDetector import DLIBFacialLandmarkDetector
-from InputEstimators.HeadPoseEstimators.PoseCalculators.CV2_PnP_HeadPoseCalculator import CV2_PnP_HeadPoseCalculator
+from InputEstimators.HeadPoseEstimators.PoseCalculators.AnthropometricHeadPoseCalculator import AnthropometricHeadPoseCalculator
 from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFaceDetector
 from InputEstimators.HeadPoseEstimators.HeadPoseEstimatorABC import HeadPoseEstimatorABC
 from imutils import face_utils
@@ -14,7 +17,7 @@ class DLIBHeadPoseEstimator(HeadPoseEstimatorABC):
                 faceDetector = DLIBFrontalFaceDetector()
             landmarkDetector = DLIBFacialLandmarkDetector(faceDetector)
         if poseCalculator == None:
-            poseCalculator = CV2_PnP_HeadPoseCalculator()
+            poseCalculator = AnthropometricHeadPoseCalculator()
         self._headPose3D = np.zeros((3,))
         super().__init__(faceDetector, landmarkDetector, poseCalculator, *args, **kwargs)
     

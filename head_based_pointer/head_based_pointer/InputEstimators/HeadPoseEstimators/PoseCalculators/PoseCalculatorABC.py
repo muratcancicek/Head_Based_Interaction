@@ -23,6 +23,7 @@ class PoseCalculatorABC(ABC):
     def __init__(self, *args, **kwargs):
         self._pose = np.zeros((3,))
         self._rectCorners3D = self._get_3d_points()
+        self._projectionPoints = None
         super().__init__(*args, **kwargs)
         
     @abstractmethod
@@ -32,8 +33,9 @@ class PoseCalculatorABC(ABC):
     def calculateProjectionPoints(self, shape, recalculatePose = False):
         if recalculatePose:
                 self.calculatePose(shape)
-        point_2d, _ = cv2.projectPoints(self._rectCorners3D, self._rotation_vector, self._translation_vector, self._camera_matrix, self._dist_coeffs)
-        self._projectionPoints = np.int32(point_2d.reshape(-1, 2))
+        if not (self._rotation_vector is None or self._translation_vector is None):
+            point_2d, _ = cv2.projectPoints(self._rectCorners3D, self._rotation_vector, self._translation_vector, self._camera_matrix, self._dist_coeffs)
+            self._projectionPoints = np.int32(point_2d.reshape(-1, 2))
         return self._projectionPoints
 
     @property

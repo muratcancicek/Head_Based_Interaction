@@ -1,5 +1,9 @@
+# The code is derived from the following repository:
+# https://github.com/lincolnhard/head-pose-estimation
+
 from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFaceDetector
 from InputEstimators.FacialLandmarkDetectors.FacialLandmarkDetectorABC import FacialLandmarkDetectorABC
+from paths import DLIB_face_landmark_model_path
 from imutils import face_utils
 import dlib
 
@@ -11,7 +15,7 @@ class DLIBFacialLandmarkDetector(FacialLandmarkDetectorABC):
         super().__init__(faceDetector, inputLandmarkIndex, *args, **kwargs)
 
         if face_landmark_path == None:
-            self.__face_landmark_path = 'C:/cStorage/Datasets/Dlib/shape_predictor_68_face_landmarks.dat'
+            self.__face_landmark_path = DLIB_face_landmark_model_path
         else:
             self.__face_landmark_path = face_landmark_path
 
