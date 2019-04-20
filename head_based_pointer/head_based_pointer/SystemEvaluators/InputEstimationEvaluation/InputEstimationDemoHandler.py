@@ -4,7 +4,7 @@ import cv2
 class InputEstimationDemoHandler(object):
     
     def __init__(self, videoSource = 0, windowTitle = 'Demo', outputVideo = None, showValues = True, showBoxes = True, showLandmarks = True):
-        if outputVideo == None: self.__outputVideo = DemoVideos_Folder + 'outputF.avi'
+        if outputVideo == None: self.__outputVideo = DemoVideos_Folder + 'outputVideo.avi'
         self.__videoSource = videoSource
         self.__windowTitle = windowTitle
         self.__showValues = showValues 
@@ -59,6 +59,7 @@ class InputEstimationDemoHandler(object):
         if not cap.isOpened():
             print("Unable to connect to camera.")
             return
+
         if recording:
             videoRecorder = self.__getVideoRecorder(cap)
         while cap.isOpened():
@@ -81,8 +82,6 @@ class InputEstimationDemoHandler(object):
                     videoRecorder.write(frame)
                 if displaying:
                     cv2.imshow("demo", frame)
-                    
-        #print('Done')
 
     def play(self, estimator, printing = True, displaying = False, recording = False, windowTitle = None, outputVideo = None):
         if windowTitle != None: self.__windowTitle = windowTitle
@@ -92,6 +91,22 @@ class InputEstimationDemoHandler(object):
         except KeyboardInterrupt:
             self.__endPrinting()
             return
+
+    def print(self, estimator):
+        self.play(estimator)
+
+    def display(self, estimator, windowTitle = None):
+        self.play(estimator, displaying = True, windowTitle = windowTitle)
+
+    def record(self, estimator, windowTitle = None, outputVideo = None):
+        self.play(estimator, displaying = True, recording = True, windowTitle = windowTitle, outputVideo = outputVideo)
+
+    def silentRecord(self, estimator, outputVideo = None):
+        self.play(estimator, recording = True, outputVideo = outputVideo)
+
+    def silentRecordWithoutPrinting(self, estimator, outputVideo = None):
+        self.play(estimator, printing = False, recording = True, outputVideo = outputVideo)
+
 
 
 def main():

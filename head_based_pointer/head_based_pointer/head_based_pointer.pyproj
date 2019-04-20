@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="runPointer.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\__init__.py" />
     <Compile Include="SystemEvaluators\__init__.py" />
   </ItemGroup>
   <ItemGroup>
