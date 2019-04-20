@@ -15,20 +15,16 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
                 tf.import_graph_def(od_graph_def, name='')
         return detection_graph
 
-    def __init__(self, faceDetector = None, tf_model_path = None, inputLandmarkIndex = 30, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._inputLandmarkIndex = inputLandmarkIndex
+    def __init__(self, faceDetector = None, inputLandmarkIndex = 30, tf_model_path = None, *args, **kwargs):
         if faceDetector == None:
-            self._faceDetector = CV2Res10SSDFaceDetector()
-        else:
-            print('module')
-            self._faceDetector = faceDetector
+            faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True)
+        super().__init__(faceDetector, inputLandmarkIndex, *args, **kwargs)
         if tf_model_path == None:
             tf_model_path = 'C:/cStorage/Datasets/CV2Nets/CV2Res10SSD/frozen_inference_graph.pb'
 
         self.graph = self.loadTFGraph(tf_model_path)
         self.sess = tf.Session(graph = self.graph)
-        self.cnn_input_size = 128
+        self._cnn_input_size = 128
 
     def __detectFaceImage(self, frame):
         faceBox = self._faceDetector.detectFaceBox(frame)
@@ -36,7 +32,7 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
             squaredFaceImage = frame
         else:
             squaredFaceImage = faceBox.getSquaredFaceImageFromFrame(frame)
-        squaredFaceImage = cv2.resize(squaredFaceImage, (self.cnn_input_size, self.cnn_input_size))
+        squaredFaceImage = cv2.resize(squaredFaceImage, (self._cnn_input_size, self._cnn_input_size))
         return cv2.cvtColor(squaredFaceImage, cv2.COLOR_BGR2RGB)
 
     def detectFacialLandmarks(self, frame):
@@ -47,7 +43,11 @@ class TF_FrozenCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
 
         marks = np.array(predictions).flatten()
         marks = np.reshape(marks, (-1, 2))
-        marks = marks * frame.shape[:2]
-        print(marks.shape)
-        self._facialLandmarks = marks.as_dtype(int)
+        #marks = marks * frame.shape[:2]
+        #print(marks.shape)
+        marks[:, 0] *= self._faceDetector.faceBox.width
+        marks[:, 1] *= self._faceDetector.faceBox.height
+        marks[:, 0] += self._faceDetector.faceBox.left
+        marks[:, 1] += self._faceDetector.faceBox.top
+        self._facialLandmarks = marks.astype(int)
         return self._facialLandmarks

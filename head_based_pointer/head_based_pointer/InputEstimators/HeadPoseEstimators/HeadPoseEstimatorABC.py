@@ -4,7 +4,10 @@ import numpy
 
 class HeadPoseEstimatorABC(InputEstimatorABC):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, *args, **kwargs):
+        self._faceDetector = faceDetector
+        self._landmarkDetector = landmarkDetector
+        self._poseCalculator = poseCalculator
         self._headPose3D = numpy.zeros((3,))
         
     @abstractmethod

@@ -37,6 +37,12 @@
     <Compile Include="InputEstimators\FacialLandmarkDetectors\TF_FrozenCNNBasedFacialLandmarkDetector.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InputEstimators\HeadPoseEstimators\CV2Res10SSCNNHeadPoseEstimator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\CV2_PnP_with_KF_HeadPoseCalculator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\PoseCalculatorABC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\__init__.py" />
     <Compile Include="InputEstimators\InputEstimatorABC.py" />
     <Compile Include="InputEstimators\FaceDetectors\DLIBFrontalFaceDetector.py">
       <SubType>Code</SubType>
@@ -52,10 +58,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\FacialLandmarkDetectors\__init__.py" />
-    <Compile Include="InputEstimators\HeadPoseEstimators\CV2_PnP_PoseCalculator.py">
+    <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\CV2_PnP_HeadPoseCalculator.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputEstimators\HeadPoseEstimators\RegTreesHeadPoseEstimator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\DLIBHeadPoseEstimator.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\__init__.py" />
     <Compile Include="InputEstimators\__init__.py">
       <SubType>Code</SubType>
@@ -70,6 +76,7 @@
     <Folder Include="InputEstimators\FaceDetectors\" />
     <Folder Include="InputEstimators\FacialLandmarkDetectors\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\" />
+    <Folder Include="InputEstimators\HeadPoseEstimators\PoseCalculators\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

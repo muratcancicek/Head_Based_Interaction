@@ -1,4 +1,5 @@
-               
+import numpy as np               
+
 class FaceBox(object):
     def __init__(self, left, top, right, bottom, *args, **kwargs):
         if left < right:
@@ -17,23 +18,36 @@ class FaceBox(object):
         self._tr_corner = (right, top)
         self._bl_corner = (left, bottom)
         self._br_corner = (right, bottom)
-        self._width = abs(right - left)
-        self._height = abs(bottom - top)
-        self.location = (left + self._width/2, top + self._height/2)
+        self.width = abs(right - left)
+        self.height = abs(bottom - top)
+        self.location = (left + self.width/2, top + self.height/2)
         super().__init__(*args, **kwargs)
     
     def getProjectionPoints(self):
-        corners = [self._tl_corner, self._tr_corner, self._br_corner, self._bl_corner]
-        return [(corners[0], corners[1]), (corners[1], corners[2]), (corners[2], corners[3]), (corners[3], corners[0])]
+        corners = np.array([self._tl_corner, self._tr_corner, self._br_corner, self._bl_corner])
+        #corners = [np.array(c) for c in corners]
+        return corners # [(corners[0], corners[1]), (corners[1], corners[2]), (corners[2], corners[3]), (corners[3], corners[0])]
 
     def isSquare(self):
-        return self._width == self._height
+        return self.width == self.height
         
+    @staticmethod
+    def move_box(box, offset):
+        """Move the box to direction specified by vector offset"""
+        left_x = box[0] + offset[0]
+        top_y = box[1] + offset[1]
+        right_x = box[2] + offset[0]
+        bottom_y = box[3] + offset[1]
+        return [left_x, top_y, right_x, bottom_y]
+
     def __squareFaceBox(self, f_height, f_width):
         left, top, right, bottom = self.left, self.top, self.right, self.bottom
-        diff = self._width - self._height
+        #offset_y = int(abs(self.height - self.width / 2))
+        #top += offset_y
+        #bottom += offset_y
+        diff = self.width - self.height
         if diff == 1:
-            if self._width > self._height:
+            if self.width > self.height:
                 if top > 0:
                     return FaceBox(left, top - 1, right, bottom)
                 else:

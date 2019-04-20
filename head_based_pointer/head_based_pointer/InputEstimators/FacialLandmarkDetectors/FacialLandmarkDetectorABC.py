@@ -4,11 +4,11 @@ import numpy
 
 class FacialLandmarkDetectorABC(InputEstimatorABC):
 
-    def __init__(self, inputLandmarkIndex = 30, *args, **kwargs):
+    def __init__(self, faceDetector = None, inputLandmarkIndex = 30, *args, **kwargs):
         self._facialLandmarks = []
         self._inputLandmarkIndex = inputLandmarkIndex
         self._inputLandmark = numpy.zeros((3,))
-        self._faceDetector = None
+        self._faceDetector = faceDetector
         
     @classmethod
     @abstractmethod

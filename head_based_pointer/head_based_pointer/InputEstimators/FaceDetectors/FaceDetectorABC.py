@@ -48,7 +48,7 @@ class FaceDetectorABC(InputEstimatorABC):
         return self._faceBox.getProjectionPoints()
 
     def findFaceLocationWithAnnotations(self, frame):
-        return self.findFaceLocation(frame), self.getProjectionPoints(), []
+        return self.findFaceLocation(frame), self.getProjectionPoints(), [self._faceLocation[:2].astype(int)]
 
     @property
     def faceBox(self):
