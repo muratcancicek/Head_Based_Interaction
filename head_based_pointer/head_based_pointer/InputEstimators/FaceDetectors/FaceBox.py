@@ -14,19 +14,18 @@ class FaceBox(object):
         else:
             self.top = bottom
             self.bottom = top
-        self._tl_corner = (left, top)
-        self._tr_corner = (right, top)
-        self._bl_corner = (left, bottom)
-        self._br_corner = (right, bottom)
-        self.width = abs(right - left)
-        self.height = abs(bottom - top)
-        self.location = (left + self.width/2, top + self.height/2)
+        self._tl_corner = (self.left, self.top)
+        self._tr_corner = (self.right, self.top)
+        self._bl_corner = (self.left, self.bottom)
+        self._br_corner = (self.right, self.bottom)
+        self.width = abs(self.right - self.left)
+        self.height = abs(self.bottom - self.top)
+        self.location = (self.left + self.width/2, self.top + self.height/2)
         super().__init__(*args, **kwargs)
     
     def getProjectionPoints(self):
         corners = np.array([self._tl_corner, self._tr_corner, self._br_corner, self._bl_corner])
-        #corners = [np.array(c) for c in corners]
-        return corners # [(corners[0], corners[1]), (corners[1], corners[2]), (corners[2], corners[3]), (corners[3], corners[0])]
+        return corners 
 
     def isSquare(self):
         return self.width == self.height
@@ -72,8 +71,6 @@ class FaceBox(object):
         else:
             diff, halfDiff = abs(diff), abs(halfDiff)
             if left >= halfDiff and right < f_width - halfDiff:
-                #print(left, top, right, bottom, self._width, self._height, diff, halfDiff)
-                #print(left - halfDiff, top, right + halfDiff, bottom)
                 return FaceBox(left - halfDiff, top, right + halfDiff, bottom)
             elif left < halfDiff:
                 return FaceBox(0, top, right + (diff - left), bottom)

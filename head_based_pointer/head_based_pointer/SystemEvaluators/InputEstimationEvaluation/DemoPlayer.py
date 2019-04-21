@@ -54,7 +54,8 @@ def play2():
     
 
 def play():
-    handler = getDemoHandlerForReplayingSource()
-    estimator = HaarCascadeFaceDetector()
+    #handler = getDemoHandlerForReplayingSource()
+    handler = getDemoHandlerForRealTimeEstimation()
+    estimator = CV2Res10SSDFaceDetector()
     handler.display(estimator)
     
