@@ -3,6 +3,7 @@
 
 from InputEstimators.FaceDetectors.FaceDetectorABC import FaceDetectorABC
 from InputEstimators.FaceDetectors.FaceBox import FaceBox
+from paths import TFMobileNetSSDFaceDetector_tf_model_path
 import tensorflow as tf
 import numpy as np
 import cv2
@@ -52,7 +53,7 @@ class TFMobileNetSSDFaceDetector(FaceDetectorABC):
 
     def __init__(self, confidence_threshold = 0.90, model_path = None, *args, **kwargs):
         if model_path == None:
-            model_path = 'C:/cStorage/Datasets/TF_Models/TFMobileNetSSDFaceDetector/frozen_inference_graph_face.pb'
+            model_path = TFMobileNetSSDFaceDetector_tf_model_path
       
         self.__graph = self.loadTFGraph(model_path)
         config = tf.ConfigProto()

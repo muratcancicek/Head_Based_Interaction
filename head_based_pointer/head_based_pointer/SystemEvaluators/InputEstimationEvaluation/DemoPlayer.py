@@ -58,6 +58,7 @@ def play2():
 def play():
     #handler = getDemoHandlerForReplayingSource()
     handler = getDemoHandlerForRealTimeEstimation()
-    estimator = TFMobileNetSSDFaceDetector()
+    #estimator = TFMobileNetSSDFaceDetector()
+    estimator = YinsCNNBasedFacialLandmarkDetector()
     handler.display(estimator)
     

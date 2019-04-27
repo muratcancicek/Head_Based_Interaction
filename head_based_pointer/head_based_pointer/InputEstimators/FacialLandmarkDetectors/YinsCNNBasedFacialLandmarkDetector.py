@@ -3,8 +3,8 @@
 
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
 from InputEstimators.FacialLandmarkDetectors.FacialLandmarkDetectorABC import FacialLandmarkDetectorABC
+from paths import YinsFacialLandmarkDetector_tf_model_path
 import cv2, numpy as np, tensorflow as tf
-from paths import CV2Res10SSD_frozen_tf_model_path
 
 class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
 
@@ -24,7 +24,7 @@ class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
             faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True)
         super().__init__(faceDetector, inputLandmarkIndex, *args, **kwargs)
         if tf_model_path == None:
-            tf_model_path = CV2Res10SSD_frozen_tf_model_path
+            tf_model_path = YinsFacialLandmarkDetector_tf_model_path
 
         self.__graph = self.loadTFGraph(tf_model_path)
         self.__sess = tf.Session(graph = self.__graph)
