@@ -26,9 +26,9 @@ class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
         if tf_model_path == None:
             tf_model_path = CV2Res10SSD_frozen_tf_model_path
 
-        self.graph = self.loadTFGraph(tf_model_path)
-        self.sess = tf.Session(graph = self.graph)
-        self._cnn_input_size = 128
+        self.__graph = self.loadTFGraph(tf_model_path)
+        self.__sess = tf.Session(graph = self.__graph)
+        self.__cnn_input_size = 128
 
     def __detectFaceImage(self, frame):
         faceBox = self._faceDetector.detectFaceBox(frame)
@@ -37,14 +37,14 @@ class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
 
         else:
             squaredFaceImage = faceBox.getSquaredFaceImageFromFrame(frame)
-        squaredFaceImage = cv2.resize(squaredFaceImage, (self._cnn_input_size, self._cnn_input_size))
+        squaredFaceImage = cv2.resize(squaredFaceImage, (self.__cnn_input_size, self.__cnn_input_size))
         return cv2.cvtColor(squaredFaceImage, cv2.COLOR_BGR2RGB)
 
     def detectFacialLandmarks(self, frame):
         faceImage = self.__detectFaceImage(frame)
 
-        logits_tensor = self.graph.get_tensor_by_name('logits/BiasAdd:0')
-        predictions = self.sess.run(logits_tensor, feed_dict={'input_image_tensor:0': faceImage})
+        logits_tensor = self.__graph.get_tensor_by_name('logits/BiasAdd:0')
+        predictions = self.__sess.run(logits_tensor, feed_dict={'input_image_tensor:0': faceImage})
 
         marks = np.array(predictions).flatten()
         marks = np.reshape(marks, (-1, 2))

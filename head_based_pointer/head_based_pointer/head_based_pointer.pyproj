@@ -24,6 +24,7 @@
     <Compile Include="CursorController\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InputEstimators\FaceDetectors\TFMobileNetSSDFaceDetector.py" />
     <Compile Include="InputEstimators\FaceDetectors\HaarCascadeFaceDetector.py" />
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\DemoPlayer.py">
       <SubType>Code</SubType>

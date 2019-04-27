@@ -4,6 +4,7 @@ from InputEstimators.FacialLandmarkDetectors.YinsCNNBasedFacialLandmarkDetector 
 from InputEstimators.HeadPoseEstimators.CV2Res10SSCNNHeadPoseEstimator import CV2Res10SSCNNHeadPoseEstimator
 from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemoHandler import InputEstimationDemoHandler
 from InputEstimators.FacialLandmarkDetectors.DLIBFacialLandmarkDetector import DLIBFacialLandmarkDetector
+from InputEstimators.FaceDetectors.TFMobileNetSSDFaceDetector import TFMobileNetSSDFaceDetector
 from InputEstimators.HeadPoseEstimators.DLIBHeadPoseEstimator import DLIBHeadPoseEstimator
 from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFaceDetector
 from InputEstimators.FaceDetectors.HaarCascadeFaceDetector import HaarCascadeFaceDetector
@@ -21,10 +22,11 @@ def getDemoHandlerForReplayingSource(videoSource = None):
        videoSource = InputEstimatorsDemo_Folder + 'SourceVideo.avi' # Darkest
     return InputEstimationDemoHandler(videoSource = videoSource, showValues = True, showBoxes = True, showLandmarks = True)
 
-def getSevenDefaultEstimators():
+def getDefaultEstimators():
     return {'DLIBFaceDetector': DLIBFrontalFaceDetector(), 
             'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
             'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
+            'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True),
             'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
             'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
             'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
@@ -47,7 +49,7 @@ def play2():
         
     handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = getSevenDefaultEstimators()
+    estimators = {'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True)} # getDefaultEstimators()
     
     #displayGivenEstimators(handler, estimators)
     recordGivenEstimators(handler, estimators)
@@ -56,6 +58,6 @@ def play2():
 def play():
     #handler = getDemoHandlerForReplayingSource()
     handler = getDemoHandlerForRealTimeEstimation()
-    estimator = CV2Res10SSDFaceDetector()
+    estimator = TFMobileNetSSDFaceDetector()
     handler.display(estimator)
     
