@@ -1,18 +1,21 @@
+from paths import Experiments_Folder
 from random import randint
 import numpy as np
 import cv2
 
 class DotWalker(object):
     
-    def __init__(self, size = None, backgroundColor = None, dotColor = None):
+    def __init__(self, size = None, maxFrameCount = 500, backgroundColor = None, dotColor = None, outputFileName = None):
+        self.__file = open(Experiments_Folder + outputFileName + '.txt', 'w') if not outputFileName is None else None
         if backgroundColor is None: backgroundColor = (0, 0, 0)
         if dotColor is None: dotColor = (255, 255, 255)
-        if size is None: size = (480, 640, 3)#(1080, 1920)
+        if size is None: size = (480, 640, 3)
         self.__backgroundColor = backgroundColor
+        self.__maxFrameCount = maxFrameCount
         self.__dotColor = dotColor
         self.__pos = np.array((size[1]/2, size[0]/2), np.int32)
         self.__size = size
-        self.__file = open('output.txt', 'w')
+        self.__frameCount = 0 
         self.__step = 0
         self.__direction = self.getRandomDirection()
         self.__nextCorner = self.getRandomLength()
@@ -22,7 +25,6 @@ class DotWalker(object):
         if frame is None: frame = np.zeros(self.__size, dtype = np.uint8)
         self.walk()
         cv2.circle(frame, tuple(self.__pos), 20, self.__dotColor, -1, cv2.LINE_AA)
-        cv2.line(frame, (0, 0), (0, self.__size[0]), (255, 255, 255), 2, cv2.LINE_AA)
         return frame
 
     def isInside(self):
@@ -30,13 +32,17 @@ class DotWalker(object):
                 self.__pos[1] >= 0 and self.__size[0] >= self.__pos[1] 
 
     def walk(self):
+        if self.__frameCount == self.__maxFrameCount:
+            raise KeyboardInterrupt
         if self.__step == self.__nextCorner or not self.isInside():
             self.__direction = self.getRandomDirection()
             self.__nextCorner = self.getRandomLength()
             self.__step = 0
         self.__pos += self.__direction
-        self.__file.write('%d, %d\n' % (self.__pos[0], self.__pos[1]))
+        if not self.__file is None:
+            self.__file.write('%d, %d\n' % (self.__pos[0], self.__pos[1]))
         self.__step += 1
+        self.__frameCount += 1
 
     def getRandomDirection(self):
         x = self.getRandomVelocity()

@@ -1,23 +1,21 @@
-from paths import DemoVideos_Folder
-import cv2
+from paths import Experiments_Folder
 import numpy as np
+import cv2
 
 
 class InputOutputHandler(object):
     
-    def __init__(self, videoSource = 0, windowTitle = 'Demo', outputVideo = None):
-        if outputVideo == None: self.__outputVideo = DemoVideos_Folder + 'outputVideo.avi'
+    def __init__(self, videoSource = 0, windowTitle = 'Demo', outputVideoName = 'Exp'):
+        self.__outputVideo = Experiments_Folder + outputVideoName + '.avi'
         self.__videoSource = videoSource
         self.__windowTitle = windowTitle
         super().__init__()
 
-    def getProcessedFrame(self, frame):
-        cv2.circle(frame, (320, 240), 20, (0, 255, 0), -1, cv2.LINE_AA)
-        return frame
-
-    def __getVideoRecorder(self, cap):
+    def __getVideoRecorder(self, cap, width = 0, height = 0):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 20, (int(2*cap.get(3)), int(cap.get(4))))
+        if width == 0: width = int(cap.get(3))
+        if height == 0: height = int(cap.get(4))
+        video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 20, (width, height))
         return video_writer
 
     def __updatePrintedInputValues(self, inputValues):
@@ -29,18 +27,27 @@ class InputOutputHandler(object):
         
     def __play(self, dotWalker, printing = True, displaying = False, recording = False):
         cap = cv2.VideoCapture(self.__videoSource, cv2.CAP_DSHOW)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         if not cap.isOpened():
             print("Unable to connect to camera.")
             return
-
+        
+        frame2 = dotWalker.getUpdatedFrame()
         if recording:
-            videoRecorder = self.__getVideoRecorder(cap)
+            videoRecorder = self.__getVideoRecorder(cap, frame2.shape[1]*2, frame2.shape[0])
         while cap.isOpened():
             ret, frame = cap.read()
             #if self.__videoSource == 0:
-            frame = cv2.flip(frame, 1)
+            frame1 = cv2.flip(frame, 1)
             frame2 = dotWalker.getUpdatedFrame()
-            frame = np.concatenate((frame, frame2), 1)
+            #frame1 = cv2.resize(frame1, (frame2.shape[1], frame2.shape[0]))
+            if frame1.shape != frame2.shape:
+                temp = np.zeros_like(frame2)
+                temp[:frame1.shape[0], :frame1.shape[1]] = frame1 
+                frame1 = temp
+            frame = np.concatenate((frame1, frame2), 1)
+            cv2.line(frame, (frame1.shape[1], 0), (frame1.shape[1], frame1.shape[0]), (255, 255, 255), 2, cv2.LINE_AA)
             #print(frame.shape)
             if not ret or cv2.waitKey(1) & 0xFF == ord('q') or cv2.waitKey(10) == 27:
                 self.__updatePrintedInputValues('matrix')
@@ -49,7 +56,7 @@ class InputOutputHandler(object):
             else:
                 if recording:
                     videoRecorder.write(frame)
-                cv2.imshow(self.__windowTitle, frame)
+                cv2.imshow(self.__windowTitle, frame2)
                 self.__updatePrintedInputValues('matrix')
 
     def play(self, dotWalker, printing = True, displaying = False, recording = False, windowTitle = None, outputVideo = None):
