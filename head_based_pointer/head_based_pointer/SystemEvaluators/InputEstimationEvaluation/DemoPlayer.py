@@ -9,7 +9,7 @@ from InputEstimators.HeadPoseEstimators.DLIBHeadPoseEstimator import DLIBHeadPos
 from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFaceDetector
 from InputEstimators.FaceDetectors.HaarCascadeFaceDetector import HaarCascadeFaceDetector
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
-from paths import InputEstimatorsDemo_Folder
+from paths import InputEstimatorsDemo_Folder, Experiments_Folder
 
 def getDemoHandlerForRealTimeEstimation():
     return InputEstimationDemoHandler(videoSource = 0, showValues = True, showBoxes = True, showLandmarks = True)
@@ -56,8 +56,9 @@ def play2():
     
 
 def play():
-    #handler = getDemoHandlerForReplayingSource()
-    handler = getDemoHandlerForRealTimeEstimation()
+    source =  Experiments_Folder + 'Exp001/Exp001.avi'
+    handler = getDemoHandlerForReplayingSource(source)
+    #handler = getDemoHandlerForRealTimeEstimation()
     #estimator = TFMobileNetSSDFaceDetector()
     estimator = YinsCNNBasedFacialLandmarkDetector()
     handler.display(estimator)

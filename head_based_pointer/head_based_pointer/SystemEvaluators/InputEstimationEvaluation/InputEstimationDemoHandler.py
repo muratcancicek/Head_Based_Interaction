@@ -68,6 +68,9 @@ class InputEstimationDemoHandler(object):
             ret, frame = cap.read()
             if self.__videoSource == 0:
                 frame = cv2.flip(frame,1)
+            #Temporary if statement for evaluating mirrored videos with doubled length
+            if frame.shape[1] == 2560:
+                frame = frame[:, :int(frame.shape[1]/2)]
             if not ret or cv2.waitKey(1) & 0xFF == ord('q') or cv2.waitKey(10) == 27:
                 self.__updatePrintedInputValues(self.__inputValues)
                 self.__endPrinting()
