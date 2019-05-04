@@ -2,8 +2,8 @@
 # https://github.com/yeephycho/tensorflow-face-detection
 
 from InputEstimators.FaceDetectors.FaceDetectorABC import FaceDetectorABC
-from InputEstimators.FaceDetectors.FaceBox import FaceBox
 from paths import TFMobileNetSSDFaceDetector_tf_model_path
+from InputEstimators.FaceDetectors.FaceBox import FaceBox
 import tensorflow as tf
 import numpy as np
 import cv2

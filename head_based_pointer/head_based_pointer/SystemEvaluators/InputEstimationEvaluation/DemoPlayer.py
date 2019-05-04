@@ -19,7 +19,7 @@ def getDemoHandlerForRecordingFromCam():
 
 def getDemoHandlerForReplayingSource(videoSource = None):
     if videoSource == None:
-       videoSource = InputEstimatorsDemo_Folder + 'SourceVideo.avi' # Darkest
+       videoSource = InputEstimatorsDemo_Folder + 'WalkerOutputVideo.avi' #SourceVideo Darkest
     return InputEstimationDemoHandler(videoSource = videoSource, showValues = True, showBoxes = True, showLandmarks = True)
 
 def getDefaultEstimators():
@@ -49,16 +49,18 @@ def play2():
         
     handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = {'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True)} # getDefaultEstimators()
+    estimators = {'TFMobFaceYinsHeadPoseEstimator': CV2Res10SSCNNHeadPoseEstimator(TFMobileNetSSDFaceDetector(), YinsCNNBasedFacialLandmarkDetector())}
+    #estimators = {'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True)} # getDefaultEstimators()
     
     #displayGivenEstimators(handler, estimators)
     recordGivenEstimators(handler, estimators)
     
 
 def play():
-    #handler = getDemoHandlerForReplayingSource()
-    handler = getDemoHandlerForRealTimeEstimation()
+    handler = getDemoHandlerForReplayingSource()
+    #handler = getDemoHandlerForRealTimeEstimation()
     #estimator = TFMobileNetSSDFaceDetector()
-    estimator = YinsCNNBasedFacialLandmarkDetector()
+    #estimator = YinsCNNBasedFacialLandmarkDetector()
+    estimator = DLIBHeadPoseEstimator(TFMobileNetSSDFaceDetector(), YinsCNNBasedFacialLandmarkDetector())
     handler.display(estimator)
     
