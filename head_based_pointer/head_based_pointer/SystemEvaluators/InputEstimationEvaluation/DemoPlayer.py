@@ -26,12 +26,12 @@ def getDemoHandlerForReplayingSource(videoSource = None):
 
 def getDefaultEstimators():
     return {'DLIBFaceDetector': DLIBFrontalFaceDetector(), 
-            #'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
-            #'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
-            #'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True),
-            #'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
-            #'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
-            #'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
+            'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
+            'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
+            'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True),
+            'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
+            'YinsCNNBasedLandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
+            'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(),# #}
             'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()}
 
 def displayGivenEstimators(handler, estimators):

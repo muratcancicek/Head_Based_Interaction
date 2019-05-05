@@ -51,7 +51,7 @@ class InputEstimationDemoHandler(object):
 
     def __getVideoRecorder(self, cap):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')  # cv2) .CV_FOURCC(does not exist
-        video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 20, (int(cap.get(3)), int(cap.get(4))))
+        video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 20, (int(cap.get(3)/2), int(cap.get(4))))
         return video_writer
     
     def __getVInputValuesWithProcessedFrame(self, estimator, frame):
@@ -145,14 +145,4 @@ class InputEstimationDemoHandler(object):
 
     def silentRecordWithoutPrinting(self, estimator, estimatorTitle = None, outputVideo = None):
         self.play(estimator, printing = False, recording = True, windowTitle = estimatorTitle, outputVideo = outputVideo)
-
-
-
-def main():
-    inputValuesEstimator = HeadPoseEstimator()
-    inputValuesEstimator.streamDemo()
-    #inputValuesEstimator.recordDemo()
-
-if __name__ == '__main__':
-    main()
 
