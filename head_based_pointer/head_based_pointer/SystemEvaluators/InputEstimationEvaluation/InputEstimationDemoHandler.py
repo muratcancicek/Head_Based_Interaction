@@ -73,6 +73,7 @@ class InputEstimationDemoHandler(object):
             return
 
         if recording:
+            print('ids')
             videoRecorder = self.__getVideoRecorder(cap)
         if writing:
             file = open(self.__outputFile, 'w')
@@ -109,7 +110,7 @@ class InputEstimationDemoHandler(object):
             self.__outputVideo = outputVideo
             self.__windowTitle = outputVideo
         if windowTitle != None: self.__windowTitle = windowTitle
-        if outputFile != None:  self.__outputFile = outputFile
+        if outputFile != None: self.__outputFile = outputFile
         if recording: job = 'Recording'
         elif writing: job = 'Writing'
         elif displaying: job = 'Displaying'

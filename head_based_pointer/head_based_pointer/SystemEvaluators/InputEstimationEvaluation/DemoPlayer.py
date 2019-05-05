@@ -26,12 +26,12 @@ def getDemoHandlerForReplayingSource(videoSource = None):
 
 def getDefaultEstimators():
     return {'DLIBFaceDetector': DLIBFrontalFaceDetector(), 
-            'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
-            'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
-            'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True),
-            'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
-            'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
-            'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
+            #'ResSSDFaceDetector': CV2Res10SSDFaceDetector(squaringFaceBox = True),
+            #'HaarCascadeFaceDetector': HaarCascadeFaceDetector(),
+            #'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True),
+            #'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
+            #'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
+            #'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
             'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()}
 
 def displayGivenEstimators(handler, estimators):
@@ -53,9 +53,9 @@ def writeGivenEstimators(handler, estimators):
 def recordNWriteGivenEstimators(handler, estimators):
     for estimatorName, estimator in estimators.items():
         estimatorName = 'Exp001_' + estimatorName
-        outputVideo = InputEstimatorsDemo_Folder + estimatorName + '.avi'
+        outputVideo = Experiments_Folder + estimatorName + '.avi'
         outputFile = Experiments_Folder + estimatorName + '.txt'
-        handler.recordNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
+        handler.recordNWrite(estimator, windowTitle = estimatorName, outputVideo = outputVideo, outputFile = outputFile) 
 
 def play():
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
