@@ -1,3 +1,5 @@
+# Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
+
 from InputEstimators.HeadPoseEstimators.PoseCalculators.YinsKalmanFilteredHeadPoseCalculator import YinsKalmanFilteredHeadPoseCalculator
 from InputEstimators.HeadPoseEstimators.PoseCalculators.AnthropometricHeadPoseCalculator import AnthropometricHeadPoseCalculator
 from InputEstimators.FacialLandmarkDetectors.YinsCNNBasedFacialLandmarkDetector import YinsCNNBasedFacialLandmarkDetector
@@ -30,7 +32,7 @@ def getDefaultEstimators():
             'DLIBLandmarkDetector': DLIBFacialLandmarkDetector(),
             'YinsCNNBasedlandmarkDetector': YinsCNNBasedFacialLandmarkDetector(), 
             'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
-            'YinsHeadPoseEstimator ': CV2Res10SSCNNHeadPoseEstimator()}
+            'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()}
 
 def displayGivenEstimators(handler, estimators):
     for estimatorName, estimator in estimators.items():
@@ -43,23 +45,37 @@ def recordGivenEstimators(handler, estimators):
         #handler.silentRecord(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo)
         #handler.silentRecordWithoutPrinting(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo) 
 
-def play2():
+def writeGivenEstimators(handler, estimators):
+    for estimatorName, estimator in estimators.items():
+        outputFile = Experiments_Folder + estimatorName + '.txt'
+        handler.displayNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
+
+def recordNWriteGivenEstimators(handler, estimators):
+    for estimatorName, estimator in estimators.items():
+        estimatorName = 'Exp001_' + estimatorName
+        outputVideo = InputEstimatorsDemo_Folder + estimatorName + '.avi'
+        outputFile = Experiments_Folder + estimatorName + '.txt'
+        handler.recordNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
+
+def play():
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
     #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
-    handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
+    source =  Experiments_Folder + 'Exp001/Exp001.avi'
+    handler = getDemoHandlerForReplayingSource(source) # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = {'TFMobileNetSSDFaceDetector': TFMobileNetSSDFaceDetector(squaringFaceBox = True)} # getDefaultEstimators()
+    estimators = getDefaultEstimators() # {'DLIBFaceDetector': DLIBFrontalFaceDetector()} # 
     
     #displayGivenEstimators(handler, estimators)
-    recordGivenEstimators(handler, estimators)
+    recordNWriteGivenEstimators(handler, estimators)
     
 
-def play():
+def play2():
     source =  Experiments_Folder + 'Exp001/Exp001.avi'
     handler = getDemoHandlerForReplayingSource(source)
     #handler = getDemoHandlerForRealTimeEstimation()
     #estimator = TFMobileNetSSDFaceDetector()
     estimator = YinsCNNBasedFacialLandmarkDetector()
+    print(type(estimator))
     handler.display(estimator)
     

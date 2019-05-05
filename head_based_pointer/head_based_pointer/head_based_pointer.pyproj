@@ -29,6 +29,9 @@
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\DemoPlayer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\EstimationPlotter.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstimationDemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
