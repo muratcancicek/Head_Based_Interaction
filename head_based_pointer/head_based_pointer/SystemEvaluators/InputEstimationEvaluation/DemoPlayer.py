@@ -45,14 +45,15 @@ def recordGivenEstimators(handler, estimators):
         #handler.silentRecord(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo)
         #handler.silentRecordWithoutPrinting(estimator, estimatorTitle = estimatorName, outputVideo = outputVideo) 
 
-def writeGivenEstimators(handler, estimators):
+def writeGivenEstimators(handler, estimators, expName):
     for estimatorName, estimator in estimators.items():
+        estimatorName = expName + '_' + estimatorName
         outputFile = Experiments_Folder + estimatorName + '.txt'
         handler.displayNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
 
-def recordNWriteGivenEstimators(handler, estimators):
+def recordNWriteGivenEstimators(handler, estimators, expName):
     for estimatorName, estimator in estimators.items():
-        estimatorName = 'Exp001_' + estimatorName
+        estimatorName = expName + '_' + estimatorName
         outputVideo = Experiments_Folder + estimatorName + '.avi'
         outputFile = Experiments_Folder + estimatorName + '.txt'
         handler.recordNWrite(estimator, windowTitle = estimatorName, outputVideo = outputVideo, outputFile = outputFile) 
@@ -61,13 +62,13 @@ def play():
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
     #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
-    source =  Experiments_Folder + 'Exp001/Exp001.avi'
-    handler = getDemoHandlerForReplayingSource(source) # getDemoHandlerForRealTimeEstimation() # list()[:2]
+    #source =  Experiments_Folder + 'Exp001/Exp001.avi'source
+    handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
     estimators = getDefaultEstimators() # {'DLIBFaceDetector': DLIBFrontalFaceDetector()} # 
     
-    #displayGivenEstimators(handler, estimators)
-    recordNWriteGivenEstimators(handler, estimators)
+    #displayGivenEstimators(handler, estimators)recordNW
+    writeGivenEstimators(handler, estimators, 'Exp000')
     
 
 def play2():

@@ -6,7 +6,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 def readExperimentData():
-    source_Folder =  Experiments_Folder + 'Exp001/'
+    source_Folder =  Experiments_Folder + 'Exp000/'
     dataFiles = {n[:-4]: open(source_Folder+n) for n in os.listdir(source_Folder) if 'txt' in n}
     data = {}
     for n, f in dataFiles.items():
@@ -37,7 +37,6 @@ def readHeadPoseEstimatorFromExperimentData():
 def drawPlots(outputs, num_outputs = 3): 
     angles = ['X', 'Y', 'Z']
     colors = ['#FFAA00', '#00AA00', '#0000AA', '#AA0000'] 
-    red, blue = (1.0, 0.95, 0.95), (0.95, 0.95, 1.0)
     f, rows = plt.subplots(num_outputs, 1, sharex=True, figsize=(24, 5*num_outputs))
     #f.suptitle(title)
     for i in range(num_outputs):
@@ -46,8 +45,11 @@ def drawPlots(outputs, num_outputs = 3):
         for j, (n, m) in enumerate(outputs.items()):
             m = m[:, i].reshape((m.shape[0],))
             m = np.interp(m, (m.min(), m.max()), (-1, +1))
-            l1 = cell.plot(m, label=n)
-            print(n)
+            
+            if 'WhiteDot' in n:
+                l1 = cell.plot(m, 'g--', label=n, linewidth=4.)
+            else:
+                l1 = cell.plot(m, label=n)
             cell.legend(loc='best')
         cell.set_ylabel('%s ' % (angles[i]))
     plt.show()
@@ -56,11 +58,12 @@ def drawPlots(outputs, num_outputs = 3):
 
 def plot():
     #data = readExperimentData()
-    #data = readFaceBoxDetectorsFromExperimentData()
-    data = readLandmarkDetectorsFromExperimentData()
-    data = readHeadPoseEstimatorFromExperimentData()
-    drawPlots(data, num_outputs = 3)
-
+    data = readFaceBoxDetectorsFromExperimentData()
+    #data = readLandmarkDetectorsFromExperimentData()
+    #data = readHeadPoseEstimatorFromExperimentData()
+    f = drawPlots(data, num_outputs = 2)
+    fName =  Experiments_Folder + 'Exp000/HeadPoseEstimator.png'
+    f.savefig(fName, bbox_inches='tight')
 if __name__ == '__main__':
     main()
 
