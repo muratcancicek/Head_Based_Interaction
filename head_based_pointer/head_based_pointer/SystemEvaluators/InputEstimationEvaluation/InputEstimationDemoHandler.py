@@ -89,8 +89,10 @@ class InputEstimationDemoHandler(object):
                     file.close()
                 break
             else:
+                #print(frame.shape)
                 if frame.shape[1] == 2560:
-                    frame = frame[:, :int(frame.shape[1]/2)]
+                    frame = frame[:, int(frame.shape[1]/2):]
+                    #print(frame.shape)
                 if displaying or recording:
                     self.__inputValues, frame = self.__getVInputValuesWithProcessedFrame(estimator, frame)
                 elif printing:

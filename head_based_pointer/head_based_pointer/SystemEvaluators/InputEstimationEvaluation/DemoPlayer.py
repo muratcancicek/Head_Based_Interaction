@@ -62,13 +62,13 @@ def play():
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
     #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
-    #source =  Experiments_Folder + 'Exp001/Exp001.avi'source
-    handler = getDemoHandlerForReplayingSource() # getDemoHandlerForRealTimeEstimation() # list()[:2]
+    source =  Experiments_Folder + 'Exp001/Exp001.avi'
+    handler = getDemoHandlerForReplayingSource(source) # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = getDefaultEstimators() # {'DLIBFaceDetector': DLIBFrontalFaceDetector()} # 
+    estimators = {'White': DLIBFrontalFaceDetector()} # getDefaultEstimators() # 
     
     #displayGivenEstimators(handler, estimators)recordNW
-    writeGivenEstimators(handler, estimators, 'Exp000')
+    recordNWriteGivenEstimators(handler, estimators, 'Exp000')
     
 
 def play2():
