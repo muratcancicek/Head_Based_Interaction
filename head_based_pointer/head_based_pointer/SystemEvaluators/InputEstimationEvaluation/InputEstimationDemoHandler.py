@@ -24,12 +24,12 @@ class InputEstimationDemoHandler(object):
         super().__init__()
 
     def getProcessedFrame(self, frame, inputValues = None, projectionPoints = None, facial_landmarks = None):
-        if self.__windowTitle != 'Demo':
-            cv2.putText(frame, self.__windowTitle, (600, 710), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), thickness=2)
-        if not inputValues is None and self.__showValues: 
-            cv2.putText(frame, "X: " + "{:7.2f}".format(inputValues[0]), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), thickness=2)
-            cv2.putText(frame, "Y: " + "{:7.2f}".format(inputValues[1]), (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), thickness=2)
-            cv2.putText(frame, "Z: " + "{:7.2f}".format(inputValues[2]), (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), thickness=2)
+        #if self.__windowTitle != 'Demo':
+        #    cv2.putText(frame, self.__windowTitle, (600, 710), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), thickness=2)
+        #if not inputValues is None and self.__showValues: 
+        #    cv2.putText(frame, "X: " + "{:7.2f}".format(inputValues[0]), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), thickness=2)
+        #    cv2.putText(frame, "Y: " + "{:7.2f}".format(inputValues[1]), (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), thickness=2)
+        #    cv2.putText(frame, "Z: " + "{:7.2f}".format(inputValues[2]), (20, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), thickness=2)
         inputValues2D = True
         if not projectionPoints is None and self.__showBoxes:
             color = (255, 255, 255)
@@ -92,6 +92,7 @@ class InputEstimationDemoHandler(object):
                 #print(frame.shape)
                 if frame.shape[1] == 2560:
                     frame = frame[:, int(frame.shape[1]/2):]
+                    frame2 = frame[:, :int(frame.shape[1]/2)]
                     #print(frame.shape)
                 if displaying or recording:
                     self.__inputValues, frame = self.__getVInputValuesWithProcessedFrame(estimator, frame)
@@ -101,7 +102,7 @@ class InputEstimationDemoHandler(object):
                 if printing:
                     self.__updatePrintedInputValues(self.__inputValues)
                 if recording:
-                    videoRecorder.write(frame)
+                    videoRecorder.write(frame2)
                 if displaying:
                     cv2.imshow(self.__windowTitle, frame)
                 if writing:
