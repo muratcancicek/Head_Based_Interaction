@@ -51,25 +51,27 @@ def writeGivenEstimators(handler, estimators, expName):
         outputFile = Experiments_Folder + estimatorName + '.txt'
         handler.displayNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
 
-def recordNWriteGivenEstimators(handler, estimators, expName):
+def recordNWriteGivenEstimators(handler, estimators, expName, expFolder = Experiments_Folder):
     for estimatorName, estimator in estimators.items():
         estimatorName = expName + '_' + estimatorName
-        outputVideo = Experiments_Folder + estimatorName + '.avi'
-        outputFile = Experiments_Folder + estimatorName + '.txt'
+        outputVideo = expFolder + expName + '/' + estimatorName + '.avi'
+        outputFile = expFolder + expName + '/' + estimatorName + '.txt'
         handler.recordNWrite(estimator, windowTitle = estimatorName, outputVideo = outputVideo, outputFile = outputFile) 
 
-def play():
+def playExperiment(expName, expFolder = Experiments_Folder):
     #anthPoseCalculator = AnthropometricHeadPoseCalculator()
     #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
         
-    source =  Experiments_Folder + 'Exp000_White.avi'
+    source =  expFolder + expName + '/' + expName + '.avi'
     handler = getDemoHandlerForReplayingSource(source) # getDemoHandlerForRealTimeEstimation() # list()[:2]
     
-    estimators = {'Scott': DLIBFrontalFaceDetector()} # getDefaultEstimators() # 
+    estimators = getDefaultEstimators() # {'DLIBFaceDetector': DLIBFrontalFaceDetector()} # 
     
     #displayGivenEstimators(handler, estimators)recordNW
-    recordNWriteGivenEstimators(handler, estimators, 'Exp000')
+    recordNWriteGivenEstimators(handler, estimators, expName)
     
+def play():
+    playExperiment('Exp002', expFolder = Experiments_Folder)
 
 def play2():
     source =  Experiments_Folder + 'Exp001/Exp001.avi'

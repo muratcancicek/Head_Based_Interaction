@@ -55,7 +55,7 @@ def getOrderedListOfEstimatorData(outputs):
 def drawPlots(outputs, num_outputs = 3, show = True): 
     angles = ['X', 'Y', 'Z']
     colors = ['#FFAA00', '#00AA00', '#0000AA', '#AA0000'] 
-    f, rows = plt.subplots(num_outputs, 1, sharex=True, figsize=(10, 6))
+    f, rows = plt.subplots(num_outputs, 1, sharex=True, figsize=(24, 15)) # (10, 6)) # 
     #f.suptitle(title)
     items = getOrderedListOfEstimatorData(outputs)
     for i in range(num_outputs):
@@ -90,7 +90,7 @@ def plotEstimatorDataFromExperiment(estimatorType, data, expName, expFolder = Ex
         num_outputs = 3
     f = drawPlots(data, num_outputs, show)
     if save:
-        fName = Experiments_Folder + expName + '/' + expName + '_' + estimatorType + '_small.png'
+        fName = Experiments_Folder + expName + '/' + expName + '_' + estimatorType + '.png'#_small
         f.savefig(fName, bbox_inches='tight')
 
 def plotExperiment(expName, expFolder = Experiments_Folder, show = True, save = True):
@@ -101,7 +101,7 @@ def plotExperiment(expName, expFolder = Experiments_Folder, show = True, save = 
 
 def plot(): 
     #data = readExperimentData()
-    expName = 'Exp000'
+    expName = 'Exp002'
     plotExperiment(expName, show = False, save = True)
     #data = readHeadPoseEstimatorsDataFromExperiment(expName)
     #plotEstimatorDataFromExperiment('HeadPoseEstimators', data, expName, show = False, save = True)
