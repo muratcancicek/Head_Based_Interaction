@@ -38,3 +38,6 @@ class FacialLandmarkDetectorABC(InputEstimatorABC):
     @property
     def inputValues(self):
         return self._inputLandmark
+
+    def returns3D(self):
+        return False

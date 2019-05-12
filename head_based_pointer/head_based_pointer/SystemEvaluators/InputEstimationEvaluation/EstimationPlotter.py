@@ -52,10 +52,10 @@ def getOrderedListOfEstimatorData(outputs):
         items.append(whiteDot)
     return items
 
-def drawPlots(outputs, num_outputs = 3, show = True): 
+def drawPlots(outputs, num_outputs = 3, show = True, figsize = (24, 15)): 
     angles = ['X', 'Y', 'Z']
     colors = ['#FFAA00', '#00AA00', '#0000AA', '#AA0000'] 
-    f, rows = plt.subplots(num_outputs, 1, sharex=True, figsize=(24, 15)) # (10, 6)) # 
+    f, rows = plt.subplots(num_outputs, 1, sharex=True, figsize= figsize) # ) # (10, 6)
     #f.suptitle(title)
     items = getOrderedListOfEstimatorData(outputs)
     for i in range(num_outputs):
@@ -64,9 +64,16 @@ def drawPlots(outputs, num_outputs = 3, show = True):
         if num_outputs > 1: cell = rows[i]
         cell.set_prop_cycle(cycler('color', ['orange', 'blue', 'purple', 'red', 'black']))
         for j, (n, m) in enumerate(items):
-            m = m[:, i].reshape((m.shape[0],))
             if 'HeadPoseEstimator' in n:
+                if i == 0:
+                    m = m[:, 1].reshape((m.shape[0],))
+                elif i == 1:
+                    m = m[:, 0].reshape((m.shape[0],))
+                else:
+                    m = m[:, i].reshape((m.shape[0],))
                 m = np.interp(m, (m.min(), m.max()), (-1, +1))
+            else:
+                m = m[:, i].reshape((m.shape[0],))
             if 'WhiteDot' in n:
                 if i == 2: continue
                 cell = cell.twinx()
@@ -84,13 +91,16 @@ def drawPlots(outputs, num_outputs = 3, show = True):
     f.subplots_adjust(top=0.93, hspace=0, wspace=0)
     return f
 
-def plotEstimatorDataFromExperiment(estimatorType, data, expName, expFolder = Experiments_Folder, show = True, save = True):
+def plotEstimatorDataFromExperiment(estimatorType, data, expName, expFolder = Experiments_Folder, show = True, save = True, small = False):
     num_outputs = 2
     if 'HeadPoseEstimator' in estimatorType:
         num_outputs = 3
-    f = drawPlots(data, num_outputs, show)
+    figsize = (10, 6) if small else (24, 15)
+    f = drawPlots(data, num_outputs, show, figsize)
     if save:
-        fName = Experiments_Folder + expName + '/' + expName + '_' + estimatorType + '.png'#_small
+        scale = '_small' if small else ''
+        fName = Experiments_Folder + expName + '/' + expName + '_' + estimatorType + scale + '.png'
+        print(fName)
         f.savefig(fName, bbox_inches='tight')
 
 def plotExperiment(expName, expFolder = Experiments_Folder, show = True, save = True):
@@ -102,9 +112,10 @@ def plotExperiment(expName, expFolder = Experiments_Folder, show = True, save = 
 def plot(): 
     #data = readExperimentData()
     expName = 'Exp002'
-    plotExperiment(expName, show = False, save = True)
-    #data = readHeadPoseEstimatorsDataFromExperiment(expName)
-    #plotEstimatorDataFromExperiment('HeadPoseEstimators', data, expName, show = False, save = True)
+    #plotExperiment(expName, show = False, save = True)
+    data = readHeadPoseEstimatorsDataFromExperiment(expName)
+    plotEstimatorDataFromExperiment('HeadPoseEstimators', data, expName, show = False, save = True, small = False)
+    plotEstimatorDataFromExperiment('HeadPoseEstimators', data, expName, show = False, save = True, small = True)
 
 if __name__ == '__main__':
     main()

@@ -63,3 +63,6 @@ class FaceDetectorABC(InputEstimatorABC):
     @property
     def inputValues(self):
         return self._faceLocation
+
+    def returns3D(self):
+        return False

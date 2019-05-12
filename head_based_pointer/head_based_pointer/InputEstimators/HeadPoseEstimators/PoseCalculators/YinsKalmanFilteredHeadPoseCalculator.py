@@ -39,17 +39,15 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         model_points[:, -1] *= -1
         return model_points
     
-    def __init__(self, face_model_path = None, *args, **kwargs):
+    def __init__(self, face_model_path = None, inputFramesize = (720, 1280), *args, **kwargs):
         super().__init__(*args, **kwargs)
         if face_model_path == None:
             face_model_path = CV2Res10SSD_frozen_face_model_path
         self._faceModelPoints = self.__get_full_model_points(face_model_path)
         self._rectCorners3D = self._get_3d_points(rear_size = 75, rear_depth = 0, front_size = 100, front_depth = 100)
-
-        size = [480, 640]
-
+        
         # Camera internals
-        self._camera_matrix = self.__getCameraMatrix(size)
+        self._camera_matrix = self.__getCameraMatrix(inputFramesize)
 
         # Assuming no lens distortion
         self._dist_coeffs = np.zeros((4, 1))

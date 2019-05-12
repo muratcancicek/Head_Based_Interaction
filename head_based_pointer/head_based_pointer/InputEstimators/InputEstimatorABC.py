@@ -19,3 +19,8 @@ class InputEstimatorABC(ABC):
     @abstractmethod
     def inputValues(self):
         return self._inputValues
+
+    @property
+    @abstractmethod
+    def returns3D(self):
+        pass

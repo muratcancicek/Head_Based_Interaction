@@ -11,13 +11,13 @@ import dlib
 import cv2
 
 class CV2Res10SSCNNHeadPoseEstimator(HeadPoseEstimatorABC):
-    def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, face_landmark_path = None, *args, **kwargs):
+    def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, face_landmark_path = None, inputFramesize = (720, 1280), *args, **kwargs):
         if landmarkDetector == None:
             if faceDetector == None:
                 faceDetector = CV2Res10SSDFaceDetector(squaringFaceBox = True)
             landmarkDetector = YinsCNNBasedFacialLandmarkDetector(faceDetector)
         if poseCalculator == None:
-            poseCalculator = YinsKalmanFilteredHeadPoseCalculator()
+            poseCalculator = YinsKalmanFilteredHeadPoseCalculator(inputFramesize = inputFramesize)
         self._headPose3D = np.zeros((3,))
         super().__init__(faceDetector, landmarkDetector, poseCalculator, *args, **kwargs)
     

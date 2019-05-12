@@ -41,21 +41,23 @@ class FaceBox(object):
 
     def __squareFaceBox(self, f_height, f_width):
         left, top, right, bottom = self.left, self.top, self.right, self.bottom
-        #offset_y = int(abs(self.height - self.width / 2))
-        #top += offset_y
-        #bottom += offset_y
+        if left < 0: left = 0
+        if right >= f_width: right = f_width-1
+        if top < 0: top = 0
+        if bottom >= f_height: bottom = f_height-1
+
         diff = self.width - self.height
         if diff == 1:
             if self.width > self.height:
                 if top > 0:
                     return FaceBox(left, top - 1, right, bottom)
                 else:
-                    return FaceBox(left, top, right, bottom + 1)
+                    return FaceBox(left, 0, right, bottom + 1)
             else:
                 if left > 0:
                     return FaceBox(left - 1, top, right, bottom)
                 else:
-                    return FaceBox(left, top, right + 1, bottom)
+                    return FaceBox(0, top, right + 1, bottom)
 
         if abs(diff) % 2 == 1:
             diff += 1 if diff > 0 else -1

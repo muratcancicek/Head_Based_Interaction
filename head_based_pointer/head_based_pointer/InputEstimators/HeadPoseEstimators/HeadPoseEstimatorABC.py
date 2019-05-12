@@ -27,3 +27,6 @@ class HeadPoseEstimatorABC(InputEstimatorABC):
     @property
     def inputValues(self):
         return self._headPose3D
+
+    def returns3D(self):
+        return True

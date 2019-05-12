@@ -26,13 +26,16 @@
     </Compile>
     <Compile Include="InputEstimators\FaceDetectors\TFMobileNetSSDFaceDetector.py" />
     <Compile Include="InputEstimators\FaceDetectors\HaarCascadeFaceDetector.py" />
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\DemoPlayer.py">
+    <Compile Include="SystemEvaluators\DemoABC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemEvaluators\DemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\EstimationPlotter.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstimationDemoHandler.py">
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstimationDemo.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HeadCursorMapping\__init__.py">
@@ -80,6 +83,9 @@
     <Compile Include="runPointer.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\__init__.py" />
+    <Compile Include="SystemEvaluators\DemoPlayer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SystemEvaluators\__init__.py" />
   </ItemGroup>
   <ItemGroup>

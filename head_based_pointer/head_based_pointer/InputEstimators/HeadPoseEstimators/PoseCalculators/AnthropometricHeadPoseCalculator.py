@@ -49,5 +49,5 @@ class AnthropometricHeadPoseCalculator(PoseCalculatorABC):
         rotation_mat, _ = cv2.Rodrigues(self._rotation_vector)
         pose_mat = cv2.hconcat((rotation_mat, self._translation_vector))
         _, _, _, _, _, _, self._pose = cv2.decomposeProjectionMatrix(pose_mat)
-
+        self._pose[1] *= -1
         return self._pose.reshape((3,))

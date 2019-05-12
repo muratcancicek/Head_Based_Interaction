@@ -34,7 +34,6 @@ class YinsCNNBasedFacialLandmarkDetector(FacialLandmarkDetectorABC):
         faceBox = self._faceDetector.detectFaceBox(frame)
         if faceBox == None:
             squaredFaceImage = frame
-
         else:
             squaredFaceImage = faceBox.getSquaredFaceImageFromFrame(frame)
         squaredFaceImage = cv2.resize(squaredFaceImage, (self.__cnn_input_size, self.__cnn_input_size))
