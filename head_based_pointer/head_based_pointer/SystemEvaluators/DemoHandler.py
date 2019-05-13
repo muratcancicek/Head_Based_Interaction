@@ -31,60 +31,60 @@ def getDefaultEstimators():
             'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator(), 
             'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()}
 
-def displayGivenEstimators(source, estimators):
+def displayGivenEstimators(source, estimators, outputSize = None, grid = (1,1)):
     for estimatorName, estimator in estimators.items():
-        player = DemoPlayer(videoSource = source, windowTitle = estimatorName)
+        player = DemoPlayer(videoSource = source, windowTitle = estimatorName, outputSize = outputSize, grid = grid)
         demo = InputEstimationDemo(estimator, demoName = estimatorName)
         player.display(demo) 
 
-def recordGivenEstimators(source, estimators):
+def recordGivenEstimators(source, estimators, expFolder = Experiments_Folder, outputSize = None, grid = (1,1)):
     for estimatorName, estimator in estimators.items():
-        outputVideo = Experiments_Folder + estimatorName + '.avi'
-        player = DemoPlayer(videoSource = source, windowTitle = estimatorName, outputVideo = outputVideo)
+        outputVideo = expFolder + estimatorName + '.avi'
+        player = DemoPlayer(videoSource = source, windowTitle = estimatorName, outputVideo = outputVideo, outputSize = outputSize, grid = grid)
         demo = InputEstimationDemo(estimator, demoName = estimatorName)
-        player.record(estimator) 
+        player.record(demo) 
 
-def writeGivenEstimators(handler, estimators, expName):
+def writeGivenEstimators(source, estimators, expFolder = Experiments_Folder, outputSize = None, grid = (1,1)):
     for estimatorName, estimator in estimators.items():
-        estimatorName = expName + '_' + estimatorName
-        outputFile = Experiments_Folder + estimatorName + '.txt'
-        handler.displayNWrite(estimator, windowTitle = estimatorName, outputFile = outputFile) 
+        outputFile = expFolder + estimatorName + '.txt'
+        player = DemoPlayer(videoSource = source, windowTitle = estimatorName, outputFilePath = outputFile, outputSize = outputSize, grid = grid)
+        demo = InputEstimationDemo(estimator, demoName = estimatorName)
+        player.displayNWrite(demo) 
 
-def recordNWriteGivenEstimators(handler, estimators, expName, expFolder = Experiments_Folder, recordingSize = None):
+def recordNWriteGivenEstimators(source, estimators, expName, expFolder = Experiments_Folder, outputSize = None, grid = (1,1)):
     for estimatorName, estimator in estimators.items():
         estimatorName = expName + '_' + estimatorName
         outputVideo = expFolder + expName + '/' + estimatorName + '.avi'
         outputFile = expFolder + expName + '/' + estimatorName + '.txt'
-        handler.recordNWrite(estimator, windowTitle = estimatorName, outputVideo = outputVideo, outputFile = outputFile, recordingSize = recordingSize) 
+        player = DemoPlayer(videoSource = source, windowTitle = estimatorName, outputVideo = outputVideo, outputFilePath = outputFile, outputSize = outputSize, grid = grid)
+        demo = InputEstimationDemo(estimator, estimatorName, False, False, False)
+        player.recordNWrite(demo)  
 
-def playExperiment(expName, expFolder = Experiments_Folder, recordingSize = None):
-    #anthPoseCalculator = AnthropometricHeadPoseCalculator()
-    #yinsPoseCalculator = YinsKalmanFilteredHeadPoseCalculator()
-        
-    source =  expFolder + expName + '/' + expName + '.avi'
+def playExperiment(expName, expFolder = Experiments_Folder, outputSize = None):
+    source =  expFolder + expName + '/' + expName + '.avi'    
+    estimators = { 'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()} 
+    #estimators = { 'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator()} # getDefaultEstimators() #     inputFramesize=outputSize
+    recordNWriteGivenEstimators(source, estimators, expName, outputSize = outputSize)
     
-    estimators = { 'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator(inputFramesize=recordingSize)} 
-    #estimators = { 'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator()} # getDefaultEstimators() # 
-    
-    recordNWriteGivenEstimators(handler, estimators, expName, recordingSize = recordingSize)
-    
-def play2():
-    recordingSize = (1280, 720) # (640, 480) # 
-    playExperiment('Exp002', expFolder = Experiments_Folder, recordingSize = recordingSize)
+def play():
+    #outputSize = (1280, 720) # (640, 480) # , outputSize = outputSize
+    playExperiment('Exp888', expFolder = Experiments_Folder)
 
 def play3():
     #source =  Experiments_Folder + 'Exp001/Exp001.avi'
-    #handler = getDemoHandlerForReplayingSource(source)
-    handler = DemoPlayer(videoSource = source, recordingSize = (1280, 720))
+    #handler = getDemoHandlerForReplayingSource(source), outputSize = (1280, 720)
+    handler = DemoPlayer(videoSource = source)
     #estimator = TFMobileNetSSDFaceDetector()
     estimator = YinsCNNBasedFacialLandmarkDetector()
     demo = InputEstimationDemo(estimator, 'module')
     handler.display(demo)
     #handler.print(demo)
 
-def play():
-    source =  Experiments_Folder + 'Exp000/Exp000.avi'
-    estimators = {'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()} # getDefaultEstimators() # , 
-    displayGivenEstimators(source, estimators)
+def play2():
+    #source =  Experiments_Folder + 'Exp000/Exp000.avi', grid = (2,1)
+    source =  0 #Experiments_Folder + 'Exp001/Exp001.avi'
+    estimators = {'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()} #, 'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator() getDefaultEstimators() # , 
+    #writeGivenEstimators(source, estimators, 'Exp888')
+    recordNWriteGivenEstimators(source, estimators, 'Exp888')
 
     
