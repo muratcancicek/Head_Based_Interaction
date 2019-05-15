@@ -40,7 +40,7 @@ class InputEstimationDemo(DemoABC):
 
     def __getProcessedFrame(self, frame, inputValues = None, projectionPoints = None, facial_landmarks = None):
         if self.__demoName != 'Demo':
-            location = (int(frame.shape[1]/2 - 120), frame.shape[0] - 10)
+            location = (int(frame.shape[1]/6), frame.shape[0] - 10)
             cv2.putText(frame, self.__demoName, location, cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), thickness=2)
 
         if not inputValues is None and self.__showValues: 
