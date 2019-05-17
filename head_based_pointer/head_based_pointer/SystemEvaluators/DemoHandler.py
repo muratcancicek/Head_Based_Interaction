@@ -62,8 +62,6 @@ def recordNWriteGivenEstimators(source, estimators, expName, expFolder = Experim
 def playExperiment(expName, expFolder = Experiments_Folder, outputSize = None):
     source =  expFolder + expName + '/' + expName + '.avi'
     estimators = getDefaultEstimators() 
-    #{'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator()} 
-    #estimators = {'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator()} 
     recordNWriteGivenEstimators(source, estimators, expName, outputSize = outputSize)
     
 def getDemosForGivenEstimators(estimators):
@@ -106,12 +104,16 @@ def recordNWriteTogetherGivenEstimators(source, estimators, expName, outputVideo
     demos = getDemosForGivenEstimators(estimators)
     player.recordNWrite(demos)  
 
+def playExperimentAtOnce(expName, outputVideoName = 'OutputVideo', outputFileName = 'OutputFile', expFolder = Experiments_Folder, outputSize = None):
+    source =  expFolder + expName + '/' + expName + '.avi'
+    estimators = getDefaultEstimators() 
+    recordNWriteTogetherGivenEstimators(source, estimators, expName, outputVideoName, outputFileName, expFolder, outputSize)
+    
+def play():
+    #outputSize = (1280, 720) # (640, 480) # , outputSize = outputSize
+    playExperimentAtOnce('Exp000', expFolder = Experiments_Folder)
 
 def play3():
-    outputSize = (1280, 720) # (640, 480) # 
-    playExperiment('Exp888', expFolder = Experiments_Folder, outputSize = outputSize)
-
-def play():
     source = Experiments_Folder + 'Exp888/Exp888.avi'#, outputSize = (1280, 720) 0 
     player = getDemoPlayerForReplayingSource(source)
     demos = getDemosForTwoExampleEstimators()
@@ -119,10 +121,9 @@ def play():
     player.display(demos)
 
 def play2():
-    #source =  Experiments_Folder + 'Exp000/Exp000.avi', grid = (2,1)
-    source =  0 #Experiments_Folder + 'Exp001/Exp001.avi'
-    estimators = {'YinsHeadPoseEstimator' : CV2Res10SSCNNHeadPoseEstimator(), 'DLIBHeadPoseEstimator': DLIBHeadPoseEstimator() } #getDefaultEstimators() # , 
-    #writeGivenEstimators(source, estimators, 'Exp888')
+    source =  0 # Experiments_Folder + 'Exp888/Exp888.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
+    estimators = {'Y' : CV2Res10SSCNNHeadPoseEstimator(), 'D': DLIBHeadPoseEstimator() }
+    #estimators = getDefaultEstimators() 
     recordNWriteTogetherGivenEstimators(source, estimators, 'Exp888')
 
     

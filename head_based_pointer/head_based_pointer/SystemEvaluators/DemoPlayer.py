@@ -45,11 +45,11 @@ class DemoPlayer(object):
         self.__inputGrid = (col_num, row_num)
         return self.__inputGrid
     
-    def __updatePrintedInputValues(self):
+    def __updateLogText(self):
         print('\r%s' % (self.__logText), end = '\r')
         
     def __endPrinting(self):
-        self.__updatePrintedInputValues()
+        self.__updateLogText()
         print('\nDone')
     
     def __kill(self, ret):
@@ -66,15 +66,58 @@ class DemoPlayer(object):
         self.__hashorizontalSideBars = self.__inputHeight_scale == 12 and black
         return self.__hashorizontalSideBars
 
-    def __calculateOutputSize(self, cap):
+    @staticmethod
+    def __getProperGrid(actual_cell_num):
+        cols, rows, w = 1, 1, True
+        while actual_cell_num > cols*rows:
+            if w: cols += 1
+            else: rows += 1
+            w = not w
+        cell_num = cols*rows
+        empty_cells = cell_num - actual_cell_num
+        return cell_num, cols, rows, empty_cells
+    
+    def __calculateOutputGrid(self, demos, firstFrame):
+        self.__hasMultipleDemos = isinstance(demos, (list, tuple))
+        if self.__hasMultipleDemos:
+            frames_count = len(demos)
+            self.__outputGrid = DemoPlayer.__getProperGrid(frames_count) 
+        return self.__outputGrid
+
+    def __matchFrameWithOutputSize(self, frame):
+        if frame.shape[0] != self.__outputSize[1] or frame.shape[1] != self.__outputSize[0]:
+            frame = cv2.resize(frame, self.__outputSize)
+        return frame
+    
+    @staticmethod
+    def __generateEmptyFramesLike(empty_cells, modelFrame):
+        emptyFrames = []
+        for i in range(empty_cells):
+            blackCell = np.zeros_like(modelFrame)
+            emptyFrames.append(blackCell)
+        return emptyFrames
+    
+    def __calculateOutputSize(self, firstFrame):
+        h, w = firstFrame.shape[0], firstFrame.shape[1]
         if self.__outputSize is None:
             if  self.__hashorizontalSideBars:
-                self.__outputSize = (int(cap.get(3)), int(3*cap.get(4)/4))
+                self.__outputSize = (w, int(3*h/4))
             else:
-                self.__outputSize = (int(cap.get(3)/self.__inputGrid[0]), int(cap.get(4)/self.__inputGrid[1]))
-        return
+                self.__outputSize = (int(w/self.__inputGrid[0]), int(h/self.__inputGrid[1]))
+        if self.__hasMultipleDemos:
+            frame = self.__matchFrameWithOutputSize(firstFrame)
+            _, col_num, row_num, empty_cells = self.__outputGrid
+            self.__outputSize = (self.__outputSize[0]*col_num, self.__outputSize[1]*row_num)
+            self.__emptyFrames = DemoPlayer.__generateEmptyFramesLike(empty_cells, frame)
+        return self.__outputSize
+      
+    def __getVideoRecorder(self):
+        fourcc = cv2.VideoWriter_fourcc(*'XVID') 
+        print(self.__fps, self.__outputSize, self.__outputVideo)
+        self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 5, self.__outputSize)
+        return self.__video_writer
     
-    def __start(self):
+    def __start(self, demo):
         # cap = cv2.VideoCapture(self.__videoSource + cv2.CAP_DSHOW)
         cap = cv2.VideoCapture(self.__videoSource)
         if not cap.isOpened():
@@ -84,21 +127,16 @@ class DemoPlayer(object):
         self.__fps = cap.get(cv2.CAP_PROP_FPS)
         self.__calculateInputGrid(cap)
         
-        ret, frame = cap.read()
+        ret, firstFrame = cap.read()
         if self.__kill(ret): return None, None, None
-        self.__checkhorizontalSideBars(frame)
-        self.__calculateOutputSize(cap)  
+        self.__checkhorizontalSideBars(firstFrame)
+        self.__calculateOutputGrid(demo, firstFrame)
+        self.__calculateOutputSize(firstFrame)  
         if self.__recording:
-            self.__videoRecorder = self.__getVideoRecorder(cap)
+            self.__videoRecorder = self.__getVideoRecorder()
         if self.__writing:
             self.__file = open(self.__outputFilePath, 'w')  
-        return cap, ret, frame
-      
-    def __getVideoRecorder(self, cap):
-        fourcc = cv2.VideoWriter_fourcc(*'XVID') 
-        print(self.__fps, self.__outputSize, self.__outputVideo)
-        self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 15, self.__outputSize)
-        return self.__video_writer
+        return cap, ret, firstFrame
     
     def __preprocessFrame(self, frame):
         if self.__videoSource in [0, 1]:
@@ -111,44 +149,16 @@ class DemoPlayer(object):
             frame = frame[:int(frame.shape[0]/self.__inputGrid[1]), :int(frame.shape[1]/self.__inputGrid[0])]
         return frame
 
-    def __matchFrameWithOutputSize(self, frame):
-        if frame.shape[0] != self.__outputSize[1] or frame.shape[1] != self.__outputSize[0]:
-            frame = cv2.resize(frame, self.__outputSize)
-        return frame
-
     def __runDemoOnFrame(self, demo, frame):
         if self.__displaying or self.__recording:
-            frame = self.__matchFrameWithOutputSize(frame)
             logText, frame = demo.getLogTextAndProcessedFrame(frame)
         elif self.__printing:
             logText = demo.getLogText(frame)
         return logText, frame
-
-    @staticmethod
-    def __getProperGrid(actual_cell_num):
-        cols, rows, w = 1, 1, True
-        while actual_cell_num > cols*rows:
-            if w: cols += 1
-            else: rows += 1
-            w = not w
-        cell_num = cols*rows
-        empty_cells = cell_num - actual_cell_num
-        return cell_num, cols, rows, empty_cells
     
-    @staticmethod
-    def __generateEmptyFramesLike(empty_cells, modelFrame):
-        emptyFrames = []
-        for i in range(empty_cells):
-            blackCell = np.zeros_like(modelFrame)
-            emptyFrames.append(blackCell)
-        return emptyFrames
-
     def __generateOutputFrameAsGrid(self, outputFrames):
-        frames_count = len(outputFrames)
-        grid = self.__getProperGrid(frames_count) 
-        cell_num, col_num, row_num, empty_cells = grid
-        emptyFrames = self.__generateEmptyFramesLike(empty_cells, outputFrames[0])
-        outputFrames.extend(emptyFrames)
+        cell_num, col_num, row_num, empty_cells = self.__outputGrid
+        outputFrames.extend(self.__emptyFrames)
         rows = []
         for i in range(0, cell_num, col_num):
             r = np.concatenate(outputFrames[i:i+col_num], axis=1)
@@ -174,25 +184,26 @@ class DemoPlayer(object):
             self.__logText, frame = self.__runEachDemoOnFrame(demo, frame)
         else:
             self.__logText, frame = self.__runDemoOnFrame(demo, frame)
+        frame = self.__matchFrameWithOutputSize(frame)
         return frame
 
     def __playFrame(self, demo, frame):
         frame = self.__preprocessFrame(frame)
         frame = self.__processFrame(demo, frame)
         if self.__printing:
-            self.__updatePrintedInputValues()
+            self.__updateLogText()
         if self.__recording:
             self.__videoRecorder.write(frame)
         if self.__displaying:
             cv2.imshow(self.__windowTitle, frame)
         if self.__writing:
-            self.__file.write(self.__logText) 
+            self.__file.write(self.__logText+'\n') 
         return
         
     def __play(self, demo):
-        cap, ret, frame = self.__start()
+        cap, ret, frame = self.__start(demo)
         if not cap: return
-        self.__hasMultipleDemos = isinstance(demo, (list, tuple))
+
         while cap.isOpened():
             ret, frame = cap.read()
             if self.__kill(ret):

@@ -56,7 +56,7 @@ class InputEstimationDemo(DemoABC):
     
     def __makeLogText(self, inputValues):
         inputValues = [('%.2f'.rjust(11) % i)[-9:] for i in inputValues]
-        return '%s |%s |%s\t' % (inputValues[0], inputValues[1], inputValues[2])
+        return '%s |%s |%s ' % (inputValues[0], inputValues[1], inputValues[2])
     
     def getLogTextAndProcessedFrame(self, frame):
         inputValues, projectionPoints, facial_landmarks = self.__estimator.estimateInputValuesWithAnnotations(frame)
