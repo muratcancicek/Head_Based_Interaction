@@ -130,7 +130,7 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         if face_model_path == None:
             face_model_path = CV2Res10SSD_frozen_face_model_path
         self._faceModelPoints = self.__get_full_model_points(face_model_path)
-        self._rectCorners3D = self._get_3d_points(rear_size = 75, rear_depth = 0, front_size = 100, front_depth = 100)
+        self._rectCorners3D = self._get_3d_points(rear_size = 100, rear_depth = 0, front_size = 1, front_depth = 0)
         
         # Camera internals
         self._camera_matrix = self.__getCameraMatrix(inputFramesize)
@@ -169,6 +169,8 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         self._pose[1] = pose[1]
         self._pose[2] = (pose[2] - 180) if pose[2] > 0 else pose[2] + 180
         self._pose = self._pose.reshape((3,))
+        #print('\r', cameraMatrix.shape, rotMatrix.shape, transVect.shape, rotMatrixX.shape, 
+        #      rotMatrixY.shape, rotMatrixZ.shape, self._pose.shape, end= '\r' )
         return cameraMatrix, rotMatrix, transVect, rotMatrixX, rotMatrixY, rotMatrixZ, self._pose 
     
     def calculatePose(self, shape):

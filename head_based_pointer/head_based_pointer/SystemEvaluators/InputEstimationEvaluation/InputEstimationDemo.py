@@ -32,14 +32,16 @@ class InputEstimationDemo(DemoABC):
 
     def _addBox(self, frame):
         color = (255, 255, 255)
-        cv2.polylines(frame, [self._pPoints], True, color, 2, cv2.LINE_AA)
+        cv2.polylines(frame, [self._pPoints[2:]], True, color, 2, cv2.LINE_AA)
         if self._estimator.returns3D():
             pPoints = []
-            for start, end in [(1,6), (2, 7), (3, 8)]:
-                p = (tuple(self._pPoints[start]), tuple(self._pPoints[end]))
-                pPoints.append(p)
-            for start, end in pPoints:
-                cv2.line(frame, start, end, color, 2, cv2.LINE_AA)
+            #for start, end in [(1,6), (2, 7), (3, 8)]:
+            #    p = (tuple(self._pPoints[start]), tuple(self._pPoints[end]))
+            #    pPoints.append(p)
+            #for start, end in pPoints:
+            #    cv2.line(frame, start, end, color, 2, cv2.LINE_AA)
+            #cv2.line(frame, tuple(self._pPoints[0]), (0, 0), color, 2, cv2.LINE_AA)
+            #print('\r', self._pPoints[-1], end= '\r' )
         return frame
 
     def _addLandmarks(self, frame):

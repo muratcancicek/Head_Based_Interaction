@@ -76,7 +76,7 @@ def playMapping():
                         'DynamicMappingOnYinsHPose': Mapping(CV2Res10SSCNNHeadPoseEstimator(), boundary)
                        }
     #mappingFunctions = getDefaultMappingFunctions() (720, 480)record
-    outputSize = (1280, 720)
+    #outputSize = (1280, 720)
     displayTogetherGivenMappingFunctions(source, mappingFunctions, 'Exp999_H', outputSize = outputSize)
 
     
