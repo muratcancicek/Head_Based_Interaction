@@ -1,3 +1,5 @@
+# Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
+
 from abc import ABC, abstractmethod
 
 class DemoABC(ABC):

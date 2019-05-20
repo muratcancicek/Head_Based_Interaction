@@ -22,6 +22,7 @@ class DemoPlayer(object):
         self.__displaying = False
         self.__recording = False
         self.__writing = False
+        self.__fps = 20
         super().__init__()
   
     def __calculateInputGrid(self, cap):
@@ -46,7 +47,8 @@ class DemoPlayer(object):
         return self.__inputGrid
     
     def __updateLogText(self):
-        print('\r%s' % (self.__logText), end = '\r')
+        #print('\r%s' % (self.__logText), end = '\r')
+        pass
         
     def __endPrinting(self):
         self.__updateLogText()
@@ -81,7 +83,9 @@ class DemoPlayer(object):
         self.__hasMultipleDemos = isinstance(demos, (list, tuple))
         if self.__hasMultipleDemos:
             frames_count = len(demos)
-            self.__outputGrid = DemoPlayer.__getProperGrid(frames_count) 
+        else:
+            frames_count = 1
+        self.__outputGrid = DemoPlayer.__getProperGrid(frames_count) 
         return self.__outputGrid
 
     def __matchFrameWithOutputSize(self, frame):
@@ -103,18 +107,21 @@ class DemoPlayer(object):
             if  self.__hashorizontalSideBars:
                 self.__outputSize = (w, int(3*h/4))
             else:
-                self.__outputSize = (int(w/self.__inputGrid[0]), int(h/self.__inputGrid[1]))
+                self.__outputSize = (int(w/self.__inputGrid[0]),
+                                    int(h/self.__inputGrid[1]))
         if self.__hasMultipleDemos:
             frame = self.__matchFrameWithOutputSize(firstFrame)
-            _, col_num, row_num, empty_cells = self.__outputGrid
-            self.__outputSize = (self.__outputSize[0]*col_num, self.__outputSize[1]*row_num)
+            n, col_num, row_num, empty_cells = self.__outputGrid
+            self.__outputSize = (self.__outputSize[0]*col_num,
+                                 self.__outputSize[1]*row_num)
+            self.__fps = self.__fps / n
             self.__emptyFrames = DemoPlayer.__generateEmptyFramesLike(empty_cells, frame)
         return self.__outputSize
       
     def __getVideoRecorder(self):
         fourcc = cv2.VideoWriter_fourcc(*'XVID') 
         print(self.__fps, self.__outputSize, self.__outputVideo)
-        self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, 5, self.__outputSize)
+        self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, self.__fps, self.__outputSize)
         return self.__video_writer
     
     def __start(self, demo):
@@ -146,7 +153,8 @@ class DemoPlayer(object):
                 frame = frame[x:-x, :]
                 self.__inputHeight_scale = 9
         if not self.__inputGrid == (1,1):
-            frame = frame[:int(frame.shape[0]/self.__inputGrid[1]), :int(frame.shape[1]/self.__inputGrid[0])]
+            frame = frame[:int(frame.shape[0]/self.__inputGrid[1]), 
+                          :int(frame.shape[1]/self.__inputGrid[0])]
         return frame
 
     def __runDemoOnFrame(self, demo, frame):

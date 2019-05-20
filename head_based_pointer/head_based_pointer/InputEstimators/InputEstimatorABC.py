@@ -1,19 +1,24 @@
+# Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
+
 from abc import ABC, abstractmethod
+from CommonTools.Boundary import Boundary
 import numpy
 
 class InputEstimatorABC(ABC):
 
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, boundary = None, *args, **kwargs):
         self._inputValues = numpy.zeros((3,))
+        if boundary is None: boundary = Boundary()
+        self._boundariesForInputValues = boundary 
         
     @abstractmethod
     def estimateInputValues(self, frame):
-        return self._inputValues
+        raise NotImplementedError
 
     @abstractmethod
     def estimateInputValuesWithAnnotations(self, frame):
-        return self._inputValues, [], []
+        raise NotImplementedError
 
     @property
     @abstractmethod
@@ -23,4 +28,10 @@ class InputEstimatorABC(ABC):
     @property
     @abstractmethod
     def returns3D(self):
-        pass
+        raise NotImplementedError
+
+    def _updateBoundariesForInputValues(self, minX, maxX, minY, maxY, minZ, maxZ):
+        self._boundariesForInputValues = Boundary(minX, maxX, minY, maxY, minZ, maxZ)
+
+    def getBoundariesForInputValues(self):
+        return self._boundariesForInputValues

@@ -1,3 +1,5 @@
+# Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
+
 from InputEstimators.InputEstimatorABC import InputEstimatorABC
 from abc import abstractmethod
 import numpy as np
@@ -14,11 +16,11 @@ class FaceDetectorABC(InputEstimatorABC):
     @staticmethod
     @abstractmethod
     def _decodeFaceBox(self, detection):
-        return NotImplemented
+        raise NotImplementedError
         
     @abstractmethod
     def _detectFaceBox(self, frame):
-        return NotImplemented
+        raise NotImplementedError
 
     def detectFaceBox(self, frame):
         self._faceBox = self._detectFaceBox(frame)
@@ -55,9 +57,11 @@ class FaceDetectorABC(InputEstimatorABC):
         return self._faceBox
             
     def estimateInputValues(self, frame):
+        self._updateBoundariesForInputValues(0, frame.shape[1], 0, frame.shape[0], 0, 0)
         return self.findFaceLocation(frame)
 
     def estimateInputValuesWithAnnotations(self, frame):
+        self._updateBoundariesForInputValues(0, frame.shape[1], 0, frame.shape[0], 0, 0)
         return self.findFaceLocationWithAnnotations(frame)
 
     @property

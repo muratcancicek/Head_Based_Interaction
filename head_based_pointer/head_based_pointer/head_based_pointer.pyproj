@@ -21,7 +21,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommonTools\Boundary.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommonTools\__init__.py" />
     <Compile Include="CursorController\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HeadCursorMapping\MappingABC.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HeadCursorMapping\DynamicMapping.py" />
+    <Compile Include="HeadCursorMapping\StaticMapping.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="InputEstimators\FaceDetectors\TFMobileNetSSDFaceDetector.py" />
@@ -29,7 +40,7 @@
     <Compile Include="SystemEvaluators\DemoABC.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\DemoHandler.py">
+    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstDemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\EstimationPlotter.py">
@@ -86,6 +97,18 @@
     <Compile Include="SystemEvaluators\DemoPlayer.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SystemEvaluators\MappingEvaluation\InputEstimationDemoWithMappingFunction.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemEvaluators\MappingEvaluation\MappingDemo.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemEvaluators\MappingEvaluation\MappingDemoHandler.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemEvaluators\MappingEvaluation\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SystemEvaluators\__init__.py" />
   </ItemGroup>
   <ItemGroup>
@@ -96,8 +119,10 @@
     <Folder Include="InputEstimators\FacialLandmarkDetectors\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\PoseCalculators\" />
+    <Folder Include="CommonTools\" />
     <Folder Include="SystemEvaluators\" />
     <Folder Include="SystemEvaluators\InputEstimationEvaluation\" />
+    <Folder Include="SystemEvaluators\MappingEvaluation\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

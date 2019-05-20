@@ -8,81 +8,7 @@ from abc import abstractmethod
 import cv2, numpy as np
 
 class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
-    @staticmethod
-    def __getCameraMatrix(size):
-        focal_length = size[1]
-        camera_center = (size[1] / 2, size[0] / 2)
-        camera_matrix = np.array(
-            [[focal_length, 0, camera_center[0]],
-             [0, focal_length, camera_center[1]],
-             [0, 0, 1]], dtype="double")
-        return camera_matrix
-
-    @staticmethod
-    def __get_pose_stabilizers():
-        Stabilizer = YinsKalmanFilteredHeadPoseCalculator.Stabilizer
-        stabilizers = []
-        for _ in range(6):
-            stabilizers.append(Stabilizer(state_num=2, measure_num=1, cov_process=0.1, cov_measure=0.1) )
-        return stabilizers
-
-    @staticmethod
-    def __get_full_model_points(filename):
-        """Get all 68 3D model points from file"""
-        raw_value = []
-        with open(filename) as file:
-            for line in file:
-                raw_value.append(line)
-        model_points = np.array(raw_value, dtype=np.float32)
-        model_points = np.reshape(model_points, (3, -1)).T
-        # model_points *= 4
-        model_points[:, -1] *= -1
-        return model_points
-    
-    def __init__(self, face_model_path = None, inputFramesize = (720, 1280), *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if face_model_path == None:
-            face_model_path = CV2Res10SSD_frozen_face_model_path
-        self._faceModelPoints = self.__get_full_model_points(face_model_path)
-        self._rectCorners3D = self._get_3d_points(rear_size = 75, rear_depth = 0, front_size = 100, front_depth = 100)
-        
-        # Camera internals
-        self._camera_matrix = self.__getCameraMatrix(inputFramesize)
-
-        # Assuming no lens distortion
-        self._dist_coeffs = np.zeros((4, 1))
-
-        # Rotation vector and translation vector
-        self._rotation_vector = np.array([[0.01891013], [0.08560084], [-3.14392813]])
-        self._translation_vector = np.array([[-14.97821226], [-10.62040383], [-2053.03596872]])
-        
-        self.__pose_stabilizers = self.__get_pose_stabilizers()
-
-    def solve_pose_by_68_points(self, image_points): 
-        image_points = image_points.astype(np.float32)
-        (_, rotation_vector, translation_vector) = cv2.solvePnP(self._faceModelPoints, image_points, self._camera_matrix, self._dist_coeffs,
-                                                    rvec=self._rotation_vector, tvec=self._translation_vector, useExtrinsicGuess=True)
-        return (rotation_vector, translation_vector)
-
-    def calculatePose(self, shape):
-        pose = self.solve_pose_by_68_points(shape)
-        # Stabilize the pose.
-        stabile_pose = []
-        pose_np = np.array(pose).flatten()
-        for value, ps_stb in zip(pose_np, self.__pose_stabilizers):
-            ps_stb.update([value])
-            stabile_pose.append(ps_stb.state[0])
-        rotation_vector, translation_vector = np.reshape(stabile_pose, (-1, 3))
-        
-        # calc euler angle
-        rotation_mat, _ = cv2.Rodrigues(rotation_vector)
-        pose_mat = cv2.hconcat((rotation_mat, translation_vector))
-        _, _, _, _, _, _, pose = cv2.decomposeProjectionMatrix(pose_mat)
-        self._pose[0] = pose[0] * (-1)
-        self._pose[1] = pose[1]
-        self._pose[2] = (pose[2] - 180) if pose[2] > 0 else pose[2] + 180
-        return self._pose.reshape((3,))
-    
+   
     class Stabilizer:
         """Using Kalman filter as a point stabilizer."""
 
@@ -167,3 +93,84 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
                                                         [0, 0, 0, 1]], np.float32) * cov_process
                 self.filter.measurementNoiseCov = np.array([[1, 0],
                                                             [0, 1]], np.float32) * cov_measure
+   
+    @staticmethod
+    def __getCameraMatrix(size):
+        focal_length = size[1]
+        camera_center = (size[1] / 2, size[0] / 2)
+        camera_matrix = np.array(
+            [[focal_length, 0, camera_center[0]],
+             [0, focal_length, camera_center[1]],
+             [0, 0, 1]], dtype="double")
+        return camera_matrix
+
+    @staticmethod
+    def __get_pose_stabilizers():
+        Stabilizer = YinsKalmanFilteredHeadPoseCalculator.Stabilizer
+        stabilizers = []
+        for _ in range(6):
+            stabilizers.append(Stabilizer(state_num=2, measure_num=1, cov_process=0.1, cov_measure=0.1) )
+        return stabilizers
+
+    @staticmethod
+    def __get_full_model_points(filename):
+        """Get all 68 3D model points from file"""
+        raw_value = []
+        with open(filename) as file:
+            for line in file:
+                raw_value.append(line)
+        model_points = np.array(raw_value, dtype=np.float32)
+        model_points = np.reshape(model_points, (3, -1)).T
+        # model_points *= 4
+        model_points[:, -1] *= -1
+        return model_points
+    
+    def __init__(self, face_model_path = None, inputFramesize = (720, 1280), *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if face_model_path == None:
+            face_model_path = CV2Res10SSD_frozen_face_model_path
+        self._faceModelPoints = self.__get_full_model_points(face_model_path)
+        self._rectCorners3D = self._get_3d_points(rear_size = 75, rear_depth = 0, front_size = 100, front_depth = 100)
+        
+        # Camera internals
+        self._camera_matrix = self.__getCameraMatrix(inputFramesize)
+
+        # Assuming no lens distortion
+        self._dist_coeffs = np.zeros((4, 1))
+
+        # Rotation vector and translation vector
+        self._rotation_vector = np.array([[0.01891013], [0.08560084], [-3.14392813]])
+        self._translation_vector = np.array([[-14.97821226], [-10.62040383], [-2053.03596872]])
+        
+        self.__pose_stabilizers = self.__get_pose_stabilizers()
+
+    def solve_pose_by_68_points(self, image_points): 
+        image_points = image_points.astype(np.float32)
+        (_, rotation_vector, translation_vector) = cv2.solvePnP(self._faceModelPoints, image_points, self._camera_matrix, self._dist_coeffs,
+                                                    rvec=self._rotation_vector, tvec=self._translation_vector, useExtrinsicGuess=True)
+        return (rotation_vector, translation_vector)
+
+    def calculatePoseWithMatrices(self, shape):
+        pose = self.solve_pose_by_68_points(shape)
+        # Stabilize the pose.
+        stabile_pose = []
+        pose_np = np.array(pose).flatten()
+        for value, ps_stb in zip(pose_np, self.__pose_stabilizers):
+            ps_stb.update([value])
+            stabile_pose.append(ps_stb.state[0])
+        rotation_vector, translation_vector = np.reshape(stabile_pose, (-1, 3))
+        
+        # calc euler angle
+        rotation_mat, _ = cv2.Rodrigues(rotation_vector)
+        pose_mat = cv2.hconcat((rotation_mat, translation_vector))
+        cameraMatrix, rotMatrix, transVect, rotMatrixX, \
+        rotMatrixY, rotMatrixZ, pose = cv2.decomposeProjectionMatrix(pose_mat)
+        self._pose[0] = pose[0] * (-1)
+        self._pose[1] = pose[1]
+        self._pose[2] = (pose[2] - 180) if pose[2] > 0 else pose[2] + 180
+        self._pose = self._pose.reshape((3,))
+        return cameraMatrix, rotMatrix, transVect, rotMatrixX, rotMatrixY, rotMatrixZ, self._pose 
+    
+    def calculatePose(self, shape):
+        self.calculatePoseWithMatrices(shape)
+        return self._pose

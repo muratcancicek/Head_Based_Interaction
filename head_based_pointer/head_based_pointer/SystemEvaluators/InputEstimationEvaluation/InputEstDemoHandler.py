@@ -109,18 +109,21 @@ def playExperimentAtOnce(expName, outputVideoName = 'OutputVideo', outputFileNam
     estimators = getDefaultEstimators() 
     recordNWriteTogetherGivenEstimators(source, estimators, expName, outputVideoName, outputFileName, expFolder, outputSize)
     
-def play():
+def playInputEst3():
     #outputSize = (1280, 720) # (640, 480) # , outputSize = outputSize
     playExperimentAtOnce('Exp000', expFolder = Experiments_Folder)
 
-def play3():
-    source = Experiments_Folder + 'Exp888/Exp888.avi'#, outputSize = (1280, 720) 0 
-    player = getDemoPlayerForReplayingSource(source)
-    demos = getDemosForTwoExampleEstimators()
+def playInputEst():
+    source = 0 # Experiments_Folder + 'Exp888/Exp888.avi'#, outputSize = (1280, 720)
+    player = getDemoPlayerForReplayingSource(source)    
+    outputVideo = Experiments_Folder + 'Exp999.avi'
+    player = DemoPlayer(videoSource = source, outputVideo = outputVideo)
+    demos = getDemosForTwoExampleEstimators()[1]
     #demos = getDemosForDefaultEstimators()
     player.display(demos)
+    #player.record(demos)
 
-def play2():
+def playInputEst2():
     source =  0 # Experiments_Folder + 'Exp888/Exp888.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
     estimators = {'Y' : CV2Res10SSCNNHeadPoseEstimator(), 'D': DLIBHeadPoseEstimator() }
     #estimators = getDefaultEstimators() 
