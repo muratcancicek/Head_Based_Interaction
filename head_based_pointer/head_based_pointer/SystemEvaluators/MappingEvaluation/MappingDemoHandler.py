@@ -1,6 +1,7 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
 from SystemEvaluators.MappingEvaluation.InputEstimationDemoWithMappingFunction import InputEstimationDemoWithMappingFunction
+from InputEstimators.HeadPoseEstimators.CV2Res10SSCNNHeadGazer import CV2Res10SSCNNHeadGazer
 from SystemEvaluators.InputEstimationEvaluation.InputEstDemoHandler import *
 from HeadCursorMapping.StaticMapping import StaticMapping
 from HeadCursorMapping.DynamicMapping import DynamicMapping
@@ -73,7 +74,7 @@ def playMapping():
     mappingFunctions = {
                         #'DynamicMappingOnMblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(), boundary), 
                         #'DynamicMappingOnYinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
-                        'DynamicMappingOnYinsHPose': Mapping(CV2Res10SSCNNHeadPoseEstimator(), boundary)
+                        'DynamicMappingOnYinsHPose': Mapping(CV2Res10SSCNNHeadGazer(), boundary)
                        }
     #mappingFunctions = getDefaultMappingFunctions() (720, 480)record
     #outputSize = (1280, 720)

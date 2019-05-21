@@ -130,7 +130,9 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         if face_model_path == None:
             face_model_path = CV2Res10SSD_frozen_face_model_path
         self._faceModelPoints = self.__get_full_model_points(face_model_path)
-        self._rectCorners3D = self._get_3d_points(rear_size = 100, rear_depth = 0, front_size = 1, front_depth = 0)
+        self._front_depth = 100
+        self._rectCorners3D = self._get_3d_points(rear_size = 100, rear_depth = 0, 
+                                                  front_size = 50, front_depth = self._front_depth)
         
         # Camera internals
         self._camera_matrix = self.__getCameraMatrix(inputFramesize)
@@ -142,20 +144,20 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         self._rotation_vector = np.array([[0.01891013], [0.08560084], [-3.14392813]])
         self._translation_vector = np.array([[-14.97821226], [-10.62040383], [-2053.03596872]])
         
-        self.__pose_stabilizers = self.__get_pose_stabilizers()
+        self._pose_stabilizers = self.__get_pose_stabilizers()
 
     def solve_pose_by_68_points(self, image_points): 
-        image_points = image_points.astype(np.float32)
+        image_points = image_points.astype('float32')
         (_, rotation_vector, translation_vector) = cv2.solvePnP(self._faceModelPoints, image_points, self._camera_matrix, self._dist_coeffs,
                                                     rvec=self._rotation_vector, tvec=self._translation_vector, useExtrinsicGuess=True)
         return (rotation_vector, translation_vector)
 
-    def calculatePoseWithMatrices(self, shape):
+    def calculatePose(self, shape):
         pose = self.solve_pose_by_68_points(shape)
         # Stabilize the pose.
         stabile_pose = []
         pose_np = np.array(pose).flatten()
-        for value, ps_stb in zip(pose_np, self.__pose_stabilizers):
+        for value, ps_stb in zip(pose_np, self._pose_stabilizers):
             ps_stb.update([value])
             stabile_pose.append(ps_stb.state[0])
         rotation_vector, translation_vector = np.reshape(stabile_pose, (-1, 3))
@@ -169,10 +171,4 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         self._pose[1] = pose[1]
         self._pose[2] = (pose[2] - 180) if pose[2] > 0 else pose[2] + 180
         self._pose = self._pose.reshape((3,))
-        #print('\r', cameraMatrix.shape, rotMatrix.shape, transVect.shape, rotMatrixX.shape, 
-        #      rotMatrixY.shape, rotMatrixZ.shape, self._pose.shape, end= '\r' )
-        return cameraMatrix, rotMatrix, transVect, rotMatrixX, rotMatrixY, rotMatrixZ, self._pose 
-    
-    def calculatePose(self, shape):
-        self.calculatePoseWithMatrices(shape)
         return self._pose

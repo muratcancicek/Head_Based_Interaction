@@ -10,6 +10,7 @@ class AnthropometricHeadPoseCalculator(PoseCalculatorABC):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._front_depth = 14
         self._rectCorners3D = self._get_3d_points(rear_size = 8, rear_depth = 7, front_size = 10, front_depth = 14)
 
         self.__K = [6.5308391993466671e+002, 0.0, 3.1950000000000000e+002,
