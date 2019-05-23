@@ -1,7 +1,7 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
 from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemo import InputEstimationDemo
-import cv2
+import cv2, numpy
 
 class InputEstimationDemoWithMappingFunction(InputEstimationDemo):
         
@@ -25,15 +25,21 @@ class InputEstimationDemoWithMappingFunction(InputEstimationDemo):
         return frame
 
     def _getProcessedFrame(self, frame):
+        if not self._landmarks is None and self._showLandmarks:
+            frame = self._addLandmarks(frame)
+
+
+        if not self._pPoints is None and self._showBoxes:
+            frame = self._addBox(frame)
+
+        frame = self._addPointer(frame)
+        #if isinstance(self._estimator, MuratcansHeadGazer):
+        #    frame = cv2.resize(frame, (w, h))
+
         if self._demoName != 'Demo':
             frame = self._addDemoName(frame)
         if not self._inputValues is None and self._showValues: 
             frame = self._addValues(frame)
-        if not self._pPoints is None and self._showBoxes:
-            frame = self._addBox(frame)
-        if not self._landmarks is None and self._showLandmarks:
-            frame = self._addLandmarks(frame)
-        frame = self._addPointer(frame)
         return frame
     
     def getLogText(self, frame):

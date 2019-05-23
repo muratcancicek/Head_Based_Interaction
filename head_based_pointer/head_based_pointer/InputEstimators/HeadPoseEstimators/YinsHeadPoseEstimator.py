@@ -10,7 +10,7 @@ import numpy as np
 import dlib
 import cv2
 
-class CV2Res10SSCNNHeadPoseEstimator(HeadPoseEstimatorABC):
+class YinsHeadPoseEstimator(HeadPoseEstimatorABC):
     def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, face_landmark_path = None, inputFramesize = (640, 360), *args, **kwargs):
         if landmarkDetector == None:
             if faceDetector == None:

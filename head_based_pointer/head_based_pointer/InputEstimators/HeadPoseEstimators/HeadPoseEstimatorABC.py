@@ -9,7 +9,6 @@ class HeadPoseEstimatorABC(InputEstimatorABC):
         self._landmarkDetector = landmarkDetector
         self._poseCalculator = poseCalculator
         self._headPose3D = numpy.zeros((3,))
-        self._updateBoundariesForInputValues(-180, 180, -180, 180, -180, 180)
         
     @abstractmethod
     def calculateHeadPose(self, frame):
@@ -18,7 +17,7 @@ class HeadPoseEstimatorABC(InputEstimatorABC):
     @abstractmethod
     def _calculateHeadPoseWithAnnotations(self, frame):
         raise NotImplementedError
-
+    
     def estimateInputValues(self, frame):
         return self.calculateHeadPose(frame)
     

@@ -37,7 +37,7 @@
     </Compile>
     <Compile Include="InputEstimators\FaceDetectors\TFMobileNetSSDFaceDetector.py" />
     <Compile Include="InputEstimators\FaceDetectors\HaarCascadeFaceDetector.py" />
-    <Compile Include="InputEstimators\HeadPoseEstimators\CV2Res10SSCNNHeadPoseEstimator.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\YinsHeadPoseEstimator.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\MuratcansHeadGazeCalculator.py" />
     <Compile Include="SystemEvaluators\DemoABC.py">
       <SubType>Code</SubType>
@@ -61,7 +61,7 @@
     <Compile Include="InputEstimators\FacialLandmarkDetectors\YinsCNNBasedFacialLandmarkDetector.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InputEstimators\HeadPoseEstimators\CV2Res10SSCNNHeadGazer.py" />
+    <Compile Include="InputEstimators\HeadPoseEstimators\MuratcansHeadGazer.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\YinsKalmanFilteredHeadPoseCalculator.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\PoseCalculatorABC.py">
       <SubType>Code</SubType>

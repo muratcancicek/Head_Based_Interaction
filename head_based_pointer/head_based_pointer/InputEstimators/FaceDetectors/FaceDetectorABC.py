@@ -42,8 +42,12 @@ class FaceDetectorABC(InputEstimatorABC):
         else:
             self._faceLocation[0] = self._faceBox.location[0]
             self._faceLocation[1] = self._faceBox.location[1]
+        self._inputValues = self._faceLocation.copy()
         return self._faceLocation
-    
+
+    def estimateInputValues(self, frame):
+        return self.findFaceLocation(frame)
+
     def getProjectionPoints(self):
         if self._faceBox == None:
             return None
@@ -52,18 +56,13 @@ class FaceDetectorABC(InputEstimatorABC):
     def findFaceLocationWithAnnotations(self, frame):
         return self.findFaceLocation(frame), self.getProjectionPoints(), [self._faceLocation[:2].astype(int)]
 
+    def estimateInputValuesWithAnnotations(self, frame):
+        return self.findFaceLocationWithAnnotations(frame)
+
     @property
     def faceBox(self):
         return self._faceBox
             
-    def estimateInputValues(self, frame):
-        self._updateBoundariesForInputValues(0, frame.shape[1], 0, frame.shape[0], 0, 0)
-        return self.findFaceLocation(frame)
-
-    def estimateInputValuesWithAnnotations(self, frame):
-        self._updateBoundariesForInputValues(0, frame.shape[1], 0, frame.shape[0], 0, 0)
-        return self.findFaceLocationWithAnnotations(frame)
-
     @property
     def inputValues(self):
         return self._faceLocation

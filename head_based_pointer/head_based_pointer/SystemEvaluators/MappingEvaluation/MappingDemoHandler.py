@@ -1,7 +1,7 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
 from SystemEvaluators.MappingEvaluation.InputEstimationDemoWithMappingFunction import InputEstimationDemoWithMappingFunction
-from InputEstimators.HeadPoseEstimators.CV2Res10SSCNNHeadGazer import CV2Res10SSCNNHeadGazer
+from InputEstimators.HeadPoseEstimators.MuratcansHeadGazer import MuratcansHeadGazer
 from SystemEvaluators.InputEstimationEvaluation.InputEstDemoHandler import *
 from HeadCursorMapping.StaticMapping import StaticMapping
 from HeadCursorMapping.DynamicMapping import DynamicMapping
@@ -68,16 +68,21 @@ def playMapping2():
 
 def playMapping():
     source = 0 # Experiments_Folder + 'Exp999/Exp999.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
+    #outputSize = (1260, 1920)
     outputSize = (640, 360)
+    #outputSize = (1080, 720)
     boundary = Boundary(0, outputSize[0], 0, outputSize[1])
-    Mapping = DynamicMapping
+    mappingStr = 'DynamicMappingOn' # 'StaticMappingOn' # 
+    Mapping = DynamicMapping if mappingStr == 'DynamicMappingOn' else StaticMapping # 
     mappingFunctions = {
-                        #'DynamicMappingOnMblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(), boundary), 
-                        #'DynamicMappingOnYinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
-                        'DynamicMappingOnYinsHPose': Mapping(CV2Res10SSCNNHeadGazer(), boundary)
+                         #mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(), boundary), 
+                         mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
+                         #mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
+                         #mappingStr + 'MrtcnsGaze': Mapping(MuratcansHeadGazer(), boundary)
                        }
-    #mappingFunctions = getDefaultMappingFunctions() (720, 480)record
-    #outputSize = (1280, 720)
-    displayTogetherGivenMappingFunctions(source, mappingFunctions, 'Exp999_H', outputSize = outputSize)
+    #mappingFunctions = getDefaultMappingFunctions() (720, 480)
+    #outputSize = (1280, 720)record
+    s = list(mappingFunctions.items())[0][0]
+    displayTogetherGivenMappingFunctions(source, mappingFunctions, 'Exp999_'+s, outputSize = outputSize)
 
     

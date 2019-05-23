@@ -9,8 +9,6 @@ class InputEstimatorABC(ABC):
     @abstractmethod
     def __init__(self, boundary = None, *args, **kwargs):
         self._inputValues = numpy.zeros((3,))
-        if boundary is None: boundary = Boundary()
-        self._boundariesForInputValues = boundary 
         
     @abstractmethod
     def estimateInputValues(self, frame):
@@ -29,9 +27,3 @@ class InputEstimatorABC(ABC):
     @abstractmethod
     def returns3D(self):
         raise NotImplementedError
-
-    def _updateBoundariesForInputValues(self, minX, maxX, minY, maxY, minZ, maxZ):
-        self._boundariesForInputValues = Boundary(minX, maxX, minY, maxY, minZ, maxZ)
-
-    def getBoundariesForInputValues(self):
-        return self._boundariesForInputValues

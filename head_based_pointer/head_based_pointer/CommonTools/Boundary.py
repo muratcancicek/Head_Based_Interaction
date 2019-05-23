@@ -20,15 +20,16 @@ class Boundary(object):
         self.__maxX, self.__maxY, self.__maxZ = maxX, maxY, maxZ
         super().__init__()
 
-    def isIn(self, x, y, z = 0):
+    def isInRanges(self, x = 0, y = 0, z = 0):
         xIn = self.__minX < x and x < self.__maxX
         yIn = self.__minY < y and y < self.__maxY
-        zIn = self.__min < z and z < self.__max
+        zIn = self.__minZ < z and z < self.__maxZ
+
         return xIn and yIn and zIn 
 
     def isIn(self, point):
         z = 0 if len(point) == 2 else point[2]
-        return self.isIn(point[0], point[1], z)
+        return self.isInRanges(point[0], point[1], z)
 
     def getRanges(self):
         return self.__xRange, self.__yRange, self.__zRange

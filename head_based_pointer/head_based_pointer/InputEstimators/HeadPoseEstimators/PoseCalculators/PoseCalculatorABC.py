@@ -18,8 +18,6 @@ class PoseCalculatorABC(ABC):
         point_3d.append((front_size, -front_size, front_depth))
         point_3d.append((-front_size, -front_size, front_depth))
         
-        #point_3d.append((0, 0, 0))
-        #point_3d.append((0, 0, 0))
         point_3d = np.array(point_3d, dtype='float32').reshape(-1, 3)
         return point_3d
 
@@ -43,7 +41,6 @@ class PoseCalculatorABC(ABC):
             point_2d, _ = cv2.projectPoints(self._rectCorners3D, 
                                           self._rotation_vector, self._translation_vector, 
                                           self._camera_matrix, self._dist_coeffs)
-            
             self._projectionPoints = np.int32(point_2d.reshape(-1, 2))
         return self._projectionPoints
 

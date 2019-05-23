@@ -114,6 +114,7 @@ class DemoPlayer(object):
             n, col_num, row_num, empty_cells = self.__outputGrid
             self.__outputSize = (self.__outputSize[0]*col_num,
                                  self.__outputSize[1]*row_num)
+            if n == 1: n = 2
             self.__fps = self.__fps / n
             self.__emptyFrames = DemoPlayer.__generateEmptyFramesLike(empty_cells, frame)
         return self.__outputSize
@@ -122,6 +123,7 @@ class DemoPlayer(object):
         fourcc = cv2.VideoWriter_fourcc(*'XVID') 
         print(self.__fps, self.__outputSize, self.__outputVideo)
         self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, self.__fps, self.__outputSize)
+        #self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, self.__fps/2, (1920, 1260))
         return self.__video_writer
     
     def __start(self, demo):
@@ -218,6 +220,8 @@ class DemoPlayer(object):
                 break
             else:
                 self.__playFrame(demo, frame)
+        cap.release()
+        cv2.destroyAllWindows()
 
     def play(self, demo, printing = True, displaying = False, recording = False, writing = False):
         self.__printing = printing
