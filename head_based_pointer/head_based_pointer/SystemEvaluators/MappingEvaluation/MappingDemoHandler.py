@@ -72,13 +72,13 @@ def playMapping():
     outputSize = (640, 360)
     #outputSize = (1080, 720)
     boundary = Boundary(0, outputSize[0], 0, outputSize[1])
-    mappingStr = 'DynamicMappingOn' # 'StaticMappingOn' # 
+    mappingStr = 'StaticMappingOn' # 'DynamicMappingOn' # 
     Mapping = DynamicMapping if mappingStr == 'DynamicMappingOn' else StaticMapping # 
     mappingFunctions = {
                          #mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(), boundary), 
-                         mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
+                         #mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
                          #mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
-                         #mappingStr + 'MrtcnsGaze': Mapping(MuratcansHeadGazer(), boundary)
+                         mappingStr + 'MrtcnsGaze': Mapping(MuratcansHeadGazer(), boundary)
                        }
     #mappingFunctions = getDefaultMappingFunctions() (720, 480)
     #outputSize = (1280, 720)record

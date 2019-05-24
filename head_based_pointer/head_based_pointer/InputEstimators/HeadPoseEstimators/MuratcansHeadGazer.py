@@ -25,9 +25,7 @@ class MuratcansHeadGazer(YinsHeadPoseEstimator):
                     
     def calculateHeadGaze(self, frame):
         self.__facial_landmarks = self._landmarkDetector.detectFacialLandmarks(frame)
-        if len(self.__facial_landmarks) == 0:
-            return self._headPose3D
-        else:
+        if len(self.__facial_landmarks) != 0:
             g = self._poseCalculator.calculateHeadGazeWithProjectionPoints(self.__facial_landmarks) 
             self._headPose3D, self.__projectionPoints = g
             return self._headPose3D
