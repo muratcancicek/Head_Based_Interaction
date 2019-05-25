@@ -51,9 +51,7 @@ class InputEstimationDemo(DemoABC):
         origTop, origBottom = 0, origHeight
         origLeft, origRight = int(width/2-origWidth/2), int(width/2+origWidth/2)
         frame[origTop:origBottom, origLeft:origRight, :] = oldFrame
-        self._estimator.addShifts(origLeft, 0)
         self._pPoints[:, 0] += origLeft
-        #print('\r', self._pPoints[-1, :], self._outputValues,'\t', end= '\r' ) 
         return frame
 
     def _addGaze(self, frame):

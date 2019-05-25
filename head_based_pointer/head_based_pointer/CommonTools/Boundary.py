@@ -71,15 +71,14 @@ class Boundary(object):
             return point - (self.__minX, self.__minY, self.__minZ)
 
     def getVolumeRatio(self, point):
+        xR = 1 if self.__xRange == float('inf') else self.__xRange
+        yR = 1 if self.__yRange == float('inf') else self.__yRange
         if len(point) == 2:
-            return point / (self.__xRange, self.__yRange)
+            return point / (xR, yR)
         else:
-            return point / (self.__xRange, self.__yRange, self.__zRange)
+            zR = 1 if self.__zRange == float('inf') else self.__zRange
+            return point / (xR, yR, zR)
 
     def getVolumeAbsRatio(self, point):
-        if len(point) == 2:
-            point -= (self.__minX, self.__minY)
-            return point / (self.__xRange, self.__yRange)
-        else:
-            point -= (self.__minX, self.__minY, self.__minZ)
-            return point / (self.__xRange, self.__yRange, self.__zRange)
+        point = self.getAbsVolume(point)
+        return self.getVolumeRatio(point)

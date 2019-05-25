@@ -14,7 +14,6 @@ class MuratcansHeadGazer(YinsHeadPoseEstimator):
             poseCalculator = MuratcansHeadGazeCalculator(inputFramesize = inputFramesize)
         self._pPoints = np.zeros((1, 2))
         self._halfFrameHeight = inputFramesize[1]/2
-        self._shift = np.zeros((2,), dtype = int)
         super().__init__(faceDetector, landmarkDetector, poseCalculator, face_landmark_path, inputFramesize, *args, **kwargs)
         
     def calculateHeadPose(self, frame):
@@ -31,8 +30,6 @@ class MuratcansHeadGazer(YinsHeadPoseEstimator):
             self._halfFrameHeight = frame.shape[0]/2
             g = self._poseCalculator.calculateHeadGazeWithProjectionPoints(self._landmarks) 
             self._headPose3D, self._pPoints = g
-            #self._pPoints += self._shift
-            #self._headPose3D[:2] += self._shift
             return self._headPose3D
             
     def _calculateHeadPoseWithAnnotations(self, frame):
@@ -41,7 +38,3 @@ class MuratcansHeadGazer(YinsHeadPoseEstimator):
     
     def getGazingFrameDimensions(self):
         return int(1920), int(self._halfFrameHeight + 1080)
-    
-    def addShifts(self, widthShift, heightShift):
-        self._shift[0] = widthShift
-        self._shift[1] = heightShift

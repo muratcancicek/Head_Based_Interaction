@@ -27,12 +27,9 @@ class InputEstimationDemoWithMappingFunction(InputEstimationDemo):
     def _getProcessedFrame(self, frame):
         if not self._landmarks is None and self._showLandmarks:
             frame = self._addLandmarks(frame)
-
         if not self._pPoints is None and self._showBoxes:
             frame = self._addBox(frame)
-
         frame = self._addPointer(frame)
-
         if self._demoName != 'Demo':
             frame = self._addDemoName(frame)
         if not self._inputValues is None and self._showValues: 
