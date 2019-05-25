@@ -47,7 +47,7 @@ class DemoPlayer(object):
         return self.__inputGrid
     
     def __updateLogText(self):
-        print('\r%s' % (self.__logText), end = '\r')
+        #print('\r%s' % (self.__logText), end = '\r')
         pass
         
     def __endPrinting(self):

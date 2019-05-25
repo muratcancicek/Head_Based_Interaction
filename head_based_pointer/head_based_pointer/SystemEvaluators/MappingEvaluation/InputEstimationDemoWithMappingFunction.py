@@ -20,7 +20,14 @@ class InputEstimationDemoWithMappingFunction(InputEstimationDemo):
         return self._addValuesLineByLine(frame, self._outputValues, labels, pos, colors)
     
     def _addPointer(self, frame):
-        (x, y) = self._outputValues.astype(int)
+        boundaries = self._mappingFunc.getOutputBoundaries()
+        (height, width, depth) = frame.shape
+        (xRange, yRange, _) = boundaries.getRanges()
+        if xRange != width or yRange != height:
+            xRange, yRange = boundaries.getVolumeAbsRatio(self._outputValues)
+            x, y = int(xRange*width), int(yRange*height)
+        else:
+            x, y = self._outputValues.astype(int)
         cv2.circle(frame, (x, y), 1, (0, 255, 235), 12, cv2.LINE_AA)
         return frame
 

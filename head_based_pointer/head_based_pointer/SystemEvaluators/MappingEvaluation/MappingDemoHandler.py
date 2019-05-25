@@ -68,9 +68,9 @@ def playMapping2():
 
 def playMapping():
     source = 0 # Experiments_Folder + 'Exp999/Exp999.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
-    #outputSize = (1260, 1920)
-    outputSize = (640, 360)
-    #outputSize = (1080, 720)
+    #outputSize = (1920, 1080)
+    #outputSize = (640, 360)
+    outputSize = (1080, 720)
     boundary = Boundary(0, outputSize[0], 0, outputSize[1])
     mappingStr = 'StaticMappingOn' # 'DynamicMappingOn' # 
     Mapping = DynamicMapping if mappingStr == 'DynamicMappingOn' else StaticMapping # 

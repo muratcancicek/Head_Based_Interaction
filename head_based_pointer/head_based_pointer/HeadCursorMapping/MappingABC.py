@@ -93,7 +93,6 @@ class MappingABC(ABC):
 
     def calculateOutputValuesWithAnnotations(self, frame):
         self._outputDependsAnnotations = True
-        #self._inputBoundaries = Boundary(0, frame.shape[0], 0 , frame.shape[1])
         self.calculateOutputValues(frame)
         return self._outputValues, self._inputValues, self._pPoints, self._Landmarks
 
@@ -107,3 +106,9 @@ class MappingABC(ABC):
 
     def getEstimator(self):
         return self._inputEstimator
+
+    def getOutputBoundaries(self):
+        return self._outputBoundaries
+
+    def getInputBoundaries(self):
+        return self._inputBoundaries
