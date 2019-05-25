@@ -11,12 +11,10 @@ class StaticMapping(MappingABC):
     def _calculate(self):
         inputRanges = self._inputBoundaries.getRanges()
         outputRanges = self._outputBoundaries.getRanges()
-        #print(inputRanges, outputRanges,'\t') 
-        #print('\r', inputRanges, outputRanges,'\t', end= '\r' ) 
-        for i, v in enumerate(self._inputValues[:len(self._outputValues)]):
-            #if inputRanges[i] == float('inf'):
-            #    print('amk')
-            self._outputValues[i] = v/inputRanges[i] * outputRanges[i]
-        if isinstance(self._inputEstimator, HeadPoseEstimatorABC) and not isinstance(self._inputEstimator, MuratcansHeadGazer):
+        ratios = self._inputBoundaries.getVolumeAbsRatio(self._inputValues)
+        i = self._outputValues.shape[0]
+        self._outputValues = ratios[:i] * outputRanges[:i]
+        if isinstance(self._inputEstimator, HeadPoseEstimatorABC) and \
+            not isinstance(self._inputEstimator, MuratcansHeadGazer):
             self._outputValues = numpy.flip(self._outputValues)
         return self._outputValues

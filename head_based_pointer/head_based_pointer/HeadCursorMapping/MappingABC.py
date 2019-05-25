@@ -63,7 +63,8 @@ class MappingABC(ABC):
             self._recalculateInputValues = self._calculateInputValuesFromNose
             self._outputDependsAnnotations = True
         elif isinstance(self._inputEstimator, MuratcansHeadGazer):
-            self._inputBoundaries = Boundary(0, 1920, 0, 1260)
+            width, height = self._inputEstimator.getGazingFrameDimensions()
+            self._inputBoundaries = Boundary(-640, 1280, 0, height)
             self._recalculateInputValues = self._calculateInputValuesFromFaceBox
         elif isinstance(self._inputEstimator, HeadPoseEstimatorABC):
             self._recalculateInputValues = self._calculateInputValuesFromFaceBox
@@ -92,7 +93,7 @@ class MappingABC(ABC):
 
     def calculateOutputValuesWithAnnotations(self, frame):
         self._outputDependsAnnotations = True
-        self._inputBoundaries = Boundary(0, frame.shape[0], 0 , frame.shape[1])
+        #self._inputBoundaries = Boundary(0, frame.shape[0], 0 , frame.shape[1])
         self.calculateOutputValues(frame)
         return self._outputValues, self._inputValues, self._pPoints, self._Landmarks
 

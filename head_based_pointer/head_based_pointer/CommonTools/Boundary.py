@@ -11,11 +11,11 @@ class Boundary(object):
         minY = float('-inf') if minY == None else float(minY)
         maxY = float('inf') if maxY == None else float(maxY)
         self.__yRange = float('inf') if maxY == None else abs(maxY - minY)
-        if minX > maxX: t = minX; minX = maxX; maxX = minX
+        if minY > maxY: t = minY; minY = maxY; maxY = minY
         minZ = float('-inf') if minZ == None else float(minZ)
         maxZ = float('inf') if maxZ == None else float(maxZ)
-        self.__zRange = float('inf') if maxX == None else abs(maxZ - minZ)
-        if minX > maxX: t = minX; minX = maxX; maxX = minX
+        self.__zRange = float('inf') if maxZ == None else abs(maxZ - minZ)
+        if minZ > maxZ: t = minZ; minZ = maxZ; maxZ = minZ
         self.__minX, self.__minY, self.__minZ = minX, minY, minZ
         self.__maxX, self.__maxY, self.__maxZ = maxX, maxY, maxZ
         super().__init__()
@@ -63,3 +63,23 @@ class Boundary(object):
         self.__yRange = t
         print('matrix')
         return self
+
+    def getAbsVolume(self, point):
+        if len(point) == 2:
+            return point - (self.__minX, self.__minY)
+        else:
+            return point - (self.__minX, self.__minY, self.__minZ)
+
+    def getVolumeRatio(self, point):
+        if len(point) == 2:
+            return point / (self.__xRange, self.__yRange)
+        else:
+            return point / (self.__xRange, self.__yRange, self.__zRange)
+
+    def getVolumeAbsRatio(self, point):
+        if len(point) == 2:
+            point -= (self.__minX, self.__minY)
+            return point / (self.__xRange, self.__yRange)
+        else:
+            point -= (self.__minX, self.__minY, self.__minZ)
+            return point / (self.__xRange, self.__yRange, self.__zRange)

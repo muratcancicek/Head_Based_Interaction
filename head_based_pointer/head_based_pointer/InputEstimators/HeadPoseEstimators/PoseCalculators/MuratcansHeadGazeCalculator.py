@@ -30,5 +30,4 @@ class MuratcansHeadGazeCalculator(YinsKalmanFilteredHeadPoseCalculator):
         self.calculateProjectionPointsAsGaze(shape)
         self._pose[:2] = self._projectionPoints[-1, :] 
         self._pose[2] = 0
-        self._pose[0] += 640
         return self._pose, self._projectionPoints

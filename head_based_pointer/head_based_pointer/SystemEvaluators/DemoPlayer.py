@@ -56,6 +56,8 @@ class DemoPlayer(object):
     
     def __kill(self, ret):
         kill = False
+        #if 'q' == chr(cv2.waitKey(0) & 255):
+        #    kill = True
         if not ret or cv2.waitKey(1) & 0xFF == ord('q') or cv2.waitKey(10) == 27:
             kill = True
             self.__endPrinting()
@@ -217,11 +219,11 @@ class DemoPlayer(object):
         while cap.isOpened():
             ret, frame = cap.read()
             if self.__kill(ret):
+                cap.release()
+                cv2.destroyAllWindows()
                 break
             else:
                 self.__playFrame(demo, frame)
-        cap.release()
-        cv2.destroyAllWindows()
 
     def play(self, demo, printing = True, displaying = False, recording = False, writing = False):
         self.__printing = printing

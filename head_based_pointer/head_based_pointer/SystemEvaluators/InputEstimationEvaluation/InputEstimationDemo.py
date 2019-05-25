@@ -44,14 +44,16 @@ class InputEstimationDemo(DemoABC):
         return frame
 
     def _rescaleFrameForGazing(self, frame):
-        (h, w, d) = frame.shape
-        height, width = int(1080+h/2), int(1920)
+        (origHeight, origWidth, depth) = frame.shape
+        width, height = self._estimator.getGazingFrameDimensions()
         oldFrame = frame
-        frame = np.zeros((height, width, d), dtype=frame.dtype)
-        hb, he, wb, we = 0, h, int(width/2-w/2), int(width/2+w/2)
-        frame[hb:he, wb:we, :] = oldFrame
-        self._pPoints[:, 0] += wb
-        #self._outputValues = numpy.flip(self._pPoints[-1, :])
+        frame = np.zeros((height, width, depth), dtype=frame.dtype)
+        origTop, origBottom = 0, origHeight
+        origLeft, origRight = int(width/2-origWidth/2), int(width/2+origWidth/2)
+        frame[origTop:origBottom, origLeft:origRight, :] = oldFrame
+        self._estimator.addShifts(origLeft, 0)
+        self._pPoints[:, 0] += origLeft
+        #print('\r', self._pPoints[-1, :], self._outputValues,'\t', end= '\r' ) 
         return frame
 
     def _addGaze(self, frame):
