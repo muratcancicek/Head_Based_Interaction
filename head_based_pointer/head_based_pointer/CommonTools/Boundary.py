@@ -1,4 +1,5 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
+import numpy as np
 
 class Boundary(object):
 
@@ -73,11 +74,14 @@ class Boundary(object):
     def getVolumeRatio(self, point):
         xR = 1 if self.__xRange == float('inf') else self.__xRange
         yR = 1 if self.__yRange == float('inf') else self.__yRange
+        xRatio = 0 if xR == 0 else point[0] / xR
+        yRatio = 0 if yR == 0 else point[1] / yR
         if len(point) == 2:
-            return point / (xR, yR)
+            return np.array((xRatio, yRatio))
         else:
             zR = 1 if self.__zRange == float('inf') else self.__zRange
-            return point / (xR, yR, zR)
+            zRatio = 0 if zR == 0 else point[2] / zR
+            return np.array((xRatio, yRatio, zRatio))
 
     def getVolumeAbsRatio(self, point):
         point = self.getAbsVolume(point)
