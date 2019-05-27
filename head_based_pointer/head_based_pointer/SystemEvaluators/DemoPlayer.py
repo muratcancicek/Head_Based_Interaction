@@ -189,7 +189,7 @@ class DemoPlayer(object):
             finalLogText = finalLogText + ' - ' + logText
             outputFrames.append(frame)
         finalFrame = self.__generateOutputFrameAsGrid(outputFrames)
-        return finalLogText, finalFrame
+        return finalLogText[3:], finalFrame
 
     def __processFrame(self, demo, frame):
         if self.__hasMultipleDemos:
