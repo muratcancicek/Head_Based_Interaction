@@ -52,7 +52,4 @@ class DynamicMapping(MappingABC):
         if isinstance(self._inputEstimator, HeadPoseEstimatorABC):
             self._outputValues[1] -= 150
 
-
-        #print('\r', direction, self._outputValues, self._outputValueQueue, end = '\r')
-
         return self._outputValues

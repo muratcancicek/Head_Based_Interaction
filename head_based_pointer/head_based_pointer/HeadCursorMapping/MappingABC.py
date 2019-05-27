@@ -4,7 +4,7 @@ from InputEstimators.HeadPoseEstimators.HeadPoseEstimatorABC import HeadPoseEsti
 from InputEstimators.HeadPoseEstimators.MuratcansHeadGazer import MuratcansHeadGazer
 from InputEstimators.FacialLandmarkDetectors.FacialLandmarkDetectorABC import FacialLandmarkDetectorABC
 from InputEstimators.FaceDetectors.FaceDetectorABC import FaceDetectorABC
-
+from InputEstimators.FaceDetectors.FaceBox import FaceBox
 
 from abc import ABC, abstractmethod
 from CommonTools.Boundary import Boundary
@@ -21,25 +21,37 @@ class MappingABC(ABC):
         super().__init__()
     
     def _calculateInputValuesFromFaceBox(self):
-        #if self._lastFaceBox == None:
-        #    self._lastFaceBox = self._inputEstimator.faceBox
-        #    self._minX, self._minY = 0, 0
-        #self._inputValues[:2] = self._inputValues[:2] - (self._minX, self._minY)
-        #if self._inputBoundaries.isIn(self._inputValues):
-        #    print('\r', 'p','\t', end= '\r' )
-        #    return self._inputValues
-        ##print('\r', 'o','\t', end= '\r' )
-        #minX, maxX = self._lastFaceBox.left, self._lastFaceBox.right
-        #minY, maxY = self._lastFaceBox.top, self._lastFaceBox.bottom
-        #width, height = maxX - minY, maxY - minY
-        #self._minX, maxX = minX - 2 * width, maxX + 2 * width
-        #self._minY, maxY = minY - 1/2 * height, maxY + 1/2 * height
-        #minX, maxX, minY, maxY =  0, maxX - minX, 0, maxY  - minY 
-        #print('\r', 'o', self._inputValues, minX, maxX, minY, maxY,'\t', end= '\r' )
-        #self._inputBoundaries = Boundary(minX, maxX, minY, maxY, 0, 0)
-        #self._lastFaceBox = self._inputEstimator.faceBox
+        currentFaceBox = self._inputEstimator.faceBox
+        left, right = currentFaceBox.left, currentFaceBox.right
+        top, bottom = currentFaceBox.top, currentFaceBox.bottom
+        if self._inputBoundaries == None:
+                self._inputBoundaries = Boundary(left, right, top, bottom)
+                self._faceBoxForInput = currentFaceBox
+        x, y = self._inputValues[:2]
+        update = False
+        if not self._inputBoundaries.isInRanges(x = x):
+            update = True
+            if x - self._faceBoxForInput.location[0] > 0:
+                left, right = x - (right - left), x
+            else:
+                left, right = x, x + (right - left)
+            top = self._faceBoxForInput.top
+            bottom = self._faceBoxForInput.bottom
+        if not self._inputBoundaries.isInRanges(y = y):
+            update = True
+            if y - self._faceBoxForInput.location[1] > 0:
+                top, bottom = y - (bottom - top), y
+            else:
+                top, bottom = y, y + (bottom - top)
+            left = self._faceBoxForInput.left
+            right = self._faceBoxForInput.right
+        if update:
+            self._inputBoundaries = Boundary(left, right, top, bottom)
+            self._faceBoxForInput = FaceBox(int(left), int(top),
+                                           int(right), int(bottom))
+        self._pPoints = self._faceBoxForInput.getProjectionPoints()
         return self._inputValues
-    
+        
     def _calculateInputValuesFromNose(self):
         minX, maxX = self._Landmarks[49, 0], self._Landmarks[53, 0]
         minY = (self._Landmarks[1, 1] + self._Landmarks[15, 1])/2
@@ -47,6 +59,12 @@ class MappingABC(ABC):
         self._inputValues[:2] = self._inputValues[:2] - (minX, minY)
         minX, maxX, minY, maxY =  0, maxX - minX, 0, maxY  - minY
         self._inputBoundaries = Boundary(minX, maxX, minY, maxY)
+        return self._inputValues
+    
+    def _calculateInputValuesFromHeadPose(self):
+        return self._inputValues
+
+    def _calculateInputValuesFromHeadGaze(self):
         return self._inputValues
 
     def _recalculateInputValues(self):
@@ -57,17 +75,17 @@ class MappingABC(ABC):
         self._inputBoundaries = Boundary()
         if isinstance(self._inputEstimator, FaceDetectorABC):
             self._recalculateInputValues = self._calculateInputValuesFromFaceBox
-            self._lastFaceBox = None
-            self._inputBoundaries = Boundary(0, 0, 0, 0, 0, 0)
+            self._inputBoundaries = None
         elif isinstance(self._inputEstimator, FacialLandmarkDetectorABC):
             self._recalculateInputValues = self._calculateInputValuesFromNose
             self._outputDependsAnnotations = True
+        elif isinstance(self._inputEstimator, HeadPoseEstimatorABC):
+            self._inputBoundaries = Boundary(40, 60, -10, 5)
+            self._recalculateInputValues = self._calculateInputValuesFromHeadPose
         elif isinstance(self._inputEstimator, MuratcansHeadGazer):
             width, height = self._inputEstimator.getGazingFrameDimensions()
             self._inputBoundaries = Boundary(-640, 1280, 0, height)
-            self._recalculateInputValues = self._calculateInputValuesFromFaceBox
-        elif isinstance(self._inputEstimator, HeadPoseEstimatorABC):
-            self._recalculateInputValues = self._calculateInputValuesFromFaceBox
+            self._recalculateInputValues = self._calculateInputValuesFromHeadGaze
 
     def _estimateInput(self, frame):
         if self._outputDependsAnnotations:

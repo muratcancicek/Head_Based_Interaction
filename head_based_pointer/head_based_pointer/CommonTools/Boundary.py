@@ -21,15 +21,20 @@ class Boundary(object):
         self.__maxX, self.__maxY, self.__maxZ = maxX, maxY, maxZ
         super().__init__()
 
-    def isInRanges(self, x = 0, y = 0, z = 0):
-        xIn = self.__minX < x and x < self.__maxX
-        yIn = self.__minY < y and y < self.__maxY
-        zIn = self.__minZ < z and z < self.__maxZ
-
+    def isInRanges(self, x = None, y = None, z = None):
+        if x == None: xIn = True
+        else: xIn = self.__minX < x and x < self.__maxX
+        if y == None: yIn = True
+        else: yIn = self.__minY < y and y < self.__maxY
+        if z == None: zIn = True
+        else: zIn = self.__minZ < z and z < self.__maxZ
         return xIn and yIn and zIn 
 
     def isIn(self, point):
-        z = 0 if len(point) == 2 else point[2]
+        if len(point) == 2:
+            z = self.__minZ + self.__zRange/2  
+        else: 
+            z = point[2]
         return self.isInRanges(point[0], point[1], z)
 
     def getRanges(self):
@@ -86,3 +91,6 @@ class Boundary(object):
     def getVolumeAbsRatio(self, point):
         point = self.getAbsVolume(point)
         return self.getVolumeRatio(point)
+
+    def __str__(self):
+        return 

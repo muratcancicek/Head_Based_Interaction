@@ -38,6 +38,14 @@ class FaceBox(object):
         right_x = box[2] + offset[0]
         bottom_y = box[3] + offset[1]
         return [left_x, top_y, right_x, bottom_y]
+        
+    def move(self, offset):
+        left_x = self.left + offset[0]
+        top_y = self.top + offset[1]
+        right_x = self.right + offset[0]
+        bottom_y = self.bottom + offset[1]
+        #self.__init__#= self
+        return FaceBox(left_x, top_y, right_x, bottom_y) 
 
     def __squareFaceBox(self, f_height, f_width):
         left, top, right, bottom = self.left, self.top, self.right, self.bottom
