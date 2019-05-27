@@ -42,14 +42,20 @@ class InputEstimationDemoWithMappingFunction(InputEstimationDemo):
         if not self._inputValues is None and self._showValues: 
             frame = self._addValues(frame)
         return frame
+
+    def _makeInOutLogText(self):
+        inText = self._makeLogText(self._inputValues)
+        outText = self._makeLogText(self._outputValues.astype(int), 'd', 6)
+        logText = 'in: %s | out: %s' % (inText, outText)
+        return logText
     
     def getLogText(self, frame):
         self._outputValues = self._mappingFunc.calculateOutputValues(frame)
-        return self._makeLogText(self._outputValues)
+        return self._makeInOutLogText()
         
     def getLogTextAndProcessedFrame(self, frame):
         annos = self._mappingFunc.calculateOutputValuesWithAnnotations(frame)
         self._outputValues, self._inputValues, self._pPoints, self._landmarks = annos
         frame = self._getProcessedFrame(frame)
-        logText = self._makeLogText(self._outputValues)
+        logText = self._makeInOutLogText()
         return logText, frame

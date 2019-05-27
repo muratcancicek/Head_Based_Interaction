@@ -8,7 +8,6 @@ class MuratcansHeadGazeCalculator(YinsKalmanFilteredHeadPoseCalculator):
        
     def __init__(self, face_model_path = None, inputFramesize = (720, 1280), *args, **kwargs):
         super().__init__(face_model_path, inputFramesize, *args, **kwargs)
-        print(inputFramesize)
         self._translation_vector = np.array([[-14.97821226], [-10.62040383], [-200]])#-2053.03596872
         
         self._front_depth = 500

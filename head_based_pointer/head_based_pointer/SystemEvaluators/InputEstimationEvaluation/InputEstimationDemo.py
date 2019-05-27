@@ -67,9 +67,9 @@ class InputEstimationDemo(DemoABC):
         if not self._inputValues is None and self._showValues: 
             frame = self._addValues(frame)
         return frame
-    
-    def _makeLogText(self, values):
-        values = [('%.2f'.rjust(11) % i)[-9:] for i in values]
+        
+    def _makeLogText(self, values, format = '.2f', space = 11):
+        values = [(('%'+format).rjust(space) % i)[-(space-2):] for i in values]
         logText = ''
         for v in values: logText += '%s ' % v
         return logText
