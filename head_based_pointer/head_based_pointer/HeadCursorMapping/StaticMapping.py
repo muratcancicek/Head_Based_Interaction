@@ -14,7 +14,6 @@ class StaticMapping(MappingABC):
         if isinstance(self._inputEstimator, HeadPoseEstimatorABC) and \
                    not isinstance(self._inputEstimator, MuratcansHeadGazer):
             t = ratios[0]; ratios[0] = ratios[1]; ratios[1] = t
-        print('\r', inputRanges, ratios, outputRanges, end = '\r')
         i = self._outputValues.shape[0]
         self._outputValues = ratios[:i] * outputRanges[:i]
         return self._outputValues

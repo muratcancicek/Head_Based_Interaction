@@ -75,14 +75,18 @@ def playMapping():
     mappingStr = 'StaticMappingOn' # 'DynamicMappingOn' # 
     Mapping = DynamicMapping if mappingStr == 'DynamicMappingOn' else StaticMapping # 
     mappingFunctions = {
-                         #mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(squaringFaceBox = True), boundary), 
-                         #mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
-                         #mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
+                         mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(squaringFaceBox = True), boundary), 
+                         mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
+                         mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
                          mappingStr + 'MrtcnsGaze': Mapping(MuratcansHeadGazer(), boundary)
                        }
     #mappingFunctions = getDefaultMappingFunctions() (720, 480)
     #outputSize = (1280, 720)record
-    s = list(mappingFunctions.items())[0][0]
+    names = [k for k, i in mappingFunctions.items()]
+    s = ''
+    for n in names:
+       s += (n + '_')
+    s = s[:-1]
     displayTogetherGivenMappingFunctions(source, mappingFunctions, 'Exp999_'+s, outputSize = outputSize)
 
     
