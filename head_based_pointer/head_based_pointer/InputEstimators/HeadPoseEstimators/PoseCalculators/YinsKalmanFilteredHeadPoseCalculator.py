@@ -95,7 +95,7 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
                                                             [0, 1]], np.float32) * cov_measure
    
     @staticmethod
-    def __getCameraMatrix(size):
+    def _getCameraMatrix(size):
         focal_length = size[1]
         camera_center = (size[1] / 2, size[0] / 2)
         camera_matrix = np.array(
@@ -135,7 +135,7 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
                                                   front_size = 50, front_depth = self._front_depth)
         
         # Camera internals
-        self._camera_matrix = self.__getCameraMatrix(inputFramesize)
+        self._camera_matrix = self._getCameraMatrix(inputFramesize)
 
         # Assuming no lens distortion
         self._dist_coeffs = np.zeros((4, 1))

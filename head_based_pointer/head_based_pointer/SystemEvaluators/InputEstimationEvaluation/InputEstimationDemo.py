@@ -31,7 +31,7 @@ class InputEstimationDemo(DemoABC):
         colors = ((0, 0, 255), (0, 255, 0), (255, 0, 0))
         return self._addValuesLineByLine(frame, self._inputValues, labels, pos, colors)
     
-    def _drawBox(self, frame):
+    def _addBox(self, frame):
         color = (255, 255, 255)
         cv2.polylines(frame, [self._pPoints], True, color, 2, cv2.LINE_AA)
         if self._estimator.returns3D():
@@ -41,31 +41,6 @@ class InputEstimationDemo(DemoABC):
                 pPoints.append(p)
             for start, end in pPoints:
                 cv2.line(frame, start, end, color, 2, cv2.LINE_AA)
-        return frame
-
-    def _rescaleFrameForGazing(self, frame):
-        (origHeight, origWidth, depth) = frame.shape
-        width, height = self._estimator.getGazingFrameDimensions()
-        oldFrame = frame
-        frame = np.zeros((height, width, depth), dtype=frame.dtype)
-        origTop, origBottom = 0, origHeight
-        origLeft, origRight = int(width/2-origWidth/2), int(width/2+origWidth/2)
-        frame[origTop:origBottom, origLeft:origRight, :] = oldFrame
-        self._pPoints[:, 0] += origLeft
-        return frame
-
-    def _addGaze(self, frame):
-        (h, w, d) = frame.shape
-        frame = self._rescaleFrameForGazing(frame)
-        frame = self._drawBox(frame)
-        frame = cv2.resize(frame, (w, h))
-        return frame
-
-    def _addBox(self, frame):
-        if isinstance(self._estimator, MuratcansHeadGazer):
-            frame = self._addGaze(frame)
-        else:
-            frame = self._drawBox(frame)
         return frame
 
     def _addLandmarks(self, frame):
@@ -83,14 +58,14 @@ class InputEstimationDemo(DemoABC):
         return frame
 
     def _getProcessedFrame(self, frame):
+        if not self._landmarks is None and self._showLandmarks:
+            frame = self._addLandmarks(frame)
         if not self._pPoints is None and self._showBoxes:
             frame = self._addBox(frame)
         if self._demoName != 'Demo':
             frame = self._addDemoName(frame)
         if not self._inputValues is None and self._showValues: 
             frame = self._addValues(frame)
-        if not self._landmarks is None and self._showLandmarks:
-            frame = self._addLandmarks(frame)
         return frame
     
     def _makeLogText(self, values):

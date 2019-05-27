@@ -196,7 +196,7 @@ class DemoPlayer(object):
             self.__logText, frame = self.__runEachDemoOnFrame(demo, frame)
         else:
             self.__logText, frame = self.__runDemoOnFrame(demo, frame)
-        #frame = self.__matchFrameWithOutputSize(frame)
+        frame = self.__matchFrameWithOutputSize(frame)
         return frame
 
     def __playFrame(self, demo, frame):

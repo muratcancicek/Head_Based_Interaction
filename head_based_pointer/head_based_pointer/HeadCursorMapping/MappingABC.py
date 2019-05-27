@@ -79,13 +79,13 @@ class MappingABC(ABC):
         elif isinstance(self._inputEstimator, FacialLandmarkDetectorABC):
             self._recalculateInputValues = self._calculateInputValuesFromNose
             self._outputDependsAnnotations = True
+        elif isinstance(self._inputEstimator, MuratcansHeadGazer):
+            width, height = self._inputEstimator.getGazingFrameDimensions()
+            self._inputBoundaries = Boundary(0, width, 0, height)
+            self._recalculateInputValues = self._calculateInputValuesFromHeadGaze
         elif isinstance(self._inputEstimator, HeadPoseEstimatorABC):
             self._inputBoundaries = Boundary(40, 60, -10, 5)
             self._recalculateInputValues = self._calculateInputValuesFromHeadPose
-        elif isinstance(self._inputEstimator, MuratcansHeadGazer):
-            width, height = self._inputEstimator.getGazingFrameDimensions()
-            self._inputBoundaries = Boundary(-640, 1280, 0, height)
-            self._recalculateInputValues = self._calculateInputValuesFromHeadGaze
 
     def _estimateInput(self, frame):
         if self._outputDependsAnnotations:
