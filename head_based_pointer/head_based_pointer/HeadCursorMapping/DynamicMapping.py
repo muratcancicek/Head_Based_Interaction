@@ -6,8 +6,8 @@ from abc import abstractmethod
 import numpy
 
 class DynamicMapping(MappingABC):
-    def __init__(self, inputEstimator, outputBoundaries, xSpeed = 5, ySpeed = 5,
-                acceleration = 2, smoothness = 8, motionThreshold = 4, *args, **kwargs):
+    def __init__(self, inputEstimator, outputBoundaries, xSpeed = 1, ySpeed = 1,
+                acceleration = 2, smoothness = 4, motionThreshold = 4, *args, **kwargs):
         super().__init__(inputEstimator, outputBoundaries, *args, **kwargs)
         if smoothness < 2: smoothness = 2
         self._inputValueQueue = None
