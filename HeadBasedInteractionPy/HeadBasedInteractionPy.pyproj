@@ -5,7 +5,7 @@
     <ProjectGuid>dd75a739-9a32-4c94-9024-a915cd224892</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>runPointer.py</StartupFile>
+    <StartupFile>startInteraction.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -94,7 +94,7 @@
     <Compile Include="paths.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="runPointer.py" />
+    <Compile Include="startInteraction.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
     <Compile Include="SystemEvaluators\InputEstimationEvaluation\__init__.py" />
     <Compile Include="SystemEvaluators\DemoPlayer.py">
