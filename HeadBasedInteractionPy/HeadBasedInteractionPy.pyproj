@@ -22,11 +22,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CommonTools\ArgParser.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CommonTools\Boundary.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommonTools\EstimatorBuilder.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommonTools\__init__.py" />
     <Compile Include="CursorController\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EstimatorLists.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HeadCursorMapping\MappingABC.py">
