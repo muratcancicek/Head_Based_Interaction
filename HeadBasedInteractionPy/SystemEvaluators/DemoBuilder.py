@@ -57,33 +57,33 @@ def buildEstimatorWithTag(components):
     tag = generateEstimatorTag(codes)
     return estimator, tag
 
-def playInputDemos(source, instances):
+def playInputDemos(source, instances, outputSize):
     estimators = [buildEstimatorWithTag(i) for i in instances]
     estimators = {tag: mapping for mapping, tag in estimators}
-    displayTogetherGivenEstimators(source, estimators)
+    displayTogetherGivenEstimators(source, estimators, outputSize = outputSize)
 
-def buildMappingFunction(name, estimator):
+def buildMappingFunction(name, estimator, outputSize):
     mapping = getFrom(name, EstimatorLists.MappingModule)
-    outputSize = (640, 360)
     boundary = Boundary(0, outputSize[0], 0, outputSize[1])
     return mapping(estimator, boundary)
 
-def buildMappingFunctionWithTag(components):
+def buildMappingFunctionWithTag(components, outputSize):
     name, estComponents = components[0], components[1:]
     estimator, estTag = buildEstimatorWithTag(estComponents)
-    mapping = buildMappingFunction(name, estimator)
+    mapping = buildMappingFunction(name, estimator, outputSize)
     mappingTag = '%s_with_%s' % (estTag, name)
     return mapping, mappingTag
 
-def playMappingDemos(source, instances):
-    mappingFunctions = [buildMappingFunctionWithTag(i) for i in instances]
+def playMappingDemos(source, instances, outputSize):
+    mappingFunctions = [buildMappingFunctionWithTag(i, outputSize)
+                                                for i in instances]
     mappingFunctions = {tag: mapping for mapping, tag in mappingFunctions}
-    displayTogetherGivenMappingFunctions(source, mappingFunctions)
+    displayTogetherGivenMappingFunctions(source, mappingFunctions, outputSize = outputSize)
 
 def run():
     args, instances = getArgsWithInstances()
     if args.module == 'Mapping':
-        playMappingDemos(args.source, instances)
+        playMappingDemos(args.source, instances, args.outputSize)
     else:
-        playInputDemos(args.source, instances)
+        playInputDemos(args.source, instances, args.outputSize)
     #print(mappingFunctions)

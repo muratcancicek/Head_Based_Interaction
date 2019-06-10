@@ -68,10 +68,15 @@ def getFinalParser():
                         help = ldHelp, choices = ['_']+landmarkDetectorCodes)
     
     sHelp = 'Select a source video or camera ' \
-         '(You may pass path/to/video or an integer as the camera for livestream ' \
-         '[\'0\' is the default cam]).\n' 
-
+         '(You may pass path/to/video or an integer as the camera for ' \
+         'livestream, \'0\' is the default cam).\n' 
     parser.add_argument('-s', '--source', help = sHelp, default = '0')
+    
+    osHelp = 'Set the size of output frame ' \
+         '(You may pass \'weight height\' like \'480 360\' ' \
+         'or \'1080 720\', the default is \'640 360\').\n' 
+    parser.add_argument('-os', '--outputSize', metavar = 'Sze', help = osHelp, 
+                        default = [640,360], nargs=2, type=int)
 
     return parser
 
@@ -124,6 +129,8 @@ def getSafeArgs():
                               'or set \'%s\' as the estimator.' \
                              % (args.landmarkDetectors[i], args.estimators[i],
                                args.estimators[i], args.landmarkDetectors[i]))
+
+    args.outputSize = tuple(args.outputSize)
     return args
 
 def getArgsWithInstances():
