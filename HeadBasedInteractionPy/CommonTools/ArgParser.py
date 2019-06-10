@@ -124,8 +124,6 @@ def getSafeArgs():
                               'or set \'%s\' as the estimator.' \
                              % (args.landmarkDetectors[i], args.estimators[i],
                                args.estimators[i], args.landmarkDetectors[i]))
-
-        args.source = args.source.replace('\'', '')
     return args
 
 def getArgsWithInstances():
