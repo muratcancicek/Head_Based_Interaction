@@ -29,3 +29,8 @@ estimatorDict = {**faceDetectorDict,
                  **landmarkDetectorDict, 
                  **headPoseEstimatorDict}
 
+FaceModule = 'InputEstimators.FaceDetectors'
+LandmarkModule = 'InputEstimators.FacialLandmarkDetectors'
+HeadPoseModule = 'InputEstimators.HeadPoseEstimators'
+
+MappingModule = 'HeadCursorMapping'

@@ -66,13 +66,12 @@ def getFinalParser():
     ld = '--landmarkDetectors'
     parser.add_argument('-ld', ld, metavar = 'LD', nargs='+', 
                         help = ldHelp, choices = ['_']+landmarkDetectorCodes)
-
+    
     return parser
 
 def getSafeArgs():
     parser = getFinalParser()
     args = parser.parse_args()
-
     num_ests = len(args.estimators)
 
     if args.module == 'Mapping' and len(args.mappingFunctions) != num_ests:
@@ -121,31 +120,29 @@ def getSafeArgs():
                                args.estimators[i], args.landmarkDetectors[i]))
     return args
 
-def getArgsWithRawEstimators():
+def getArgsWithInstances():
     args = getSafeArgs()
     estDict = estimatorDict.copy()
     estDict['_'] = 'None'
     
-    givenEstimators = [estDict[e] for e in args.estimators]
+    givenEstimators = [(e, estDict[e]) for e in args.estimators]
     num_ests = len(args.estimators)
     
-    givenFaceDetectors = [None] * num_ests
+    givenFaceDetectors = [('_', 'None')] * num_ests
     if args.faceDetectors:
-        givenFaceDetectors = [estDict[d] for d in args.faceDetectors]
+        givenFaceDetectors = [(d, estDict[d]) for d in args.faceDetectors]
 
-    givenLandmarkDetectors = [None] * num_ests
+    givenLandmarkDetectors = [('_', 'None')] * num_ests
     if args.landmarkDetectors:
-        givenLandmarkDetectors = [estDict[d] for d in args.landmarkDetectors]
+        givenLandmarkDetectors = [(d, estDict[d]) for d in args.landmarkDetectors]
 
-    combos = []
+    instances = []
     for i in range(num_ests):
         if args.module == 'Mapping':
             mapping = args.mappingFunctions[i] + 'Mapping'
-            combos.append((mapping, givenEstimators[i], 
-                           givenFaceDetectors[i], givenLandmarkDetectors[i]))
+            instances.append((mapping, givenEstimators[i], 
+                              givenFaceDetectors[i], givenLandmarkDetectors[i]))
         else:
-            combos.append((givenEstimators[i], faceDetectors[i],
-                          givenLandmarkDetectors[i]))
-        print(combos[i])
-    
-    return args, combos
+            instances.append((givenEstimators[i], givenFaceDetectors[i],
+                              givenLandmarkDetectors[i]))    
+    return args, instances

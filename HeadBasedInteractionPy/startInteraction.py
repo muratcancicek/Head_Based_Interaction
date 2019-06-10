@@ -1,5 +1,5 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
-from CommonTools.EstimatorBuilder import run
+from SystemEvaluators.DemoBuilder import run
 #from SystemEvaluators.InputEstimationEvaluation.InputEstDemoHandler import playInputEst
 #from SystemEvaluators.MappingEvaluation.MappingDemoHandler import playMapping
 #from SystemEvaluators.InputEstimationEvaluation.EstimationPlotter import plot
