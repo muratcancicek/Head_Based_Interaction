@@ -10,6 +10,8 @@ class DemoPlayer(object):
         if videoSource == 'Cam': 
             self.__videoSource = 0
         else:
+            if videoSource.isdigit():
+                videoSource = int(videoSource)
             self.__videoSource = videoSource
         self.__outputSize = outputSize
         self.__outputVideo = outputVideo

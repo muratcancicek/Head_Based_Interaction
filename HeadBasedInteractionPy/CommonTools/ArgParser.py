@@ -67,6 +67,12 @@ def getFinalParser():
     parser.add_argument('-ld', ld, metavar = 'LD', nargs='+', 
                         help = ldHelp, choices = ['_']+landmarkDetectorCodes)
     
+    sHelp = 'Select a source video or camera ' \
+         '(You may pass path/to/video or an integer as the camera for livestream ' \
+         '[\'0\' is the default cam]).\n' 
+
+    parser.add_argument('-s', '--source', help = sHelp, default = '0')
+
     return parser
 
 def getSafeArgs():
@@ -118,6 +124,8 @@ def getSafeArgs():
                               'or set \'%s\' as the estimator.' \
                              % (args.landmarkDetectors[i], args.estimators[i],
                                args.estimators[i], args.landmarkDetectors[i]))
+
+        args.source = args.source.replace('\'', '')
     return args
 
 def getArgsWithInstances():

@@ -57,10 +57,10 @@ def buildEstimatorWithTag(components):
     tag = generateEstimatorTag(codes)
     return estimator, tag
 
-def playInputDemos(instances):
+def playInputDemos(source, instances):
     estimators = [buildEstimatorWithTag(i) for i in instances]
     estimators = {tag: mapping for mapping, tag in estimators}
-    displayTogetherGivenEstimators(0, estimators)
+    displayTogetherGivenEstimators(source, estimators)
 
 def buildMappingFunction(name, estimator):
     mapping = getFrom(name, EstimatorLists.MappingModule)
@@ -75,15 +75,15 @@ def buildMappingFunctionWithTag(components):
     mappingTag = '%s_with_%s' % (estTag, name)
     return mapping, mappingTag
 
-def playMappingDemos(instances):
+def playMappingDemos(source, instances):
     mappingFunctions = [buildMappingFunctionWithTag(i) for i in instances]
     mappingFunctions = {tag: mapping for mapping, tag in mappingFunctions}
-    displayTogetherGivenMappingFunctions(0, mappingFunctions)
+    displayTogetherGivenMappingFunctions(source, mappingFunctions)
 
 def run():
     args, instances = getArgsWithInstances()
     if args.module == 'Mapping':
-        playMappingDemos(instances)
+        playMappingDemos(args.source, instances)
     else:
-        playInputDemos(instances)
+        playInputDemos(args.source, instances)
     #print(mappingFunctions)
