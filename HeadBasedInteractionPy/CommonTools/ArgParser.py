@@ -30,7 +30,7 @@ def getFinalParser():
     demoHelp = 'Select a module to run'
     parser.add_argument('module', help = demoHelp, choices = demos)
     
-    estHelp = 'Select InputEstimators to run ' \
+    estHelp = 'Select InputEstimators to run \n' \
          '(Multiple estimators run simultaneously).\n' \
          'Find the available estimators below:\n' + estimatorDes
     est = 'estimators'
@@ -38,8 +38,8 @@ def getFinalParser():
                         help = estHelp, choices = estimatorCodes)
     
     mappings = ['Static', 'Dynamic']
-    estHelp = 'Select MappingFunctions to apply ' \
-         '(Required when using \'Mapping\' module and \n' \
+    estHelp = 'Select MappingFunctions to apply \n' \
+         '(Required when using \'Mapping\' module, \n' \
          'You must pass as many functions as InputEstimators).\n' \
          'Find the available MappingFunctions below:\n' \
          '\'%s\' : Static Mapping Function\n' \
@@ -49,7 +49,7 @@ def getFinalParser():
                         help = estHelp, choices = mappings, 
                         required = 'Mapping' in sys.argv)
 
-    fdHelp = 'Select FaceDetectors to change ' \
+    fdHelp = 'Select FaceDetectors to change \n' \
          '(You must pass as many detectors as InputEstimators).\n' \
          'Find the available detectors below:\n' \
          '\'_\'     : Pass to keep the estimator\'s default ' \
@@ -58,7 +58,7 @@ def getFinalParser():
     parser.add_argument('-fd', fd, metavar = 'FD', nargs='+', 
                         help = fdHelp, choices = ['_']+faceDetectorCodes)
 
-    ldHelp = 'Select LandmarkDetectors to change ' \
+    ldHelp = 'Select LandmarkDetectors to change \n' \
          '(You must pass as many detectors as InputEstimators).\n' \
          'Find the available detectors below:\n' \
          '\'_\'     : Pass to keep the estimator\'s default ' \
@@ -67,14 +67,14 @@ def getFinalParser():
     parser.add_argument('-ld', ld, metavar = 'LD', nargs='+', 
                         help = ldHelp, choices = ['_']+landmarkDetectorCodes)
     
-    sHelp = 'Select a source video or camera ' \
-         '(You may pass path/to/video or an integer as the camera for ' \
-         'livestream, \'0\' is the default cam).\n' 
+    sHelp = 'Select a source video or camera \n' \
+         '(You may pass path/to/video or an integer \n' \
+         'as the camera for livestream, \'0\' is the default cam).\n' 
     parser.add_argument('-s', '--source', help = sHelp, default = '0')
     
-    osHelp = 'Set the size of output frame ' \
-         '(You may pass \'weight height\' like \'480 360\' ' \
-         'or \'1080 720\', the default is \'640 360\').\n' 
+    osHelp = 'Set the size of output frame \n' \
+         '(You may pass \'weight height\' like \'480 360\' or \'1080 720\', \n'\
+         'the default is \'640 360\').\n' 
     parser.add_argument('-os', '--outputSize', metavar = 'Sze', help = osHelp, 
                         default = [640,360], nargs=2, type=int)
 

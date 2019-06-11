@@ -14,7 +14,7 @@ def buildFaceDetector(estimator):
     return estimator()
 
 def buildLandmarkDetector(estimator, faceDetector):
-    estimator = getFrom(estimator, EstimatorLists.HeadPoseModule)
+    estimator = getFrom(estimator, EstimatorLists.LandmarkModule)
     if faceDetector:
         faceDetector = faceDetector(squaringFaceBox = True)
     return estimator(faceDetector = faceDetector)

@@ -75,13 +75,85 @@ The last component of Head-based Interaction practices the interaction via real-
 
 It is planned to implement an actual [**CursorController**](https://github.com/muratcancicek/Head_Based_Interaction/tree/master/HeadBasedInteractionPy/CursorController) in a complete product for end-user that communicates with the Operation System and provides Head-based Pointing via a well-packaged software. The schedule for this work is still uncertain, and it requires further support. 
 
+## Usage
+
+All of the existing functionalities will be runnable via `startInteraction.py`. 
+Please find a few example commands here and the full list of the available commands below:
+
+The following command runs **TFMobileNetSSDFaceDetector** on Livestream: \
+`> python startInteraction.py Input TMobFD` 
+
+This runs **Dynamic Mapping** on the default **YinsHeadPoseEstimator**: \
+`> python startInteraction.py Mapping YinsHP -mf Dynamic`
+
+And this runs two different **Mapping Functions** on different **Landmark Detectors** which utilize the specified **Face Detectors**: \
+`> python startInteraction.py Mapping DlibLD YinsLD -mf Static Dynamic -fd HCasFD TMobFD`
+
+**Please run the following command and find its output for the further instructions:**
+
+```console 
+> python startInteraction.py -h
+usage: startInteraction.py [-h] [-mf MF [MF ...]] [-fd FD [FD ...]]
+                           [-ld LD [LD ...]] [-s SOURCE] [-os Sze Sze]
+                           {Input,Mapping} Est [Est ...]
+
+Head-based Interaction Demos
+
+positional arguments:
+  {Input,Mapping}       Select a module to run
+  Est                   Select InputEstimators to run (Multiple estimators run simultaneously).
+                        Find the available estimators below:
+                        'CResFD': CV2Res10SSDFaceDetector
+                        'DlibFD': DLIBFrontalFaceDetector
+                        'HCasFD': HaarCascadeFaceDetector
+                        'TMobFD': TFMobileNetSSDFaceDetector
+                        'DlibLD': DLIBFacialLandmarkDetector
+                        'YinsLD': YinsCNNBasedFacialLandmarkDetector
+                        'DlibHP': DLIBHeadPoseEstimator
+                        'YinsHP': YinsHeadPoseEstimator
+                        'MursHG': MuratcansHeadGazer
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -mf MF [MF ...], --mappingFunctions MF [MF ...]
+                        Select MappingFunctions to apply
+                        (Required when using 'Mapping' module,
+                        You must pass as many functions as InputEstimators).
+                        Find the available MappingFunctions below:
+                        'Static' : Static Mapping Function
+                        'Dynamic': Dynamic Mapping Function
+  -fd FD [FD ...], --faceDetectors FD [FD ...]
+                        Select FaceDetectors to change
+                        (You must pass as many detectors as InputEstimators).
+                        Find the available detectors below:
+                        '_'     : Pass to keep the estimator's default FaceDetector
+                        'CResFD': CV2Res10SSDFaceDetector
+                        'DlibFD': DLIBFrontalFaceDetector
+                        'HCasFD': HaarCascadeFaceDetector
+                        'TMobFD': TFMobileNetSSDFaceDetector
+  -ld LD [LD ...], --landmarkDetectors LD [LD ...]
+                        Select LandmarkDetectors to change
+                        (You must pass as many detectors as InputEstimators).
+                        Find the available detectors below:
+                        '_'     : Pass to keep the estimator's default LandmarkDetector
+                        'DlibLD': DLIBFacialLandmarkDetector
+                        'YinsLD': YinsCNNBasedFacialLandmarkDetector
+  -s SOURCE, --source SOURCE
+                        Select a source video or camera
+                        (You may pass path/to/video or an integer
+                        as the camera for livestream, '0' is the default cam).
+  -os Sze Sze, --outputSize Sze Sze
+                        Set the size of output frame
+                        (You may pass 'weight height' like '480 360' or '1080 720',
+                        the default is '640 360').
+```
 
 ## Dependencies
 
-The current implementation runs with the following dependencies which are also listed in 
+The current implementation runs with the following dependencies which are also listed in `requirements.txt`
 
 - `cycler>=0.10.0`
-- `dlib>=19.17.0`
+- `dlib>=19.17.0` 
 - `imutils>=0.5.2`
 - `matplotlib>=3.0.2`
 - `numpy>=1.14.5`
