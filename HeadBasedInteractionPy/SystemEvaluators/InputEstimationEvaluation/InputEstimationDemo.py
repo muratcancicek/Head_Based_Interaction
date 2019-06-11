@@ -14,8 +14,8 @@ class InputEstimationDemo(DemoABC):
         self._showLandmarks = showLandmarks
         super().__init__(*args, **kwargs)
 
-    def _addText(self, frame, text, pos, color):
-        cv2.putText(frame, text, pos, cv2.FONT_HERSHEY_SIMPLEX, 0.75, color, thickness=2)
+    def _addText(self, frame, text, pos, color, fontScale = 0.75):
+        cv2.putText(frame, text, pos, cv2.FONT_HERSHEY_SIMPLEX, fontScale, color, thickness=2)
         return frame
 
     def _addValuesLineByLine(self, frame, values, labels, position, colors):
@@ -53,8 +53,8 @@ class InputEstimationDemo(DemoABC):
         return frame
 
     def _addDemoName(self, frame):
-        position = (int(frame.shape[1]/6), frame.shape[0] - 10)
-        frame = self._addText(frame, self._demoName, position, (0, 255, 0))
+        position = (int(frame.shape[1]/46), frame.shape[0] - 10)
+        frame = self._addText(frame, self._demoName, position, (0, 255, 0), 0.5)
         return frame
 
     def _getProcessedFrame(self, frame):
