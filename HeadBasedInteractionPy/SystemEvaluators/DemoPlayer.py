@@ -152,12 +152,13 @@ class DemoPlayer(object):
         return cap, ret, firstFrame
     
     def __preprocessFrame(self, frame):
-        if self.__videoSource in [0, 1]:
-            frame = cv2.flip(frame,1)
-            if self.__hashorizontalSideBars:
-                x = int(frame.shape[0]/8)
-                frame = frame[x:-x, :]
-                self.__inputHeight_scale = 9
+        if isinstance(self.__videoSource, int):
+            if self.__videoSource < cv2.CAP_DSHOW:
+                frame = cv2.flip(frame,1)
+                if self.__hashorizontalSideBars:
+                    x = int(frame.shape[0]/8)
+                    frame = frame[x:-x, :]
+                    self.__inputHeight_scale = 9
         if not self.__inputGrid == (1,1):
             frame = frame[:int(frame.shape[0]/self.__inputGrid[1]), 
                           :int(frame.shape[1]/self.__inputGrid[0])]
