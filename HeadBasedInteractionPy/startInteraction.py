@@ -1,9 +1,9 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
-import SystemEvaluators
+from SystemEvaluators.DemoBuilder import run
 
 
 def main():
-    SystemEvaluators.DemoBuilder.run()
+    run()
 
 if __name__ == '__main__':
     main()
