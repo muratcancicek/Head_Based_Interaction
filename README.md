@@ -11,7 +11,11 @@ Besides, highlighting the importance of Head-based Interaction, **The primary go
 - Allowing the future developers to re-build the same interaction by combining the available sub-solutions **on their native platforms** among the ones provided here.
 
 The project itself is still in the early stages of its development, and it will be mainly written in **Python3** by employing many of the other open-source frameworks like **OpenCV**, **DLIB**, **Tensorflow**. But, its modular implementation will allow it to run without installing all of the listed dependencies at the very below.
- 
+  
+![Example](https://media.giphy.com/media/VgZa1j4bTBel1cqNNz/giphy.gif)
+
+The example above shows 4 different ways to control a pointer (the yellow circle) via Head-based Interaction ([video on Youtube](https://www.youtube.com/watch?v=BmPiVE0mJUc&feature=youtu.be&fbclid=IwAR2BWjwfRXOTN_sVKWqOAMCmPrYzWQnV7Mc7hn12TXfhWsESf4Kfioc2oGM&t=10s)). 
+
 ## 3 Components of Head-based Interaction
 
 There are several ways to build Head-based Interaction, and each method may own its specific design. In spite of this variety, we can list the primary tasks of the interaction as below:
