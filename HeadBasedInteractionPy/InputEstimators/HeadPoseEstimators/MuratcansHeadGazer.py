@@ -9,7 +9,7 @@ import dlib
 import cv2
 
 class MuratcansHeadGazer(YinsHeadPoseEstimator):
-    def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, face_landmark_path = None, inputFramesize = (640, 360), *args, **kwargs):
+    def __init__(self, faceDetector = None, landmarkDetector = None, poseCalculator = None, face_landmark_path = None, inputFramesize = (720, 1080), *args, **kwargs):
         if poseCalculator == None:
             poseCalculator = MuratcansHeadGazeCalculator(inputFramesize = inputFramesize)
         self._pPoints = np.zeros((1, 2))
@@ -39,4 +39,5 @@ class MuratcansHeadGazer(YinsHeadPoseEstimator):
     
     def getGazingFrameDimensions(self):
         #return int(1920), int(self._halfFrameHeight + 1080)
+        print(self._gazingFrameSize)
         return self._gazingFrameSize

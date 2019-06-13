@@ -10,7 +10,9 @@ class DemoPlayer(object):
         if videoSource == 'Cam': 
             self.__videoSource = 0
         else:
-            if videoSource.isdigit():
+            if isinstance(videoSource, int):
+                self.__videoSource = videoSource
+            elif videoSource.isdigit():
                 videoSource = int(videoSource)
             self.__videoSource = videoSource
         self.__outputSize = outputSize
@@ -221,6 +223,7 @@ class DemoPlayer(object):
 
         while cap.isOpened():
             ret, frame = cap.read()
+
             if self.__kill(ret):
                 cap.release()
                 cv2.destroyAllWindows()

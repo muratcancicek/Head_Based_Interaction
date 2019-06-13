@@ -96,11 +96,11 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
    
     @staticmethod
     def _getCameraMatrix(size):
-        focal_length = size[1]
-        camera_center = (size[1] / 2, size[0] / 2)
+        focal_length = [1642.17076, 1642.83775]
+        camera_center = (1176.14705, 714.90826)
         camera_matrix = np.array(
-            [[focal_length, 0, camera_center[0]],
-             [0, focal_length, camera_center[1]],
+            [[focal_length[0], 0, camera_center[1]],
+             [0, focal_length[1], camera_center[0]],
              [0, 0, 1]], dtype="double")
         return camera_matrix
 
@@ -138,7 +138,7 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
         self._camera_matrix = self._getCameraMatrix(inputFramesize)
 
         # Assuming no lens distortion
-        self._dist_coeffs = np.zeros((4, 1))
+        self._dist_coeffs = np.array([[0.09059], [-0.16979], [0.00796], [-0.00078]])
 
         # Rotation vector and translation vector
         self._rotation_vector = np.array([[0.01891013], [0.08560084], [-3.14392813]])
@@ -161,7 +161,6 @@ class YinsKalmanFilteredHeadPoseCalculator(PoseCalculatorABC):
             ps_stb.update([value])
             stabile_pose.append(ps_stb.state[0])
         rotation_vector, translation_vector = np.reshape(stabile_pose, (-1, 3))
-        
         # calc euler angle
         rotation_mat, _ = cv2.Rodrigues(rotation_vector)
         pose_mat = cv2.hconcat((rotation_mat, translation_vector))

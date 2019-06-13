@@ -31,6 +31,9 @@
     <Compile Include="CommonTools\Boundary.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="runForDebug.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SystemEvaluators\DemoBuilder.py">
       <SubType>Code</SubType>
     </Compile>
