@@ -11,8 +11,8 @@ from InputEstimators.FaceDetectors.DLIBFrontalFaceDetector import DLIBFrontalFac
 from InputEstimators.FaceDetectors.HaarCascadeFaceDetector import HaarCascadeFaceDetector
 from InputEstimators.FaceDetectors.CV2Res10SSDFaceDetector import CV2Res10SSDFaceDetector
 
-from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemo import InputEstimationDemo
-from SystemEvaluators.DemoPlayer import DemoPlayer
+from InteractionDemos.InputEstimationDemo.InputEstimationDemo import InputEstimationDemo
+from InteractionDemos.DemoPlayer import DemoPlayer
 from paths import InputEstimatorsDemo_Folder, Experiments_Folder
 
 def getDemoPlayerForReplayingSource(videoSource = None, outputSize = None):

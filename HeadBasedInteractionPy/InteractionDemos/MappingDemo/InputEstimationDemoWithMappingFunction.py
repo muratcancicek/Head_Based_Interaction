@@ -1,6 +1,6 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
-from SystemEvaluators.InputEstimationEvaluation.InputEstimationDemo import InputEstimationDemo
+from InteractionDemos.InputEstimationDemo.InputEstimationDemo import InputEstimationDemo
 import cv2, numpy
 
 class InputEstimationDemoWithMappingFunction(InputEstimationDemo):

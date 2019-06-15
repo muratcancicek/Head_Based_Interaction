@@ -1,8 +1,8 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
-from SystemEvaluators.DemoBuilder import run
-from SystemEvaluators.InputEstimationEvaluation.InputEstDemoHandler import playInputEst
-from SystemEvaluators.MappingEvaluation.MappingDemoHandler import playMapping
-from SystemEvaluators.InputEstimationEvaluation.EstimationPlotter import plot
+from InteractionDemos.DemoBuilder import run
+from InteractionDemos.InputEstimationDemo.InputEstDemoHandler import playInputEst
+from InteractionDemos.MappingDemo.MappingDemoHandler import playMapping
+from InteractionDemos.InputEstimationDemo.EstimationPlotter import plot
 from paths import InputEstimatorsDemo_Folder
 
 def main():

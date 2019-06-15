@@ -1,8 +1,8 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
-from SystemEvaluators.MappingEvaluation.InputEstimationDemoWithMappingFunction import InputEstimationDemoWithMappingFunction
+from InteractionDemos.MappingDemo.InputEstimationDemoWithMappingFunction import InputEstimationDemoWithMappingFunction
 from InputEstimators.HeadPoseEstimators.MuratcansHeadGazer import MuratcansHeadGazer
-from SystemEvaluators.InputEstimationEvaluation.InputEstDemoHandler import *
+from InteractionDemos.InputEstimationDemo.InputEstDemoHandler import *
 from HeadCursorMapping.StaticMapping import StaticMapping
 from HeadCursorMapping.DynamicMapping import DynamicMapping
 from CommonTools.Boundary import Boundary

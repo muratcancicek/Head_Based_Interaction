@@ -1,7 +1,7 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
 
 from InputEstimators.HeadPoseEstimators.MuratcansHeadGazer import MuratcansHeadGazer
-from SystemEvaluators.DemoABC import DemoABC
+from InteractionDemos.DemoABC import DemoABC
 import cv2, numpy as np
 
 class InputEstimationDemo(DemoABC):

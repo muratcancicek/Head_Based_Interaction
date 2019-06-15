@@ -1,5 +1,5 @@
 # Author: Muratcan Cicek, https://users.soe.ucsc.edu/~cicekm/
-from SystemEvaluators.MappingEvaluation.MappingDemoHandler import displayTogetherGivenEstimators, displayTogetherGivenMappingFunctions
+from InteractionDemos.MappingDemo.MappingDemoHandler import displayTogetherGivenEstimators, displayTogetherGivenMappingFunctions
 from CommonTools.ArgParser import getArgsWithInstances
 from CommonTools.Boundary import Boundary
 import EstimatorLists

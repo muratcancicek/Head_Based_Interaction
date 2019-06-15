@@ -34,7 +34,7 @@
     <Compile Include="runForDebug.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\DemoBuilder.py">
+    <Compile Include="InteractionDemos\DemoBuilder.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommonTools\__init__.py" />
@@ -55,16 +55,16 @@
     <Compile Include="InputEstimators\FaceDetectors\HaarCascadeFaceDetector.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\YinsHeadPoseEstimator.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\PoseCalculators\MuratcansHeadGazeCalculator.py" />
-    <Compile Include="SystemEvaluators\DemoABC.py">
+    <Compile Include="InteractionDemos\DemoABC.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstDemoHandler.py">
+    <Compile Include="InteractionDemos\InputEstimationDemo\InputEstDemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\EstimationPlotter.py">
+    <Compile Include="InteractionDemos\InputEstimationDemo\EstimationPlotter.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\InputEstimationDemo.py">
+    <Compile Include="InteractionDemos\InputEstimationDemo\InputEstimationDemo.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HeadCursorMapping\__init__.py">
@@ -111,23 +111,23 @@
     </Compile>
     <Compile Include="startInteraction.py" />
     <Compile Include="InputEstimators\HeadPoseEstimators\HeadPoseEstimatorABC.py" />
-    <Compile Include="SystemEvaluators\InputEstimationEvaluation\__init__.py" />
-    <Compile Include="SystemEvaluators\DemoPlayer.py">
+    <Compile Include="InteractionDemos\InputEstimationDemo\__init__.py" />
+    <Compile Include="InteractionDemos\DemoPlayer.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\MappingEvaluation\InputEstimationDemoWithMappingFunction.py">
+    <Compile Include="InteractionDemos\MappingDemo\InputEstimationDemoWithMappingFunction.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\MappingEvaluation\MappingDemo.py">
+    <Compile Include="InteractionDemos\MappingDemo\MappingDemo.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\MappingEvaluation\MappingDemoHandler.py">
+    <Compile Include="InteractionDemos\MappingDemo\MappingDemoHandler.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\MappingEvaluation\__init__.py">
+    <Compile Include="InteractionDemos\MappingDemo\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SystemEvaluators\__init__.py" />
+    <Compile Include="InteractionDemos\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="InputEstimators\" />
@@ -138,9 +138,9 @@
     <Folder Include="InputEstimators\HeadPoseEstimators\" />
     <Folder Include="InputEstimators\HeadPoseEstimators\PoseCalculators\" />
     <Folder Include="CommonTools\" />
-    <Folder Include="SystemEvaluators\" />
-    <Folder Include="SystemEvaluators\InputEstimationEvaluation\" />
-    <Folder Include="SystemEvaluators\MappingEvaluation\" />
+    <Folder Include="InteractionDemos\" />
+    <Folder Include="InteractionDemos\InputEstimationDemo\" />
+    <Folder Include="InteractionDemos\MappingDemo\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
