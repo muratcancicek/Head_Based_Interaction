@@ -10,9 +10,9 @@ class MuratcansHeadGazeCalculator(YinsKalmanFilteredHeadPoseCalculator):
         super().__init__(face_model_path, inputFramesize, *args, **kwargs)
         self._translation_vector = np.array([[-14.97821226], [-10.62040383], [-120]])#-2053.03596872
         
-        self._front_depth = 500
-        self._rectCorners3D = self._get_3d_points(rear_size = 100, rear_depth = 0, 
-                                                  front_size = 100, front_depth = self._front_depth)
+        self._front_depth = 800
+        self._rectCorners3D = self._get_3d_points(rear_size = 40, rear_depth = 0, 
+                                                  front_size = 1, front_depth = self._front_depth)
         self._objectPointsVec = [self._faceModelPoints]*7
         self._imagePointsVec = []
 
@@ -36,9 +36,6 @@ class MuratcansHeadGazeCalculator(YinsKalmanFilteredHeadPoseCalculator):
                 self.calculatePose(shape)
         if not (self._rotation_vector is None or self._translation_vector is None):
             self._front_depth = -self._translation_vector[2, 0]
-            self._rectCorners3D = self._get_3d_points(rear_size = 1, rear_depth = 0, 
-                                                    front_size = 1, front_depth = self._front_depth)
-            #self.calibrateCamera(shape)
             point_2d, _ = cv2.projectPoints(self._rectCorners3D, self._rotation_vector, 
                                             self._translation_vector, self._camera_matrix,
                                            self._dist_coeffs)
