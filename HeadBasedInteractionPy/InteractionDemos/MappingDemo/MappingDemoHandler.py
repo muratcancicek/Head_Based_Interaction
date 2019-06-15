@@ -33,7 +33,7 @@ def displayTogetherGivenMappingFunctions(source, mappingFunctions, windowTitle =
 
 def recordTogetherGivenMappingFunctions(source, mappingFunctions, outputVideoName = 'OutputVideo', expFolder = Experiments_Folder, windowTitle = 'Demo', outputSize = None):
     demos = getDemosForGivenMappingFunctions(mappingFunctions)
-    outputVideo = expFolder + outputVideoName + '.avi'
+    outputVideo = expFolder + outputVideoName + '.mp4'
     player = DemoPlayer(videoSource = source, windowTitle = windowTitle, outputVideo = outputVideo, outputSize = outputSize)
     player.record(demos) 
 
@@ -67,21 +67,23 @@ def playMapping2():
     player.display(demos)
 
 def playMapping():
-    source = 0 # Experiments_Folder + 'Exp999/Exp999.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
-    #outputSize = (1920, 1080)
-    outputSize = (640, 360)
+    source = 1 # Experiments_Folder + 'Exp999/Exp999.avi' # 'Exp000/Exp000.avi' # 'Exp001/Exp001.avi'
+    outputSize = (1920, 1080)
+    #outputSize = (640, 360)
+    #outputSize = (640, 480)
     #outputSize = (1080, 720)
+    print(outputSize)
     boundary = Boundary(0, outputSize[0], 0, outputSize[1])
     mappingStr = 'StaticMappingOn' # 'DynamicMappingOn' # 
     Mapping = DynamicMapping if mappingStr == 'DynamicMappingOn' else StaticMapping # 
     mappingFunctions = {
-                         mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(squaringFaceBox = True), boundary), 
-                         mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
-                         mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
+                         #mappingStr + 'MblNtSSDBox': Mapping(TFMobileNetSSDFaceDetector(squaringFaceBox = True), boundary), 
+                         #mappingStr + 'YinsLMarks': Mapping(YinsCNNBasedFacialLandmarkDetector(), boundary), 
+                         #mappingStr + 'YinsHPose': Mapping(YinsHeadPoseEstimator(), boundary),
                          mappingStr + 'MrtcnsGaze': Mapping(MuratcansHeadGazer(), boundary)
                        }
     #mappingFunctions = getDefaultMappingFunctions() (720, 480)
-    #outputSize = (1280, 720) record  
+    #outputSize = (1280, 720) # recordNWrite  
     names = [k for k, i in mappingFunctions.items()]
     s = ''
     for n in names:
@@ -89,7 +91,7 @@ def playMapping():
     s = s[:-1]
     expName = 'Exp999'
     name = expName+'_'+s
-    displayTogetherGivenMappingFunctions(source, mappingFunctions, name, outputSize = outputSize)
-    #recordNWriteTogetherGivenMappingFunctions(source, mappingFunctions, expName, name, name, outputSize = outputSize)
+    #displayTogetherGivenMappingFunctions(source, mappingFunctions, name, outputSize = outputSize)
+    recordTogetherGivenMappingFunctions(source, mappingFunctions, expName, name, name, outputSize = outputSize)
 
     

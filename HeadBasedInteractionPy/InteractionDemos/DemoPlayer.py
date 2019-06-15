@@ -26,9 +26,15 @@ class DemoPlayer(object):
         self.__displaying = False
         self.__recording = False
         self.__writing = False
-        self.__fps = 20
+        self.__fps = 6
         super().__init__()
   
+    @staticmethod
+    def __setInputResolution(cap, x,y):
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, int(x))
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, int(y))
+        return 
+
     def __calculateInputGrid(self, cap):
         width_multiplier = cap.get(3)/16
         height_scale = cap.get(4)/width_multiplier
@@ -120,26 +126,24 @@ class DemoPlayer(object):
             n, col_num, row_num, empty_cells = self.__outputGrid
             self.__outputSize = (self.__outputSize[0]*col_num,
                                  self.__outputSize[1]*row_num)
-            if n == 1: n = 2
-            self.__fps = self.__fps / n
+            #if n == 1: n = 2
+            #self.__fps = self.__fps / n
             self.__emptyFrames = DemoPlayer.__generateEmptyFramesLike(empty_cells, frame)
         return self.__outputSize
       
-    def __getVideoRecorder(self):
-        fourcc = cv2.VideoWriter_fourcc(*'XVID') 
+    def __getVideoRecorder(self, fourcc = None):
+        if fourcc == None: fourcc = cv2.VideoWriter_fourcc(*'mpeg') 
         print(self.__fps, self.__outputSize, self.__outputVideo)
-        self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, self.__fps, self.__outputSize)
-        #self.__video_writer = cv2.VideoWriter(self.__outputVideo, fourcc, self.__fps/2, (1920, 1260))
+        self.__video_writer = cv2.VideoWriter(self.__outputVideo, int(fourcc), self.__fps, self.__outputSize)
         return self.__video_writer
     
     def __start(self, demo):
-        # cap = cv2.VideoCapture(self.__videoSource + cv2.CAP_DSHOW)
-        cap = cv2.VideoCapture(self.__videoSource)
+        cap = cv2.VideoCapture(self.__videoSource, cv2.CAP_DSHOW)
         if not cap.isOpened():
             print("Unable to connect to camera or open video.")
             return None, None, None
-
-        self.__fps = cap.get(cv2.CAP_PROP_FPS)
+        
+        self.__setInputResolution(cap, 1920, 1080)
         self.__calculateInputGrid(cap)
         
         ret, firstFrame = cap.read()
@@ -242,6 +246,7 @@ class DemoPlayer(object):
         elif displaying: job = 'Displaying'
         else: job = 'Printing'
         print('%s %s' % (job, self.__windowTitle))
+        #print('%s %s at %d fps.' % (job, self.__windowTitle, self.__fps))
 
         try:
             self.__play(demo)
