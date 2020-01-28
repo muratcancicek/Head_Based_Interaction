@@ -5,4 +5,4 @@ matplotlib==3.0.2
 cycler==0.10.0
 opencv_python==4.0.0.21
 dlib==19.17.0
-tensorflow==1.15.0
+tensorflow==1.15.2
