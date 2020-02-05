@@ -162,7 +162,7 @@ The current implementation runs with the following dependencies which are also l
 - `matplotlib>=3.0.2`
 - `numpy>=1.14.5`
 - `opencv_python>=4.0.0.21`
-- `tensorflow>=1.13.1`
+- `tensorflow>=1.15.2`
 - `tf_nightly_2.0_preview>=2.0.0.dev20190427`
 
 ## License
@@ -183,7 +183,7 @@ I am [**Muratcan Cicek**](muratcancicek.com) (@muratcancicek, the main contribut
 [**Computer Vision Lab**](https://vision.soe.ucsc.edu/) which is led by [**Prof. Roberto Manduchi**](https://users.soe.ucsc.edu/~manduchi/) at the University of California, Santa Cruz. This is still an ongoing project along with my doctoral studies at UCSC, and I have special thanks to my advisor, Prof. Manduchi, who supports my Ph.D. program and encourages me to open-source this work.
 
 ## Motivation
-I was born with motor impairments (Cerebral Palsy) and unable to use my upper limbs as in the way non-disabled persons can. This affects my interaction with computers and other devices used in daily life. Due to Cerebral Palsy, I also have speech difficulty and a broken accent which voice-based systems cannot recognize. With these limitations, the only way for me to control computers was via Head-based Interaction. In 2010, I met with Muhsin Dogrular and Murad Cihan Özyarar, and they thankfully introduced two following software to me in addition to the home-made equipment they built for me. The software was [**Enable Viacam**](https://eviacam.crea-si.com/index.php) and [**Camera Mouse**](http://www.cameramouse.org/) that allowed me to access the internet, learn to program, and eventually change my entire life. 
+I was born with motor impairments (Cerebral Palsy) and unable to use my upper limbs as in the way non-disabled persons can. This affects my interaction with computers and other devices used in daily life. Due to Cerebral Palsy, I also have speech difficulty and a broken accent which voice-based systems cannot recognize. With these limitations, the only way for me to control computers was via Head-based Interaction. In 2010, I met with Muhsin Dogrular and Murad Cihan Ã–zyarar, and they thankfully introduced two following software to me in addition to the home-made equipment they built for me. The software was [**Enable Viacam**](https://eviacam.crea-si.com/index.php) and [**Camera Mouse**](http://www.cameramouse.org/) that allowed me to access the internet, learn to program, and eventually change my entire life. 
 
 To the best of my knowledge, [**Camera Mouse**](http://www.cameramouse.org/) was the first ever software that implements head-based interaction for PC and released by Boston College in the early 2000s, and [**Enable Viacam**](https://eviacam.crea-si.com/index.php) is the software I use to interact with my computer every day for almost 10 years.
 
